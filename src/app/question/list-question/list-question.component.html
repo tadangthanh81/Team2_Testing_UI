@@ -43,13 +43,13 @@
                   </div>
                   <div *ngIf="tagFrm.get('tag_name').invalid && tagFrm.get('tag_name').touched" class="alert alert-danger">
                     <ng-container *ngIf="tagFrm.get('tag_name').hasError('required')">
-                     chưa có tên
+                        no name yet
                     </ng-container>
                     <ng-container *ngIf="tagFrm.get('tag_name').hasError('minlength')">
-                      nhập ít nhất {{tagFrm.get('tag_name').getError('minlength').requiredLength}} kí tự
+                     min length {{tagFrm.get('tag_name').getError('minlength').requiredLength}} kí tự
                     </ng-container>
                     <ng-container *ngIf="tagFrm.get('tag_name').hasError('maxlength')">
-                     nhập nhiều nhất  {{tagFrm.get('tag_name').getError('maxlength').requiredLength}} kí tự
+                     max length {{tagFrm.get('tag_name').getError('maxlength').requiredLength}} kí tự
                     </ng-container>
                   </div>
                 
@@ -58,7 +58,7 @@
                           Description:
                       </label>
                       <div class="col-10">
-                        <input class="form-control" 
+                        <textarea class="form-control" 
                         type="text" 
                         formControlName="description"
                           id="example-text-input"
@@ -67,7 +67,7 @@
                             'is-invalid': tagFrm.get('description').invalid
                             && tagFrm.get('description').touched
                           }"
-                          >
+                          ></textarea>
                       </div>
                     </div>
                     <div *ngIf="tagFrm.get('description').invalid && tagFrm.get('description').touched" class="alert alert-danger">
@@ -75,51 +75,35 @@
                         chưa có mô tả
                       </ng-container>
                       <ng-container *ngIf="tagFrm.get('description').hasError('minlength')">
-                        nhập ít nhất {{tagFrm.get('description').getError('minlength').requiredLength}} kí tự
+                          min length {{tagFrm.get('description').getError('minlength').requiredLength}} 
                       </ng-container>
                       <ng-container *ngIf="tagFrm.get('description').hasError('maxlength')">
-                        nhập nhiều nhất {{tagFrm.get('description').getError('maxlength').requiredLength}} kí tự
+                          max length {{tagFrm.get('description').getError('maxlength').requiredLength}} 
                       </ng-container>
                     </div>
-
-
 
                     <div class="form-group row">
                         <label for="example-text-input" class="col-2 col-form-label">Status:</label>
                         <div class="col-10">
-                          <input class="form-control" 
-                          type="number" 
+                          
+                          <input   
+                          type="checkbox" 
                           maxlength=11
                           required
                           formControlName="status"
                             id="example-text-input"
-                            [ngClass]="{
-                              'is-valid': tagFrm.get('status').valid,
-                              'is-invalid': tagFrm.get('status').invalid
-                              && tagFrm.get('status').touched
-                            }"
+                            
                             >
                         </div>
                       </div>
 
-                      <div *ngIf="tagFrm.get('status').invalid && tagFrm.get('status').touched" class="alert alert-danger">
-                        <ng-container *ngIf="tagFrm.get('status').hasError('required')">
-                        chưa có trạng thái
-                        </ng-container>
-                        <ng-container *ngIf="tagFrm.get('status').hasError('minlength')">
-                          nhập ít nhất {{tagFrm.get('status').getError('minlength').requiredLength}} số
-                        </ng-container>
-                        <ng-container *ngIf="tagFrm.get('status').hasError('maxlength')">
-                          nhập nhiều nhất {{tagFrm.get('status').getError('maxlength').requiredLength}} số
-                        </ng-container>
-                      </div>
 
               </div>
 
               <div class="modal-footer">
                 
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <button  type="submit"  class="btn btn-success" value="Add">ADD</button>
+                    <button  type="submit"  class="btn btn-success" value="Add" >ADD</button>
 
               </div>
 
