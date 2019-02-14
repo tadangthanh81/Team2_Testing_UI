@@ -46,10 +46,10 @@
                         no name yet
                     </ng-container>
                     <ng-container *ngIf="tagFrm.get('tag_name').hasError('minlength')">
-                     min length {{tagFrm.get('tag_name').getError('minlength').requiredLength}} kí tự
+                     min length {{tagFrm.get('tag_name').getError('minlength').requiredLength}} 
                     </ng-container>
                     <ng-container *ngIf="tagFrm.get('tag_name').hasError('maxlength')">
-                     max length {{tagFrm.get('tag_name').getError('maxlength').requiredLength}} kí tự
+                     max length {{tagFrm.get('tag_name').getError('maxlength').requiredLength}} 
                     </ng-container>
                   </div>
                 
@@ -72,7 +72,7 @@
                     </div>
                     <div *ngIf="tagFrm.get('description').invalid && tagFrm.get('description').touched" class="alert alert-danger">
                       <ng-container *ngIf="tagFrm.get('description').hasError('required')">
-                        chưa có mô tả
+                        no des yet
                       </ng-container>
                       <ng-container *ngIf="tagFrm.get('description').hasError('minlength')">
                           min length {{tagFrm.get('description').getError('minlength').requiredLength}} 
@@ -92,7 +92,6 @@
                           required
                           formControlName="status"
                             id="example-text-input"
-                            
                             >
                         </div>
                       </div>
