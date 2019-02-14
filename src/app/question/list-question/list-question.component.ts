@@ -55,6 +55,7 @@ export class ListQuestionComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
+
   constructor(
     private service: ServiceService,
     private router: Router,
@@ -136,4 +137,5 @@ export class ListQuestionComponent implements OnInit {
       })
     }
   }
+  keyword:string;
 }

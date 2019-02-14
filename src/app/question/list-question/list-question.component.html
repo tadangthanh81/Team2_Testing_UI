@@ -36,9 +36,9 @@
           <div class="row">
             <div class="col-md-4 col-md-offset-8">
               <div class="input-group input-group-sm">
-                <input type="text" class="form-control" placeholder="Question content...">
+                <input type="text" class="form-control" placeholder="Question content..." [(ngModel)] ="keyword" >
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-info btn-flat">Search</button>
+                  <button type="button" class="btn btn-info btn-flat" (click) = "searchByContent(keyword)">Search</button>
                 </span>
               </div>
             </div>
