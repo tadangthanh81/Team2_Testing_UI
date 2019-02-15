@@ -21,7 +21,7 @@ export class ListQuestionComponent implements OnInit {
 
 
   tag: Tag = new Tag();
-  
+
 
   listQuestion: Question[];
   listLvl: Level[];
@@ -58,6 +58,7 @@ export class ListQuestionComponent implements OnInit {
   }
 
   @ViewChild(MatSort) sort: MatSort;
+
 
   constructor(
     private service: ServiceService,
@@ -144,6 +145,7 @@ export class ListQuestionComponent implements OnInit {
       });
     }
   }
+  keyword:string;
 
   newTag(): void {
     this.success = true;
@@ -155,7 +157,7 @@ export class ListQuestionComponent implements OnInit {
       id: 100,
       ...value
     }
- 
+
     this.service.createTag(newTags).subscribe(data => console.log(data), error => console.log(error));
       // .subscribe(data => console.log(data), error => console.log(error));
       // .subscribe(hero => this.heroes.push(hero));
@@ -174,7 +176,7 @@ export class ListQuestionComponent implements OnInit {
     // }
     this.success = true;
     this.save();
-   
+
   }
 
 
