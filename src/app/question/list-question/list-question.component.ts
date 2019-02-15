@@ -23,15 +23,15 @@ export class ListQuestionComponent implements OnInit {
   listLvl: Level[];
   listCategory: Category[];
   listTag: Tag[];
-  quesiton: Question[];
+  quesiton: Question[]= [];
 
   //  tag mesage sucess
   success = false;
 
   message: string;
   levelSelected: string = "1";
-  categorySelected: string = "null";
-  tagSelected: string = "null";
+  categorySelected: string = "2";
+  tagSelected: string = "1";
 
   tagFrm: FormGroup;
   searchText: string;
@@ -117,24 +117,28 @@ export class ListQuestionComponent implements OnInit {
   }
 
   updateMuiltiQestion() {
-    const a: Level = new Level();
-    a.id = this.levelSelected;
-    const b: Category = new Category();
-    b.id = this.categorySelected;
-    const c: Tag = new Tag();
-    c.id = this.tagSelected;
-    const newQ: Question = new Question();
-    newQ.questionLevel = a;
-    newQ.questionCategory = b;
-    newQ.questionTag = c;
+    // const a: Level = new Level();
+    // a.id = this.levelSelected;
+    // const b: Category = new Category();
+    // b.id = this.categorySelected;
+    // const c: Tag = new Tag();
+    // c.id = this.tagSelected;
+    // const newQ: Question = new Question();
+    // newQ.questionLevel = a;
+    // newQ.questionCategory = b;
+    // newQ.questionTag = c;
     if (this.selection.selected.length == 0) {
       this.message = "No records have been selected yet!";
     } else {
       this.selection.selected.forEach(element => {
-        this.service.updateMutilQuestion(newQ, element.id).subscribe(
-          update => this.quesiton.push(update)
-        )
-      })
+        element.questionLevel.id = this.levelSelected;
+        element.questionCategory.id = this.categorySelected;
+        element.questionTag.id = this.tagSelected;
+        this.service.updateMutilQuestion(element, element.id).subscribe(
+          update => this.selection.selected.push(update)
+        );
+        console.log(element)
+      });
     }
   }
   keyword:string;

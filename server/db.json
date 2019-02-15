@@ -6,113 +6,151 @@
       "user_id_created": 1,
       "date_created": "2019-01-01",
       "status": ""
+    },
+    {
+      "id": 2,
+      "category_name": "category12222",
+      "user_id_created": 1,
+      "date_created": "2019-01-01",
+      "status": ""
     }
   ],
   "question": [
-    {
-      "id": "abc",
-      "category": [
-        {
-          "id": 1,
-          "category_name": "category1",
-          "user_id_created": 1,
-          "date_created": "2019-01-01",
-          "status": ""
-        }
-      ],
-      "content": "what is this?",
-      "type": [
-        {
-          "id": 1,
-          "type_name": "string",
-          "status": 1
-        }
-      ],
-      "level": [
-        {
-          "id": 1,
-          "level_name": "lvl2",
-          "status": 1
-        }
-      ],
-      "sugguestion": "",
-      "tag": [
-        {
-          "id": 1,
-          "tag_name": "string",
-          "status": 1
-        }
-      ],
-      "status": 1,
-      "user_id_created": [
-        {
-          "id": 1,
-          "name": "String"
-        }
-      ],
-      "date_created": "2019-01-01",
-      "listAnswer": [
-        {
-          "id": 1,
-          "content": "string",
-          "is_true": 1,
+      {
+        "id": "q01",
+        "content": "what is this?????",
+        "sugguestion": "1",
+        "status": 1,
+        "dateCreated": "2018-12-22T17:00:00.000+0000",
+        "questionCategory": {
+          "id": 2,
+          "categoryName": "java",
+          "dateCreated": "2017-12-31T17:00:00.000+0000",
           "status": 1,
-          "question_id": 1
-        }
-      ]
-    },
-    {
-      "id": "abc12",
-      "category": [
-        {
-          "id": 1,
-          "category_name": "category1",
-          "user_id_created": 1,
-          "date_created": "2019-01-01",
-          "status": ""
-        }
-      ],
-      "content": "what is this?",
-      "type": [
-        {
-          "id": 1,
-          "type_name": "string",
+          "userCategory": {
+            "id": 1,
+            "fullName": "thanh",
+            "email": "thanh@gmail.com",
+            "mobile": "123123123",
+            "password": "123456",
+            "status": 1
+          }
+        },
+        "questionType": {
+          "id": 2,
+          "typeName": "multi choice",
           "status": 1
-        }
-      ],
-      "level": [
-        {
+        },
+        "questionLevel": {
           "id": 1,
-          "level_name": "lvl2",
+          "levelName": "easy",
           "status": 1
-        }
-      ],
-      "sugguestion": "",
-      "tag": [
-        {
+        },
+        "questionTag": {
           "id": 1,
-          "tag_name": "string",
+          "tagName": "b",
           "status": 1
-        }
-      ],
-      "status": 1,
-      "user_id_created": [
-        {
+        },
+        "userQuestion": {
           "id": 1,
-          "name": "String"
-        }
-      ],
-      "date_created": "2019-01-01",
-      "listAnswer": [
-        {
-          "id": 1,
-          "content": "string",
-          "is_true": 1,
+          "fullName": "thanh",
+          "email": "thanh@gmail.com",
+          "mobile": "123123123",
+          "password": "123456",
+          "status": 1
+        },
+        "questionAnswer": []
+      },
+      {
+        "id": "q02",
+        "content": "b thanh",
+        "sugguestion": "2",
+        "status": 1,
+        "dateCreated": "2018-12-22T17:00:00.000+0000",
+        "questionCategory": {
+          "id": 3,
+          "categoryName": ".net",
+          "dateCreated": "2017-12-31T17:00:00.000+0000",
           "status": 1,
-          "question_id": 1
-        }
-      ]
-    }
+          "userCategory": {
+            "id": 1,
+            "fullName": "thanh",
+            "email": "thanh@gmail.com",
+            "mobile": "123123123",
+            "password": "123456",
+            "status": 1
+          }
+        },
+        "questionType": {
+          "id": 2,
+          "typeName": "multi choice",
+          "status": 1
+        },
+        "questionLevel": {
+          "id": 2,
+          "levelName": "normal",
+          "status": 1
+        },
+        "questionTag": {
+          "id": 2,
+          "tagName": "c",
+          "status": 1
+        },
+        "userQuestion": {
+          "id": 1,
+          "fullName": "thanh",
+          "email": "thanh@gmail.com",
+          "mobile": "123123123",
+          "password": "123456",
+          "status": 1
+        },
+        "questionAnswer": []
+      },
+      {
+        "id": "q03",
+        "content": "c tao",
+        "sugguestion": "1",
+        "status": 1,
+        "dateCreated": "2018-12-22T17:00:00.000+0000",
+        "questionCategory": {
+          "id": 2,
+          "categoryName": "java",
+          "dateCreated": "2017-12-31T17:00:00.000+0000",
+          "status": 1,
+          "userCategory": {
+            "id": 1,
+            "fullName": "thanh",
+            "email": "thanh@gmail.com",
+            "mobile": "123123123",
+            "password": "123456",
+            "status": 1
+          }
+        },
+        "questionType": {
+          "id": 1,
+          "typeName": "only choice",
+          "status": 1
+        },
+        "questionLevel": {
+          "id": 3,
+          "levelName": "hard",
+          "status": 1
+        },
+        "questionTag": {
+          "id": 3,
+          "tagName": "a",
+          "status": 1
+        },
+        "userQuestion": {
+          "id": 1,
+          "fullName": "thanh",
+          "email": "thanh@gmail.com",
+          "mobile": "123123123",
+          "password": "123456",
+          "status": 1
+        },
+        "questionAnswer": []
+      }
   ],
   "level": [
     {
@@ -121,52 +159,9 @@
       "status": 1
     },
     {
-<<<<<<< HEAD
       "id": 2,
       "level_name": "lvl2",
       "status": 1
-=======
-      "id": "9c74de7d-0577-489e-af49-cbfe6b551edc",
-      "tag_name": "34234",
-      "description": "34234234234",
-      "status": 2.3423423423423422e+29
-    },
-    {
-      "id": "f15e8765-7f7f-4fdd-bb5d-1822e17d3c85",
-      "tag_name": "cuong",
-      "description": "12312312313131",
-      "status": 123123
-    },
-    {
-      "id": "82b9fb26-ac1d-4449-af5c-d41777852694",
-      "tag_name": "cuong",
-      "description": "12312312313131",
-      "status": 123123
-    },
-    {
-      "id": "4d405dcf-bd06-4205-a18a-23a911deecfa",
-      "tag_name": "cuong",
-      "description": "12312312313131",
-      "status": 123123
-    },
-    {
-      "id": "7c0e3885-c31e-4c30-abf4-abb618f53dd2",
-      "tag_name": "cuong",
-      "description": "12312312313131",
-      "status": 123123
-    },
-    {
-      "id": "d4487dc5-6239-4e58-8fde-79388300cc52",
-      "tag_name": "cuong",
-      "description": "1231231123123",
-      "status": 123123123
-    },
-    {
-      "id": "d3f159ea-17ee-44cc-90e6-cba50c869ef6",
-      "tag_name": "ssssssss",
-      "description": "sssssssssssss",
-      "status": 123123
->>>>>>> 03267f525cd44402af289c2e8ec2252c09727413
     }
   ]
 }
