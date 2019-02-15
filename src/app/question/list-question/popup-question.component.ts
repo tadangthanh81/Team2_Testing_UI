@@ -76,15 +76,7 @@ export class PopupListQuestionComponent implements OnInit {
   }
   onSubmit() {
     //  tag add + auto generate id
-    // if (this.tagFrm.value) {
-    //   const value = this.tagFrm.value;
-    //   const tag: Tag = {
-    //     id: uuid(),
-    //     ...value
-    //   };
-    //   this.http.post('http://localhost:3000/tag', tag).subscribe(() => { this.router.navigateByUrl('/tag'); });
-    //   this.success = true;
-    // }
+    
     this.success = true;
     this.save();
    
