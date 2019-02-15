@@ -13,7 +13,7 @@ export class ServiceService {
 
   private url = "http://localhost:8080/";
   private fakedata ="http://localhost:3000/"
-  private baseUrl = 'http://localhost:8080/api/tag';
+  private baseUrl = 'http://localhost:8080/tag';
   httpOption = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -63,16 +63,17 @@ export class ServiceService {
   }
   //==========TAG=============
   getAllTag(): Observable<Tag[]> {
-    return this.http.get<Tag[]>(this.url + `tag`).pipe(
+    return this.http.get<Tag[]>(this.baseUrl ).pipe(
       tap(),
       catchError(er => of([]))
     );
   }
+  //get tag
   getTag(id: number): Observable<Object> {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
-
-  createTag(tag: Object): Observable<Object> {
-    return this.http.post(`${this.baseUrl}` + `/create`, tag);
+  // create tag
+  createTag(tag: Tag): Observable<Tag> {
+    return this.http.post<Tag>(this.baseUrl + `/add`, tag);
   }
 }

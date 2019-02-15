@@ -22,6 +22,7 @@ export class PopupListQuestionComponent implements OnInit {
   listCategory: Category[];
   listTag: Tag[];
   quesiton: Question[];
+  tag: Tag = new Tag();
 
   //  tag mesage sucess
   success = false;
@@ -57,18 +58,36 @@ export class PopupListQuestionComponent implements OnInit {
     );
   }
 
+  newTag(): void {
+    this.success = true;
+    this.tag = new Tag();
+  }
+  save() {
+    const value = this.tagFrm.value;
+    const newTags: Tag = {
+      id: 100,
+      ...value
+    }
+ 
+    this.service.createTag(newTags).subscribe(data => console.log(data), error => console.log(error));
+      // .subscribe(data => console.log(data), error => console.log(error));
+      // .subscribe(hero => this.heroes.push(hero));
+    this.tag = new Tag();
+  }
   onSubmit() {
     //  tag add + auto generate id
-    if (this.tagFrm.value) {
-      const value = this.tagFrm.value;
-      const tag: Tag = {
-        id: uuid(),
-        ...value
-      };
-      this.http.post('http://localhost:3000/tag', tag).subscribe(() => { this.router.navigateByUrl('/tag'); });
-      this.success = true;
-
-    }
+    // if (this.tagFrm.value) {
+    //   const value = this.tagFrm.value;
+    //   const tag: Tag = {
+    //     id: uuid(),
+    //     ...value
+    //   };
+    //   this.http.post('http://localhost:3000/tag', tag).subscribe(() => { this.router.navigateByUrl('/tag'); });
+    //   this.success = true;
+    // }
+    this.success = true;
+    this.save();
+   
   }
 
 }
