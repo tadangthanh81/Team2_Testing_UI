@@ -12,11 +12,12 @@ import { Tag } from 'src/entity/Tag';
 export class ServiceService {
 
   private url = "http://localhost:8080/";
+  private fakedata ="http://localhost:3000/"
   private baseUrl = 'http://localhost:8080/tag';
   httpOption = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Origin': 'http://localhost:8080'
+      "Access-Control-Allow-Methods ": "PATCH"
     })
   }
   constructor(
@@ -31,14 +32,18 @@ export class ServiceService {
       catchError(er => of([]))
     );
   }
-
-  
- 
-
+  //====== get list question by contents=====
+  getListQuestionByContent(content: String): Observable<Question[]> {
+    return this.http.get<Question[]>(this.url + `question/search-by-content/${content}`).pipe(
+      tap(),
+      catchError(er => of([]))
+    );
+  }
   //update multi question
   updateMutilQuestion(question: Question, id: string): Observable<Question> {
-    return this.http.patch<Question>(this.url + `question/edit/${id}`, question, this.httpOption).pipe(
-      tap()
+    return this.http.put<Question>(this.url + `question/edit/${id}`, question, this.httpOption).pipe(
+      tap(),
+      catchError(e=> of(new Question())),
     );
   }
   //==========LEVEL=============

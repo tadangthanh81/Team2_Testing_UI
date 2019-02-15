@@ -6,9 +6,11 @@ import { EditQuestionComponent } from './edit-question/edit-question.component';
 import { ViewQuestionComponent } from './view-question/view-question.component';
 import { IplistQuestionComponent } from './iplist-question/iplist-question.component';
 import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatSortModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { PopupListQuestionComponent } from './list-question/popup-question.component';
 
 @NgModule({
   declarations: [
@@ -16,14 +18,17 @@ import { HttpClientModule } from '@angular/common/http';
     CreateQuestionComponent,
     EditQuestionComponent,
     ViewQuestionComponent,
-    IplistQuestionComponent
+    IplistQuestionComponent,
+    PopupListQuestionComponent
   ],
   imports: [
     CommonModule,
     MatTableModule,
+    MatSortModule,
     MatButtonModule, MatCheckboxModule,
     ReactiveFormsModule,
     HttpClientModule,
+    RouterModule,
     FormsModule
   ],
   exports: [
@@ -31,7 +36,8 @@ import { HttpClientModule } from '@angular/common/http';
     CreateQuestionComponent,
     EditQuestionComponent,
     ViewQuestionComponent,
-    IplistQuestionComponent
+    IplistQuestionComponent,
+    PopupListQuestionComponent
   ]
 })
 export class QuestionModule { }

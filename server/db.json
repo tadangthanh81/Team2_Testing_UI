@@ -6,113 +6,151 @@
       "user_id_created": 1,
       "date_created": "2019-01-01",
       "status": ""
+    },
+    {
+      "id": 2,
+      "category_name": "category12222",
+      "user_id_created": 1,
+      "date_created": "2019-01-01",
+      "status": ""
     }
   ],
   "question": [
-    {
-      "id": "abc",
-      "category": [
-        {
-          "id": 1,
-          "category_name": "category1",
-          "user_id_created": 1,
-          "date_created": "2019-01-01",
-          "status": ""
-        }
-      ],
-      "content": "what is this?",
-      "type": [
-        {
-          "id": 1,
-          "type_name": "string",
-          "status": 1
-        }
-      ],
-      "level": [
-        {
-          "id": 1,
-          "level_name": "lvl2",
-          "status": 1
-        }
-      ],
-      "sugguestion": "",
-      "tag": [
-        {
-          "id": 1,
-          "tag_name": "string",
-          "status": 1
-        }
-      ],
-      "status": 1,
-      "user_id_created": [
-        {
-          "id": 1,
-          "name": "String"
-        }
-      ],
-      "date_created": "2019-01-01",
-      "listAnswer": [
-        {
-          "id": 1,
-          "content": "string",
-          "is_true": 1,
+      {
+        "id": "q01",
+        "content": "what is this?????",
+        "sugguestion": "1",
+        "status": 1,
+        "dateCreated": "2018-12-22T17:00:00.000+0000",
+        "questionCategory": {
+          "id": 2,
+          "categoryName": "java",
+          "dateCreated": "2017-12-31T17:00:00.000+0000",
           "status": 1,
-          "question_id": 1
-        }
-      ]
-    },
-    {
-      "id": "abc12",
-      "category": [
-        {
-          "id": 1,
-          "category_name": "category1",
-          "user_id_created": 1,
-          "date_created": "2019-01-01",
-          "status": ""
-        }
-      ],
-      "content": "what is this?",
-      "type": [
-        {
-          "id": 1,
-          "type_name": "string",
+          "userCategory": {
+            "id": 1,
+            "fullName": "thanh",
+            "email": "thanh@gmail.com",
+            "mobile": "123123123",
+            "password": "123456",
+            "status": 1
+          }
+        },
+        "questionType": {
+          "id": 2,
+          "typeName": "multi choice",
           "status": 1
-        }
-      ],
-      "level": [
-        {
+        },
+        "questionLevel": {
           "id": 1,
-          "level_name": "lvl2",
+          "levelName": "easy",
           "status": 1
-        }
-      ],
-      "sugguestion": "",
-      "tag": [
-        {
+        },
+        "questionTag": {
           "id": 1,
-          "tag_name": "string",
+          "tagName": "b",
           "status": 1
-        }
-      ],
-      "status": 1,
-      "user_id_created": [
-        {
+        },
+        "userQuestion": {
           "id": 1,
-          "name": "String"
-        }
-      ],
-      "date_created": "2019-01-01",
-      "listAnswer": [
-        {
-          "id": 1,
-          "content": "string",
-          "is_true": 1,
+          "fullName": "thanh",
+          "email": "thanh@gmail.com",
+          "mobile": "123123123",
+          "password": "123456",
+          "status": 1
+        },
+        "questionAnswer": []
+      },
+      {
+        "id": "q02",
+        "content": "b thanh",
+        "sugguestion": "2",
+        "status": 1,
+        "dateCreated": "2018-12-22T17:00:00.000+0000",
+        "questionCategory": {
+          "id": 3,
+          "categoryName": ".net",
+          "dateCreated": "2017-12-31T17:00:00.000+0000",
           "status": 1,
-          "question_id": 1
-        }
-      ]
-    }
+          "userCategory": {
+            "id": 1,
+            "fullName": "thanh",
+            "email": "thanh@gmail.com",
+            "mobile": "123123123",
+            "password": "123456",
+            "status": 1
+          }
+        },
+        "questionType": {
+          "id": 2,
+          "typeName": "multi choice",
+          "status": 1
+        },
+        "questionLevel": {
+          "id": 2,
+          "levelName": "normal",
+          "status": 1
+        },
+        "questionTag": {
+          "id": 2,
+          "tagName": "c",
+          "status": 1
+        },
+        "userQuestion": {
+          "id": 1,
+          "fullName": "thanh",
+          "email": "thanh@gmail.com",
+          "mobile": "123123123",
+          "password": "123456",
+          "status": 1
+        },
+        "questionAnswer": []
+      },
+      {
+        "id": "q03",
+        "content": "c tao",
+        "sugguestion": "1",
+        "status": 1,
+        "dateCreated": "2018-12-22T17:00:00.000+0000",
+        "questionCategory": {
+          "id": 2,
+          "categoryName": "java",
+          "dateCreated": "2017-12-31T17:00:00.000+0000",
+          "status": 1,
+          "userCategory": {
+            "id": 1,
+            "fullName": "thanh",
+            "email": "thanh@gmail.com",
+            "mobile": "123123123",
+            "password": "123456",
+            "status": 1
+          }
+        },
+        "questionType": {
+          "id": 1,
+          "typeName": "only choice",
+          "status": 1
+        },
+        "questionLevel": {
+          "id": 3,
+          "levelName": "hard",
+          "status": 1
+        },
+        "questionTag": {
+          "id": 3,
+          "tagName": "a",
+          "status": 1
+        },
+        "userQuestion": {
+          "id": 1,
+          "fullName": "thanh",
+          "email": "thanh@gmail.com",
+          "mobile": "123123123",
+          "password": "123456",
+          "status": 1
+        },
+        "questionAnswer": []
+      }
   ],
   "level": [
     {
