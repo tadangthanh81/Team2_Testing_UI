@@ -10,7 +10,7 @@ import { NavModule } from './nav/nav.module';
 import { FooterModule } from './footer/footer.module';
 import { CategoryQuestionModule } from './category-question/category-question.module';
 import { QuestionModule } from './question/question.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent
@@ -24,8 +24,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     FooterModule,
     QuestionModule,
     CategoryQuestionModule,
-    AppRoutingModule,
-    ReactiveFormsModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

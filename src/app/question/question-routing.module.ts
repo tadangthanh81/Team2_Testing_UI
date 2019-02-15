@@ -20,10 +20,6 @@ const routes: Routes = [
         component: CreateQuestionComponent
       },
       {
-        path: 'tag',
-        component: ListQuestionComponent,
-      },
-      {
         path: 'importlist',
         component: IplistQuestionComponent
       },

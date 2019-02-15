@@ -1,4 +1,8 @@
 export class User {
-  id: String;
-  name: String;
+  id: string;
+	fullName: string;
+	email: string;
+	mobile: string;
+	password: string;
+	status: number;
 }

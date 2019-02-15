@@ -1,53 +1,126 @@
 {
-  "tag": [
+  "category": [
     {
-      "id": "b36c8a0e-a7a4-4bc5-b085-93b7ad52f06c",
-      "tag_name": "cường nv",
-      "description": "sinh viên It .com .vn",
+      "id": 1,
+      "category_name": "category1",
+      "user_id_created": 1,
+      "date_created": "2019-01-01",
+      "status": ""
+    }
+  ],
+  "question": [
+    {
+      "id": "abc",
+      "category": [
+        {
+          "id": 1,
+          "category_name": "category1",
+          "user_id_created": 1,
+          "date_created": "2019-01-01",
+          "status": ""
+        }
+      ],
+      "content": "what is this?",
+      "type": [
+        {
+          "id": 1,
+          "type_name": "string",
+          "status": 1
+        }
+      ],
+      "level": [
+        {
+          "id": 1,
+          "level_name": "lvl2",
+          "status": 1
+        }
+      ],
+      "sugguestion": "",
+      "tag": [
+        {
+          "id": 1,
+          "tag_name": "string",
+          "status": 1
+        }
+      ],
+      "status": 1,
+      "user_id_created": [
+        {
+          "id": 1,
+          "name": "String"
+        }
+      ],
+      "date_created": "2019-01-01",
+      "listAnswer": [
+        {
+          "id": 1,
+          "content": "string",
+          "is_true": 1,
+          "status": 1,
+          "question_id": 1
+        }
+      ]
+    },
+    {
+      "id": "abc12",
+      "category": [
+        {
+          "id": 1,
+          "category_name": "category1",
+          "user_id_created": 1,
+          "date_created": "2019-01-01",
+          "status": ""
+        }
+      ],
+      "content": "what is this?",
+      "type": [
+        {
+          "id": 1,
+          "type_name": "string",
+          "status": 1
+        }
+      ],
+      "level": [
+        {
+          "id": 1,
+          "level_name": "lvl2",
+          "status": 1
+        }
+      ],
+      "sugguestion": "",
+      "tag": [
+        {
+          "id": 1,
+          "tag_name": "string",
+          "status": 1
+        }
+      ],
+      "status": 1,
+      "user_id_created": [
+        {
+          "id": 1,
+          "name": "String"
+        }
+      ],
+      "date_created": "2019-01-01",
+      "listAnswer": [
+        {
+          "id": 1,
+          "content": "string",
+          "is_true": 1,
+          "status": 1,
+          "question_id": 1
+        }
+      ]
+    }
+  ],
+  "level": [
+    {
+      "id": 1,
+      "level_name": "lvl1",
       "status": 1
     },
-    {
-      "id": "d7466656-7cd5-47c8-9a79-36a372f03444",
-      "tag_name": "kjhasjd",
-      "description": "ldskjfjsdasdsdf",
-      "status": 23
-    },
-    {
-      "id": "0f694461-a441-4503-a3fa-602b93404ab3",
-      "tag_name": "eeeeeeeeee",
-      "description": "eeeeeeeeeeeeee",
-      "status": 22
-    },
-    {
-      "id": "206328f1-adce-44c8-883e-7543a9318dd9",
-      "tag_name": "sdfsdf",
-      "description": "sdfsdfsfd234234",
-      "status": 234
-    },
-    {
-      "id": "eb3c6922-a3e2-4ba2-978f-5d6142372fd1",
-      "tag_name": "sdfsdfffgg",
-      "description": "sdfsdfsfd234234ggg",
-      "status": 234444
-    },
-    {
-      "id": "2204286b-e468-4c76-a5cd-641897abca31",
-      "tag_name": "123",
-      "description": "123123123123",
-      "status": 123
-    },
-    {
-      "id": "064d6fb1-149d-46b0-8723-6e0328c11e1a",
-      "tag_name": "123",
-      "description": "123123123123123123",
-      "status": 123
-    },
-    {
-      "id": "9c74de7d-0577-489e-af49-cbfe6b551edc",
-      "tag_name": "34234",
-      "description": "34234234234",
-      "status": 2.3423423423423422e+29
-    },
+    
     {
       "id": "f15e8765-7f7f-4fdd-bb5d-1822e17d3c85",
       "tag_name": "cuong",
@@ -83,36 +156,6 @@
       "tag_name": "ssssssss",
       "description": "sssssssssssss",
       "status": 123123
-    },
-    {
-      "id": "af3f4f5a-5900-4b23-acfa-b5a8ba6819be",
-      "tag_name": "ddd",
-      "description": "vvvvvvvvvvvvvvvvvvv",
-      "status": true
-    },
-    {
-      "id": "c14e9b4a-9e05-4ec9-ac65-18fc62cf7ff4",
-      "tag_name": "ddd",
-      "description": "vvvvvvvvvvvvvvvvvvv",
-      "status": false
-    },
-    {
-      "id": "047b8f51-4c1c-4223-b7cd-2fd884b61111",
-      "tag_name": "ádasđá",
-      "description": "4tgrfg4tgdfgffghfgh",
-      "status": true
-    },
-    {
-      "id": "2cc31f0a-6d6b-4b17-8ef6-c835eb454d5c",
-      "tag_name": "fdgdfgdfg",
-      "description": "fdgdfgdfgdfgfdgdfgdf",
-      "status": true
-    },
-    {
-      "id": "1adf06f8-42c1-47ad-93aa-b54aa955f489",
-      "tag_name": "fdgdfgdfg",
-      "description": "fdgdfgdfgdfgfdgdfgdf",
-      "status": true
     }
   ]
 }

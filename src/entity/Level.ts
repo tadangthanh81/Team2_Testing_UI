@@ -1,5 +1,5 @@
 export class Level {
-  level_id: number;
-  level_name: string;
+  id: string;
+  levelName: string;
   status: number;
 }

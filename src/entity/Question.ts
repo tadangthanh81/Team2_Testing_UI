@@ -7,14 +7,14 @@ import { Answer } from './Answer';
 
 export class Question {
   id: string;
-  category: Category;
+  questionCategory: Category;
   content: string;
-  type: Type;
-  level: Level;
+  questionType: Type;
+  questionLevel: Level;
   suggestion: string;
-  tag: Tag;
+  questionTag: Tag;
   status: number;
-  date_created: Date;
-  user_id_created: User;
-  listAnswer: Answer[];
+  dateCreated: Date;
+  userQuestion: User;
+  questionAnswer: Answer[];
 }

@@ -1,7 +1,9 @@
+import { Question } from './Question';
+
 export class Answer {
-  answer_id: string;
+  id: string;
   content: string;
-  is_true: number;
+  isTrue: number;
   status: number;
-  question_id: string;
+  question: Question;
 }
