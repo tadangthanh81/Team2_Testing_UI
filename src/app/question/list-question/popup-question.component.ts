@@ -42,8 +42,8 @@ export class PopupListQuestionComponent implements OnInit {
   ngOnInit() {
     //  tag class and validate
     this.tagFrm = this.fb.group({
-      tag_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(225)]],
-      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(225)]],
+      tagName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(225)]],
+      tagDescription: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(225)]],
       status: ['', [Validators.required]]
     });
 
@@ -76,7 +76,15 @@ export class PopupListQuestionComponent implements OnInit {
   }
   onSubmit() {
     //  tag add + auto generate id
-    
+    // if (this.tagFrm.value) {
+    //   const value = this.tagFrm.value;
+    //   const tag: Tag = {
+    //     id: uuid(),
+    //     ...value
+    //   };
+    //   this.http.post('http://localhost:3000/tag', tag).subscribe(() => { this.router.navigateByUrl('/tag'); });
+    //   this.success = true;
+    // }
     this.success = true;
     this.save();
    
