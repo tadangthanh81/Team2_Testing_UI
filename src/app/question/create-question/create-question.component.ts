@@ -4,6 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Question } from 'src/entity/Question';
 import { v4 as uuid } from 'uuid';
+import { ServiceService } from 'src/app/service.service';
+import { Category } from 'src/entity/Category';
+import { Level } from 'src/entity/Level';
+import { Tag } from 'src/entity/Tag';
+import { Type } from 'src/entity/Type';
 
 @Component({
   selector: 'app-create-question',
@@ -14,6 +19,12 @@ export class CreateQuestionComponent implements OnInit {
   questionFrm: FormGroup;
   listAnswerCorrectFrm: FormArray;
   listAnswerWrongFrm: FormArray;
+  listCategory: Category[];
+  listLvl: Level[];
+  listTag: Tag[];
+  listType: Type[];
+  
+  categorySelected: string = "2";
 
   get answerWrongFormGroup(){
     return this.questionFrm.get('answer_wrongs') as FormArray;
@@ -24,6 +35,7 @@ export class CreateQuestionComponent implements OnInit {
   }
 
   constructor(
+    private service: ServiceService,
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router
@@ -31,6 +43,10 @@ export class CreateQuestionComponent implements OnInit {
 
   ngOnInit() {
     this.questionFrm = this.fb.group({
+      category:[],
+      level:[''],
+      type:[''],
+      tag:[''],
       content: ['', [Validators.required, Validators.minLength(2)]],
       suggestion: ['', [Validators.required, Validators.minLength(2)]],
       answer_wrongs: this.fb.array([this.createAnswerWrong()]),
@@ -38,6 +54,30 @@ export class CreateQuestionComponent implements OnInit {
     })
     this.listAnswerWrongFrm = this.questionFrm.get('answer_wrongs') as FormArray;
     this.listAnswerCorrectFrm = this.questionFrm.get('answer_corrects') as FormArray;
+
+    this.service.getAllCategory().subscribe(
+      lCategory => {
+        this.listCategory = lCategory
+      }
+    );
+
+    this.service.getAllLvl().subscribe(
+      lLvl => {
+        this.listLvl = lLvl
+      }
+    );
+
+    this.service.getAllTag().subscribe(
+      lTag => {
+        this.listTag = lTag
+      }
+    );
+
+    this.service.getAllType().subscribe(
+      lType => {
+        this.listType = lType
+      }
+    );
   }
 
   createAnswerWrong(): FormGroup{
@@ -78,17 +118,17 @@ export class CreateQuestionComponent implements OnInit {
     return formGroup;
   }
 
-  // onSubmit(){
-  //   if (this.questionFrm.value) {
-  //     const value = this.questionFrm.value;
-  //     const question: Question = {
-  //       id: uuid(),
-  //       ...value
-  //     }
-  //     this.http.post('http://localhost:3000/questions', question).subscribe(() => {
-  //       this.router.navigateByUrl('/question');
-  //     });
-  // }
-  // }
+  onSubmit(){
+    if (this.questionFrm.value) {
+      const value = this.questionFrm.value;
+      const question: Question = {
+        id: uuid(),
+        ...value
+      }
+      this.service.createQuestion(question).subscribe(() => {
+        console.log(question)
+      });
+  }
+  }
 
 }
