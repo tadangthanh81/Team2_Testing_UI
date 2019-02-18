@@ -47,14 +47,24 @@
             <br>
 
             <div class="form-group row">
-              <label for="inputPassword3" class="col-sm-3 control-label">Level</label>
+              <label for="inputPassword3" class="col-sm-3 control-label">Question Level</label>
                 <div class="col-sm-9">
                   <select class="form-control select2">
-                    <option selected="selected">Level</option>
+                    <option selected="selected">Question Level</option>
                   </select>
                 </div>
               </div>
               <br>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-3 control-label">Question Tag</label>
+                  <div class="col-sm-9">
+                    <select class="form-control select2">
+                      <option selected="selected">Question Tag</option>
+                    </select>
+                  </div>
+                </div>
+                <br>
+  
 
             <div class="form-group row">
               <label for="inputPassword3" class="col-sm-3 control-label"> Content</label>
@@ -69,7 +79,7 @@
             </div>
             <div *ngIf="questionFrm.get('content').invalid
                     && questionFrm.get('content').touched"
-                   class="alert alert-danger" role="alert">
+                   class="alert alert-danger" role="alert" style="width: 74%;margin-left: 26%;">
               <ng-container *ngIf="questionFrm.get('content').hasError('required')">
                  Content is required
               </ng-container>
@@ -82,42 +92,80 @@
             <br>
 
             <div class="form-group row">
-              <label for="inputPassword3" class="col-sm-3 control-label">Answer correct</label>
+              <label for="inputPassword3" class="col-sm-3 control-label" style="margin-top: 20px;">Answer correct</label>
               <div class="col-sm-9">
               <div formArrayName="answer_corrects">
                     <div *ngFor="let answer of answerCorrectFormGroup.controls; let i = index;">
                       <div [formGroupName]="i" class="row">
-                          <label>Contact Label</label>
-                          <input class="form-control" formControlName="answer_correct" type="text" style="width: 96%; margin-left: 16px;">
-                          <span class="text-danger" *ngIf="getAnswerCorrectFormGroup(i).controls['answer_correct'].touched && getAnswerCorrectFormGroup(i).controls['answer_correct'].hasError('required')">
-                            Answer correct is required! </span>
-                          <button class="btn btn-danger pull-right" type="button" (click)="removeAnswerCorrect(i)" style="margin-right: 12px; margin-top: 6px;"> Remove </button>
+                        <div class="row"> 
+                            <label style="margin-left: 5%;margin-top: 20px;">Content answer correct</label>
+                            <div class="col-sm-11">
+                                <input class="form-control" formControlName="answer_correct" type="text" style="width: 98%;margin-left: 3%;margin-top: 1%;height: 35px;"
+                                [ngClass]="{
+                                  'is-valid': getAnswerCorrectFormGroup(i).valid,
+                                  'is-invalid': getAnswerCorrectFormGroup(i).invalid
+                                    && getAnswerCorrectFormGroup(i).touched
+                                }">
+                            </div>
+                            <div class="col-sm-1">
+                                <button class="btn btn-danger pull-right" type="button" (click)="removeAnswerCorrect(i)" style="margin-right: 12px; margin-top: 6px;"> X </button>
+                            </div>
+                        </div>
+                          <div *ngIf="getAnswerCorrectFormGroup(i).invalid
+                                && getAnswerCorrectFormGroup(i).touched"
+                                class="alert alert-danger" role="alert" style="width: 96%;margin-left: 16px;margin-top: 15px;">
+                                <ng-container *ngIf="getAnswerCorrectFormGroup(i).controls['answer_correct'].touched 
+                                && getAnswerCorrectFormGroup(i).controls['answer_correct'].hasError('required')">
+                                    Content answer correct is required
+                                 </ng-container>
+                          </div>
+                          <!-- <div class="alert alert-danger" role="alert" *ngIf="getAnswerCorrectFormGroup(i).controls['answer_correct'].touched && getAnswerCorrectFormGroup(i).controls['answer_correct'].hasError('required')">
+                            Answer correct is required! 
+                          </div> -->
                       </div>
                     </div>
                   </div>
                 </div>
-                    <button class="btn btn-primary pull-right" type="button" (click)="addAnswerCorrect()" style="margin-right: 12px; margin-top: 6px;"> Add </button>
+                    <button class="btn btn-primary pull-right" type="button" (click)="addAnswerCorrect()" style="margin-right: 12px; margin-top: 10px;"> Add </button>
             </div>
 
             <div class="form-group row">
-              <label for="inputPassword3" class="col-sm-3 control-label">Answer wrong</label>
-              <div formArrayName="answer_wrongs">
-                  <div class="col-sm-9">
-                    <div *ngFor="let answer of answerWrongFormGroup.controls; let i = index;">
-                      <div [formGroupName]="i" class="row">
-                        <div class="form-group col-6">
-                          <label>Contact Label</label>
-                          <input class="form-control" formControlName="answer_wrong" type="text" style="width: 96%; margin-left: 16px;">
-                          <span class="text-danger" *ngIf="getAnswerWrongFormGroup(i).controls['answer_wrong'].touched && getAnswerWrongFormGroup(i).controls['answer_wrong'].hasError('required')">
-                            Answer wrong is required! </span>
+                <label for="inputPassword3" class="col-sm-3 control-label" style="margin-top: 20px;">Answer wrong</label>
+                <div class="col-sm-9">
+                <div formArrayName="answer_wrongs">
+                      <div *ngFor="let answer of answerWrongFormGroup.controls; let i = index;">
+                        <div [formGroupName]="i" class="row">
+                          <div class="row"> 
+                              <label style="margin-left: 5%;margin-top: 20px;">Content answer wrong</label>
+                              <div class="col-sm-11">
+                                  <input class="form-control" formControlName="answer_wrong" type="text" style="width: 98%;margin-left: 3%;margin-top: 1%;height: 35px;"
+                                  [ngClass]="{
+                                    'is-valid': getAnswerWrongFormGroup(i).valid,
+                                    'is-invalid': getAnswerWrongFormGroup(i).invalid
+                                      && getAnswerWrongFormGroup(i).touched
+                                  }">
+                              </div>
+                              <div class="col-sm-1">
+                                  <button class="btn btn-danger pull-right" type="button" (click)="removeAnswerWrong(i)" style="margin-right: 12px; margin-top: 6px;"> X </button>
+                              </div>
+                          </div>
+                            <div *ngIf="getAnswerWrongFormGroup(i).invalid
+                                  && getAnswerWrongFormGroup(i).touched"
+                                  class="alert alert-danger" role="alert" style="width: 96%;margin-left: 16px;margin-top: 15px;">
+                                  <ng-container *ngIf="getAnswerWrongFormGroup(i).controls['answer_wrong'].touched 
+                                  && getAnswerWrongFormGroup(i).controls['answer_wrong'].hasError('required')">
+                                      Content answer wrong is required
+                                   </ng-container>
+                            </div>
+                            <!-- <div class="alert alert-danger" role="alert" *ngIf="getAnswerCorrectFormGroup(i).controls['answer_correct'].touched && getAnswerCorrectFormGroup(i).controls['answer_correct'].hasError('required')">
+                              Answer correct is required! 
+                            </div> -->
                         </div>
-                          <button class="btn btn-danger pull-right" type="button" (click)="removeAnswerWrong(i)" style="margin-right: 12px; margin-top: 6px;"> Remove </button>
                       </div>
                     </div>
-                </div>
-                    <button class="btn btn-primary pull-right" type="button" (click)="addAnswerWrong()" style="margin-right: 12px; margin-top: 6px;"> Add </button>
-            </div>
-          </div>
+                  </div>
+                      <button class="btn btn-primary pull-right" type="button" (click)="addAnswerWrong()" style="margin-right: 12px; margin-top: 10px;"> Add </button>
+              </div>
 
             <div class="form-group row">
               <label for="inputPassword3" class="col-sm-3 control-label">Suggestion</label>
@@ -132,7 +180,7 @@
             </div>
             <div *ngIf="questionFrm.get('suggestion').invalid
                     && questionFrm.get('suggestion').touched"
-                   class="alert alert-danger" role="alert">
+                   class="alert alert-danger" role="alert" >
               <ng-container *ngIf="questionFrm.get('suggestion').hasError('required')">
                   Suggestion is required
               </ng-container>
@@ -144,6 +192,13 @@
             </div>
             <br>
 
+            <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-3 control-label">Status</label>
+                <div class="col-sm-9">
+                <mat-checkbox color='primary'> Show/Hide</mat-checkbox>
+              </div>
+            </div>
+          
             <div class="form-group">
                 <div class="col-9 offset-3">
                   <button class="btn btn-success pull-right" type="submit">Submit</button>

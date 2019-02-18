@@ -78,17 +78,5 @@ export class CreateQuestionComponent implements OnInit {
     return formGroup;
   }
 
-  // onSubmit(){
-  //   if (this.questionFrm.value) {
-  //     const value = this.questionFrm.value;
-  //     const question: Question = {
-  //       id: uuid(),
-  //       ...value
-  //     }
-  //     this.http.post('http://localhost:3000/questions', question).subscribe(() => {
-  //       this.router.navigateByUrl('/question');
-  //     });
-  // }
-  // }
 
 }
