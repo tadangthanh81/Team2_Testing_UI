@@ -21,7 +21,7 @@ export class ListQuestionComponent implements OnInit {
 
 
   tag: Tag = new Tag();
-
+  
 
   listQuestion: Question[];
   listLvl: Level[];
@@ -58,7 +58,6 @@ export class ListQuestionComponent implements OnInit {
   }
 
   @ViewChild(MatSort) sort: MatSort;
-
 
   constructor(
     private service: ServiceService,
@@ -145,40 +144,10 @@ export class ListQuestionComponent implements OnInit {
       });
     }
   }
-  keyword:string;
-
-  newTag(): void {
-    this.success = true;
-    this.tag = new Tag();
-  }
-  save() {
-    const value = this.tagFrm.value;
-    const newTags: Tag = {
-      id: 100,
-      ...value
-    }
-
-    this.service.createTag(newTags).subscribe(data => console.log(data), error => console.log(error));
-      // .subscribe(data => console.log(data), error => console.log(error));
-      // .subscribe(hero => this.heroes.push(hero));
-    this.tag = new Tag();
-  }
-  onSubmit() {
-    //  tag add + auto generate id
-    // if (this.tagFrm.value) {
-    //   const value = this.tagFrm.value;
-    //   const tag: Tag = {
-    //     id: uuid(),
-    //     ...value
-    //   };
-    //   this.http.post('http://localhost:3000/tag', tag).subscribe(() => { this.router.navigateByUrl('/tag'); });
-    //   this.success = true;
-    // }
-    this.success = true;
-    this.save();
-
-  }
 
 
+ 
+
+ 
 
 }
