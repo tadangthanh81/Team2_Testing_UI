@@ -59,34 +59,50 @@
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <form>
-                  <div class="col-md-4 col-xs-12">
-                    <div class="form-group">
-                      <input type="email" class="form-control" placeholder="Enter email">
+                  <div class="row">
+                    <div class="col-md-4 col-xs-12">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="levelSelected" name="categorySelected">
+                          <option value="">--Category--</option>
+                          <option *ngFor="let lvl of listCategory" [value]="lvl.id">{{lvl.categoryName | titlecase}}</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Create by...">
+                      </div>
                     </div>
-                    <div class="form-group">
-                      <input type="password" class="form-control" placeholder="Password">
-
+                    <div class="col-md-4 col-xs-12">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="levelSelected" name="levelSelected">
+                          <option value="">--Level--</option>
+                          <option *ngFor="let lvl of listLvl" [value]="lvl.id">{{lvl.levelName | titlecase}}</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <div class="input-group date">
+                          <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                          </div>
+                          <input type="text" class="form-control pull-right" id="datepicker">
+                        </div>
+                        <!-- /.input group -->
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-4 col-xs-12">
-                    <div class="form-group">
-                      <input type="email" class="form-control" placeholder="Enter email">
-                    </div>
-                    <div class="form-group">
-                      <input type="password" class="form-control" placeholder="Password">
-                    </div>
-                  </div>
-                  <div class="col-md-4 col-xs-12">
-                    <div class="form-group">
-                      <input type="email" class="form-control" placeholder="Enter email">
-                    </div>
-                    <div class="form-group">
-                      <input type="password" class="form-control" placeholder="Password">
+                    <div class="col-md-4 col-xs-12">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="levelSelected" name="levelSelected">
+                          <option value="">--Type--</option>
+                          <option *ngFor="let lvl of listType" [value]="lvl.id">{{lvl.typeName}}</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Tag...">
+                      </div>
                     </div>
                   </div>
                   <!-- /.box-body -->
-                  <div class="col-md-2 col-xs-12">
-                    <div class="box-footer">
+                  <div class="row">
+                    <div class="box-footer col-md-12">
                       <button type="submit" class="btn btn-info">Filter</button>
                     </div>
                   </div>
@@ -96,7 +112,7 @@
           </div>
         </div>
         <!-- table -->
-        <table mat-table [dataSource]="dataSource" matSort class="table table-striped table-hover" >
+        <table mat-table [dataSource]="dataSource" matSort class="table table-striped table-hover">
           <!-- Checkbox Column -->
           <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
@@ -113,7 +129,8 @@
 
           <!-- Category Column -->
           <ng-container matColumnDef="category">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 100px; font-size: 18px; font-weight: bold;"> Category </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 100px; font-size: 18px; font-weight: bold;">
+              Category </th>
             <td mat-cell *matCellDef="let element"> {{element.questionCategory.categoryName}} </td>
           </ng-container>
 
@@ -166,15 +183,29 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
         <div class="clearfix">
-          <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+          <!-- <div class="hint-text">Showing <b *ngIf='sum < 3'>{{sum}}</b><b *ngIf='sum > 2'>2</b> out of <b>{{sum}}</b>
+            entries</div> -->
+          <div class=hint-text>Showing
+            <select name="choisepage" (change)="choisePage()" [(ngModel)]="size">
+              <option value="1">5</option>
+              <option value="2">10</option>
+              <option value="3">15</option>
+            </select>
+            entries
+          </div>
           <ul class="pagination">
-            <li class="page-item disabled"><a href="#">Previous</a></li>
-            <li class="page-item"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item active"><a href="#" class="page-link">3</a></li>
-            <li class="page-item"><a href="#" class="page-link">4</a></li>
-            <li class="page-item"><a href="#" class="page-link">5</a></li>
-            <li class="page-item"><a href="#" class="page-link">Next</a></li>
+            <li class="page-item" [ngClass]="{disabled:currentPage===0}">
+              <a (click)="setPage(0)"><i class="glyphicon glyphicon-step-backward"></i></a>
+            </li>
+            <li class="page-item" [ngClass]="{hide:currentPage===0}">
+              <a (click)="setPage(this.currentPage - 1)"><i class="glyphicon glyphicon-menu-left"></i></a>
+            </li>
+            <li class="page-item" [ngClass]="{hide:currentPage===pages-1}">
+              <a (click)="setPage(this.currentPage + 1)"><i class="glyphicon glyphicon-menu-right"></i></a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:currentPage===pages-1}">
+              <a (click)="setPage(pages - 1)"><i class="glyphicon glyphicon-step-forward"></i></a>
+            </li>
           </ul>
         </div>
       </div>
@@ -198,15 +229,15 @@
               <div class="form-group">
                 <label>Category</label>
                 <select class="form-control" [(ngModel)]="categorySelected" name="categorySelected">
-                  <option disabled="true" value="null">--Select--</option>
+                  <option disabled="true" value="2">--Select--</option>
                   <option *ngFor="let cate of listCategory" [value]="cate.id">{{cate.categoryName | titlecase}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <label>Tag</label>
                 <select class="form-control" [(ngModel)]="tagSelected" name="tagSelected">
-                  <option disabled="true" value="null">--Select--</option>
-                  <option *ngFor="let tag of listTag" [value]="tag.id">{{tag.tagName | uppercase}}</option>
+                  <option disabled="true" value="1">--Select--</option>
+                  <option *ngFor="let tag of listTag" [value]="tag.id">{{tag.tagName}}</option>
                 </select>
               </div>
               <p>{{ message }}</p>

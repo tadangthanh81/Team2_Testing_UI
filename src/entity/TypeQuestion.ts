@@ -1,4 +1,4 @@
-export class Type {
+export class TypeQuestion {
   id: string;
   typeName: string;
   status: number;

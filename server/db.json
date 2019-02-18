@@ -1,18 +1,39 @@
 {
   "category": [
     {
-      "id": 1,
-      "category_name": "category1",
-      "user_id_created": 1,
-      "date_created": "2019-01-01",
-      "status": ""
+      "id": "0692e4d5-aad2-40ec-95ef-b76767264f28",
+      "categoryName": "thuan",
+      "userIdCreated": "1",
+      "dateCreated": "2019-05-21",
+      "status": "1"
     },
     {
-      "id": 2,
-      "category_name": "category12222",
-      "user_id_created": 1,
-      "date_created": "2019-01-01",
-      "status": ""
+      "id": "0325230f-76e3-430d-a21e-a433289eab13",
+      "categoryName": "hieu",
+      "userIdCreated": "2",
+      "dateCreated": "2015-03-21",
+      "status": "1"
+    },
+    {
+      "id": "a09acdc9-8b84-4f10-8519-a0978b52af37",
+      "categoryName": "nhung ",
+      "userIdCreated": "5",
+      "dateCreated": "2019-02-21",
+      "status": "0"
+    },
+    {
+      "id": "8e06f2a5-4dca-4196-897c-ff7868284539",
+      "categoryName": "nhung nhit",
+      "userIdCreated": "3",
+      "dateCreated": "2019-02-12",
+      "status": "1"
+    },
+    {
+      "id": "4d952292-dfb4-4d8d-99bd-10eb7fd23285",
+      "categoryName": "121",
+      "userIdCreated": "11",
+      "dateCreated": "2019-02-13",
+      "status": "1"
     }
   ],
   "question": [
