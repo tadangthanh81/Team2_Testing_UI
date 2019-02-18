@@ -43,7 +43,7 @@ export class ServiceService {
 
   //====== get list question by contents=====
   getListQuestionByContent(content: String): Observable<Question[]> {
-    return this.http.get<Question[]>(this.url + `question/search-by-content/${content}`).pipe(
+    return this.http.get<Question[]>(this.url + `question/search-by-content`).pipe(
       tap(),
       catchError(er => of([]))
     );
