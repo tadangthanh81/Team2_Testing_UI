@@ -124,15 +124,13 @@ export class ListCategoryComponent implements OnInit {
     this.categoryFrm = new FormGroup({
       categoryName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.minLength(2)]),
       userIdCreated: new FormControl({ value: '', disabled: false }),
-      dateCreated: new FormControl({ value: '', disabled: false }),
-      status: new FormControl({ value: '', disabled: false })
+      dateCreated: new FormControl(new Date(),[] ),
     });
 
     this.categoryFrm2 = new FormGroup({
       categoryName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.minLength(2)]),
       userIdCreated: new FormControl({ value: '', disabled: false }),
-      dateCreated: new FormControl({ value: '', disabled: false }),
-      status: new FormControl({ value: '', disabled: false })
+      dateCreated: new FormControl(new Date(),[]),
     });
   }
 
@@ -178,7 +176,6 @@ export class ListCategoryComponent implements OnInit {
     this.categoryFrm2.get('categoryName').setValue(category.categoryName);
     this.categoryFrm2.get('userIdCreated').setValue(category.userCategory["fullName"]);
     this.categoryFrm2.get('dateCreated').setValue(category.dateCreated);
-    this.categoryFrm2.get('status').setValue(category.status);
   }
 
   // update category

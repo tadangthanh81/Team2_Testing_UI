@@ -83,7 +83,7 @@
           <ng-container matColumnDef="CategoryName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header
               style="width: 100px; font-size: 18px; font-weight: bold;">
-              CategoryName </th>
+              Category Name </th>
             <td mat-cell *matCellDef="let element"> {{element.categoryName}} </td>
           </ng-container>
 
@@ -91,7 +91,7 @@
           <ng-container matColumnDef="UserCreated">
             <th mat-header-cell *matHeaderCellDef mat-sort-header
               style="width: 130px; font-size: 18px; font-weight: bold;">
-              UserCreated </th>
+              User Created </th>
             <td mat-cell *matCellDef="let element"> {{element.userCategory.fullName}} </td>
           </ng-container>
 
@@ -99,17 +99,17 @@
           <ng-container matColumnDef="DateCreated">
             <th mat-header-cell *matHeaderCellDef mat-sort-header
               style="width: 230px; font-size: 18px; font-weight: bold;">
-              DateCreated </th>
+              Date Created </th>
             <td mat-cell *matCellDef="let element"> {{element.dateCreated | date:'d/M/yyyy'}} </td>
           </ng-container>
 
           <!-- Status Column -->
-          <ng-container matColumnDef="status">
+          <!-- <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header
               style="width: 121.8px; font-size: 18px; font-weight: bold;">
               Status </th>
             <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-          </ng-container>
+          </ng-container> -->
 
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
@@ -185,7 +185,7 @@
             <div class="modal-body">
 
               <div class="form-group">
-                <label>categoryName:</label>
+                <label>Category Name:</label>
                 <input type="text" class="form-control" formControlName="categoryName" [ngClass]="{
                   'is-valid': categoryFrm.get('categoryName').valid,
                   'is-invalid': categoryFrm.get('categoryName').invalid
@@ -195,7 +195,7 @@
               <div *ngIf="categoryFrm.get('categoryName').invalid && categoryFrm.get('categoryName').touched"
                 class="alert alert-danger">
                 <ng-container *ngIf="categoryFrm.get('categoryName').hasError('required')">
-                  categoryName is required
+                  Category Name is required
                 </ng-container>
                 <ng-container *ngIf="categoryFrm.get('categoryName').hasError('minlength')">
                   Min length {{categoryFrm.get('categoryName').getError('minlength').requiredLength}}
@@ -272,7 +272,7 @@
             </div>
             <div class="modal-body">
               <div class="form-group">
-                <label>categoryName:</label>
+                <label>Category Name:</label>
                 <input type="text" class="form-control" formControlName="categoryName" [ngClass]="{
                       'is-valid': categoryFrm2.get('categoryName').valid,
                       'is-invalid': categoryFrm2.get('categoryName').invalid
@@ -282,7 +282,7 @@
               <div *ngIf="categoryFrm2.get('categoryName').invalid && categoryFrm2.get('categoryName').touched"
                 class="alert alert-danger">
                 <ng-container *ngIf="categoryFrm2.get('categoryName').hasError('required')">
-                  categoryName is required
+                  CategoryName is required
                 </ng-container>
                 <ng-container *ngIf="categoryFrm2.get('categoryName').hasError('minlength')">
                   Min length {{categoryFrm2.get('categoryName').getError('minlength').requiredLength}}
@@ -357,22 +357,22 @@
             </div>
             <div class="modal-body">
               <div class="form-group">
-                <label>categoryName:</label>
+                <label>Category Name:</label>
                 <input type="text" class="form-control" formControlName="categoryName" [disabled]="true">
               </div>
               <div class="form-group">
-                <label>userIdCreated:</label>
+                <label>User Created:</label>
                 <input type="text" class="form-control" formControlName="userIdCreated" [disabled]="true">
               </div>
               <div class="form-group">
-                <label>dateCreated:</label>
+                <label>Date Created:</label>
                 <!-- <textarea class="form-control" formControlName="dateCreated" disabled="true"></textarea> -->
                 <input type="text" class="form-control" formControlName="dateCreated" [disabled]="true">
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label>status:</label>
                 <input type="text" class="form-control" formControlName="status" [disabled]="true">
-              </div>
+              </div> -->
             </div>
             <div class="modal-footer">
               <input type="button" class="btn btn-success" data-dismiss="modal" value="Cancel">
