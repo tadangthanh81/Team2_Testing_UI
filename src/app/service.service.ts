@@ -48,6 +48,13 @@ export class ServiceService {
       catchError(er => of([]))
     );
   }
+  //create question
+  createQuestion(question:Question): Observable<Question>{
+    return this.http.post<Question>(this.url + `question/add`, question).pipe(
+      tap(),
+      catchError(er => of(new Question()))
+    );
+  }
   //update multi question
   updateMutilQuestion(question: Question, id: string): Observable<Question> {
     return this.http.put<Question>(this.url + `question/edit/${id}`, question, this.httpOption).pipe(
@@ -113,6 +120,14 @@ export class ServiceService {
       catchError(er => of([]))
     );
   }
+  //==========TYPE=============
+  getAllType(): Observable<TypeQuestion[]> {
+    return this.http.get<TypeQuestion[]>(this.url + `type`).pipe(
+      tap(),
+      catchError(er => of([]))
+    );
+  }
+
   getTag(id: number): Observable<Object> {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
