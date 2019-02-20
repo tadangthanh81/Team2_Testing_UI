@@ -1,15 +1,15 @@
 import { Category } from './Category';
-import { Type } from './Type';
 import { Level } from './Level';
 import { Tag } from './Tag';
 import { User } from './User';
 import { Answer } from './Answer';
+import { TypeQuestion } from './TypeQuestion';
 
 export class Question {
   id: string;
   questionCategory: Category;
   content: string;
-  questionType: Type;
+  questionType: TypeQuestion;
   questionLevel: Level;
   suggestion: string;
   questionTag: Tag;

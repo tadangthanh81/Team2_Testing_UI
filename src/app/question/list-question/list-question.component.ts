@@ -8,8 +8,9 @@ import { Category } from 'src/entity/Category';
 import { Tag } from 'src/entity/Tag';
 import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { v4 as uuid } from 'uuid';
+import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
+import { TypeQuestion } from 'src/entity/TypeQuestion';
+import { loadQueryList } from '@angular/core/src/render3';
 
 
 @Component({
@@ -27,12 +28,16 @@ export class ListQuestionComponent implements OnInit {
   listLvl: Level[];
   listCategory: Category[];
   listTag: Tag[];
-  quesiton: Question[]= [];
+  listType: TypeQuestion[];
+  quesiton: Question[] = [];
 
-  //  tag mesage sucess
+  //tag mesage sucess
   success = false;
 
+  //message udpate multi
   message: string;
+
+  //selection
   levelSelected: string = "1";
   categorySelected: string = "2";
   tagSelected: string = "1";
@@ -43,6 +48,13 @@ export class ListQuestionComponent implements OnInit {
   displayedColumns: string[] = ['select', 'category', 'create_by', 'date', 'level', 'content', 'tag', 'action'];
   dataSource = new MatTableDataSource<Question>(this.listQuestion);
   selection = new SelectionModel<Question>(true, []);
+
+  size: number = 1;
+
+  sumQuestion: string;
+  sumQ: number;
+  currentPage: number = 0;
+  pages: number = 0;
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -66,9 +78,18 @@ export class ListQuestionComponent implements OnInit {
     private http: HttpClient
   ) { }
 
+  choisePage() {
+    this.currentPage =0;
+    this.loadListQuestion(this.currentPage.toString(), this.size.toString());
+    this.selection = new SelectionModel<Question>(true, []);
+    this.numberOfPage();
+    console.log('size', this.size);
+    console.log('pages', this.pages);
+  }
+
   ngOnInit() {
     this.dataSource.sortingDataAccessor = (item, property) => {
-      switch(property) {
+      switch (property) {
         case 'category': return item.questionCategory.categoryName;
         case 'create_by': return item.userQuestion.fullName;
         case 'date': return item.dateCreated;
@@ -85,20 +106,38 @@ export class ListQuestionComponent implements OnInit {
       tagDescription: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(225)]],
       status: ['', [Validators.required]]
     });
-    this.service.getListQuestion().subscribe(
-      lquestion => {
-        this.listQuestion = lquestion;
-        this.dataSource.data = this.listQuestion;
+    this.loadListQuestion(this.pages.toString(), this.size.toString());
+
+    this.service.getQuestionSum().subscribe(
+      sum => {
+        this.sumQuestion = sum.headers.get('SumQuestion'),
+          this.sumQ = Number(this.sumQuestion),
+          console.log('question sum', this.sumQ),
+          console.log('size', this.size),
+          this.pages = Math.trunc((this.sumQ) / (this.size)),
+          console.log('pages', this.pages)
       }
+    );
+    this.service.getType().subscribe(
+      type => this.listType = type
     );
     this.service.getAllLvl().subscribe(
       lvl => this.listLvl = lvl
     );
     this.service.getAllCategory().subscribe(
       category => this.listCategory = category
-    )
+    );
     this.service.getAllTag().subscribe(
       tag => this.listTag = tag
+    );
+  }
+  loadListQuestion(p: string, s: string) {
+    this.service.getQuestions(p, s).subscribe(
+      lquestion => {
+        this.listQuestion = lquestion,
+        this.dataSource.data = this.listQuestion,
+        console.table(this.listQuestion)
+      }
     );
   }
 
@@ -120,28 +159,25 @@ export class ListQuestionComponent implements OnInit {
   }
 
   updateMuiltiQestion() {
-    // const a: Level = new Level();
-    // a.id = this.levelSelected;
-    // const b: Category = new Category();
-    // b.id = this.categorySelected;
-    // const c: Tag = new Tag();
-    // c.id = this.tagSelected;
-    // const newQ: Question = new Question();
-    // newQ.questionLevel = a;
-    // newQ.questionCategory = b;
-    // newQ.questionTag = c;
     if (this.selection.selected.length == 0) {
       this.message = "No records have been selected yet!";
     } else {
       this.selection.selected.forEach(element => {
         element.questionLevel.id = this.levelSelected;
-        element.questionCategory.id = this.categorySelected;
+        element.questionCategory.id = Number(this.categorySelected);
         element.questionTag.id = this.tagSelected;
-        this.service.updateMutilQuestion(element, element.id).subscribe(
-          update => this.selection.selected.push(update)
-        );
-        console.log(element)
+        // this.service.updateMutilQuestion(element).subscribe(
+        //   update => this.quesiton.push(update)
+        // );
+
+        this.service.updateMutilQuestion1(element).subscribe(success => {
+          console.log(success);
+        }, error => {
+          console.log(error);
+        });
+        console.log(element);
       });
+      location.reload();
     }
   }
 
@@ -150,4 +186,18 @@ export class ListQuestionComponent implements OnInit {
 
  
 
+  setPage(page: number) {
+    this.numberOfPage();
+    this.currentPage = page;
+
+    console.log("currentpage", this.currentPage);
+    console.log('size', this.size);
+    console.log('pages', this.pages);
+    this.loadListQuestion(page.toString(), this.size.toString());
+    this.selection = new SelectionModel<Question>(true, []);
+  }
+  numberOfPage():number{
+    this.pages = Math.ceil((this.sumQ) / (this.size));
+    return this.pages;
+  }
 }

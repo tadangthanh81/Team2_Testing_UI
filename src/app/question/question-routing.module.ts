@@ -23,6 +23,7 @@ const routes: Routes = [
         path: 'importlist',
         component: IplistQuestionComponent
       },
+    
       {
         path: ':id',
         component: ViewQuestionComponent

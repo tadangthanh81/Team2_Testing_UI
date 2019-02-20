@@ -26,10 +26,11 @@ import { PopupListQuestionComponent } from './list-question/popup-question.compo
     MatTableModule,
     MatSortModule,
     MatButtonModule, MatCheckboxModule,
+    FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule,
-    FormsModule
+    RouterModule
+    
   ],
   exports: [
     ListQuestionComponent,
