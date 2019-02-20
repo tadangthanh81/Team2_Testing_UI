@@ -9,7 +9,6 @@
     </ol>
   </section>
 
-  
   <section class="content">
     <div class="box">
       <div class="box-header with-border">
@@ -25,45 +24,51 @@
           <div class="form-group row">
             <label for="inputEmail3" class="col-sm-3 control-label">Question Category </label>
               <div class="col-sm-9">
-                <select formControlName="questionCategory" name="questionCategory" class="form-control select2" id="questionCategory">
-                  <option *ngFor="let questionCategory of listCategory"
-                           [ngValue]="questionCategory.id">
+                <select  formControlName="questionCategory" class="form-control select2"  [(ngModel)]="data.questionCategory.id" name="questionCategory"  id="questionCategory">
+                  <option *ngFor="let cate of listCategory" 
+                  [value]="cate.id"
+                  >     
+                           {{cate.categoryName}}
                           
-                           {{questionCategory.categoryName}}
                   </option>
-                </select>
-              </div>
-          </div>
-          <br>
-          <!-- <select id="roleData"  ng-model="task.rolemodel.role"  class="form-control">
-            <option value="">-- Select Role --</option>
-            <option data-ng-repeat="roleData in roleDatas"  ng-selected="{{task.rolemodel.role == roleData.id}}" value="{{roleData.id}}">{{roleData.role}}</option> 
-        </select> -->
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-3 control-label">Question Type </label>
-              <div class="col-sm-9">
-                <select formControlName="questionType" class="form-control select2">
-                  <option *ngFor="let questionType of listType" [ngValue]="questionType">{{questionType.typeName}}</option>
                 </select>
               </div>
           </div>
           <br>
 
           <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-3 control-label">Question Level </label>
+            <label for="inputEmail3" class="col-sm-3 control-label">Question Type </label>
               <div class="col-sm-9">
-                <select formControlName="questionLevel" class="form-control select2">
-                  <option *ngFor="let questionLevel of listLvl" [ngValue]="questionLevel">{{questionLevel.levelName}}</option>
+                <select  formControlName="questionType" class="form-control select2" [(ngModel)]="data.questionType.id" name="questionType"  id="questionType">
+                  <option *ngFor="let type of listType" [value]="type.id">     
+                           {{type.typeName}} 
+                  </option>
                 </select>
               </div>
           </div>
           <br>
           <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-3 control-label">Question Tag </label>
+            <label for="inputEmail3" class="col-sm-3 control-label">Question Level </label>
               <div class="col-sm-9">
-                <select formControlName="questionTag" class="form-control select2">
-                  <option *ngFor="let questionTag of listTag" [ngValue]="questionTag">{{questionTag.tagName}}</option>
-                </select>
+                  <select  formControlName="questionLevel" class="form-control select2"  [(ngModel)]="data.questionLevel.id" name="questionLevel"  id="questionLevel">
+                      <option *ngFor="let lv of listLvl" [value]="lv.id">     
+                               {{lv.levelName}} 
+                      </option>
+                    </select>
+                
+              </div>
+          </div>
+          <br>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-3 control-label">Question Tag </label>
+              <div class="col-sm-9"> 
+                <select  formControlName="questionTag" class="form-control select2" [(ngModel)]="data.questionTag.id" name="questionTag"  id="questionTag">
+                    <option *ngFor="let tg of listTag" 
+                    [value]="tg.id"
+                    >     
+                             {{tg.tagName}} 
+                    </option>
+                  </select>
               </div>
           </div>
           <br>
@@ -121,8 +126,7 @@
                                   && getAnswerCorrectFormGroup(i).controls['answer_correct'].hasError('required')">
                                       Content answer correct is required
                                    </ng-container>
-                            </div>
-                           
+                            </div>  
                      </div>
                       </div>
                     </div>
@@ -158,7 +162,6 @@
                                         Content answer wrong is required
                                      </ng-container>
                               </div>
-                              
                           </div>
                          </div>
                       </div>
@@ -178,7 +181,6 @@
                     }"></textarea>
                   </div>
               </div>
-
               <div *ngIf="editquestionFrm.get('sugguestion').invalid
                       && editquestionFrm.get('sugguestion').touched"
                      class="alert alert-danger" role="alert" style="width: 74%;margin-left: 26%;">
@@ -191,7 +193,6 @@
                     {{ editquestionFrm.get('sugguestion').getError('minlength').requiredLength }}
                 </ng-container>
               </div>
-
               <br>
 <!-- Status -->
               <div class="form-group row">

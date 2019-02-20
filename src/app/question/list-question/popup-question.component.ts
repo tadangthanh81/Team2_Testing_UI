@@ -5,10 +5,20 @@ import { Level } from 'src/entity/Level';
 import { Category } from 'src/entity/Category';
 import { Tag } from 'src/entity/Tag';
 import { Router } from '@angular/router';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder,AbstractControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import {v4 as uuid} from 'uuid';
 
+
+
+export function compareName(nametag = []) {
+  return (c: AbstractControl) => {
+    return nametag.includes(c.value.toLocaleUpperCase().trim())
+      ? {
+          invalidnametag: true
+        }
+      : null;
+  };
+}
 
 @Component({
   selector: 'app-popup-list-question',
@@ -16,14 +26,17 @@ import {v4 as uuid} from 'uuid';
   styleUrls: ['./list-question.component.css']
 })
 export class PopupListQuestionComponent implements OnInit {
-  isChecked : boolean;
+  
   listQuestion: Question[];
   listLvl: Level[];
   listCategory: Category[];
   listTag: Tag[];
   quesiton: Question[];
   tag: Tag = new Tag();
-
+  tag1 :Tag;
+  nametag: string[] = [];
+  des: string[] = [];
+  sta: string[] = [];
   //  tag mesage sucess
   
   message: boolean;
@@ -40,10 +53,17 @@ export class PopupListQuestionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.service.getAllTag().subscribe(res => {
+      for (let i = 0; i < res.length; i++) {
+        this.nametag[i] = res[i].tagName.toLocaleUpperCase();
+       
+        
+      }
+    });
     //  tag class and validate
     this.tagFrm = this.fb.group({
-      tagName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(225)]],
-      tagDescription: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(225)]],
+      tagName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(225) ,compareName(this.nametag)]],
+      tagDescription: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(225)]],
       status: ['']
     });
 
@@ -59,7 +79,6 @@ export class PopupListQuestionComponent implements OnInit {
   }
 
   newTag(): void {
-    this.message = true;
     this.tag = new Tag();
   }
   save() {
@@ -73,17 +92,22 @@ export class PopupListQuestionComponent implements OnInit {
       id: 1000000,
       ...value
     }
-    
-   
-   this.service.createTag(this.tagFrm.value)
+   this.service.createTag(newTags)
    .subscribe( () => { 
-    this.tagFrm.reset();
+    this.onReset();
     });
-    this.tag = new Tag();
+    this.newTag();
+
+   
   }
+  onReset(): void { this.resetForm(); }
+   resetForm(value: any = undefined): void {
+      this.tagFrm.reset(value);}
   onSubmit() {
-     this.message = true;
      this.save();
+     
+     
   }
+  
 
 }

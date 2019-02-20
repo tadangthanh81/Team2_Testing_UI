@@ -83,6 +83,7 @@
                   && tagFrm.get('tagName').touched
                 }"
                >
+             
               </div>
             </div>
             <div *ngIf="tagFrm.get('tagName').invalid && tagFrm.get('tagName').touched" class="alert alert-danger">
@@ -95,6 +96,9 @@
               <ng-container *ngIf="tagFrm.get('tagName').hasError('maxlength')">
                 Enter at most {{tagFrm.get('tagName').getError('maxlength').requiredLength}} characters!
               </ng-container>
+              <ng-container *ngIf="tagFrm.hasError('invalidnametag', ['tagName'])">
+                Tag name already exists!
+              </ng-container>
             </div>
 
             <div class="form-group row">
@@ -103,7 +107,8 @@
               </label>
               <div class="col-10">
                 <textarea class="form-control" type="text" formControlName="tagDescription"
-
+                ng-model="tag.tagDescription"
+                my-unique="{property: 'tagDescription'}"
                   [ngClass]="{
                         'is-valid': tagFrm.get('tagDescription').valid,
                         'is-invalid': tagFrm.get('tagDescription').invalid

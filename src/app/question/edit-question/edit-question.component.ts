@@ -9,6 +9,7 @@ import { Level } from 'src/entity/Level';
 import { Tag } from 'src/entity/Tag';
 import { TypeQuestion } from 'src/entity/TypeQuestion';
 import { Category } from 'src/entity/Category';
+
 @Component({
   selector: 'app-edit-question',
   templateUrl: './edit-question.component.html',
@@ -17,7 +18,7 @@ import { Category } from 'src/entity/Category';
 export class EditQuestionComponent implements OnInit {
   question:  Question;
   editquestionFrm: FormGroup;
-  
+  data: Question;
   stus: string;
   listCategory: Category[];
   listLvl: Level[];
@@ -55,12 +56,12 @@ export class EditQuestionComponent implements OnInit {
       mergeMap(
         params => {
           const id = params.get('id');
-          return this.http.get<Question>(`http://localhost:8080/question/${id}`);
+          return  this.http.get<Question>(`http://localhost:8080/question/${id}`);
         }
       )
     ).subscribe(question => {
-      //this.question = question;
-      this.editquestionFrm.patchValue(question);
+      this.editquestionFrm.patchValue(question); 
+      this.data = question;
     }
     );
     
@@ -135,8 +136,14 @@ export class EditQuestionComponent implements OnInit {
   get answerCorrectFormGroup(){
     return this.editquestionFrm.get('answer_corrects') as FormArray;
   }
+
+  getData1(){
+    this.data.questionCategory.id
+   
+  }
   onSubmit(){
-      
+      console.log(this.data.questionCategory.id)
+    
     
     if( this.editquestionFrm.value.status === true){
       this.editquestionFrm.value.status = 1;
