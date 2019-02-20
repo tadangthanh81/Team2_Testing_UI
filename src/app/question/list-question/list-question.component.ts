@@ -7,7 +7,7 @@ import { Level } from 'src/entity/Level';
 import { Category } from 'src/entity/Category';
 import { Tag } from 'src/entity/Tag';
 import { Router } from '@angular/router';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { v4 as uuid } from 'uuid';
 import { TypeQuestion } from 'src/entity/TypeQuestion';
@@ -33,9 +33,31 @@ export class ListQuestionComponent implements OnInit {
   success = false;
 
   message: string;
+  // questionFilter = new FormGroup({
+  //   lvChoice:new FormControl(''),
+  //   tpChoice: new FormControl(''),
+  //   ctChoice: new FormControl(''),
+  //   tagChoice: new FormControl(''),
+  //   dateChoice: new FormControl(''),
+  //   userChoice: new FormControl(''),
+  // });
+
+  // profileForm = new FormGroup({
+  //   firstName: new FormControl(''),
+  //   lastName: new FormControl(''),
+  // });
   levelSelected: string = "1";
-  categorySelected: string = "2";
+  typeSelected: string = "1";
+  categorySelected: string = "1";
   tagSelected: string = "1";
+  dateInputFilter= new Date();
+  userInputFilter: String;
+    // lvChoice: string;
+    // tpChoice: string;
+    // ctChoice: string;
+    // tagChoice: string;
+    // dateChoice: string;
+    // userChoice: string;
 
   tagFrm: FormGroup;
   searchText: string;
@@ -44,7 +66,7 @@ export class ListQuestionComponent implements OnInit {
   dataSource = new MatTableDataSource<Question>(this.listQuestion);
   selection = new SelectionModel<Question>(true, []);
 
-  size: number = 1;
+  size: number = 5;
 
   sumQuestion: string;
   sumQ: number;
@@ -75,7 +97,7 @@ export class ListQuestionComponent implements OnInit {
 
   choisePage() {
     this.currentPage =0;
-    this.loadListQuestion(this.currentPage.toString(), this.size.toString());
+    this.loadListQuestion(this.currentPage, this.size);
     this.selection = new SelectionModel<Question>(true, []);
     this.numberOfPage();
     console.log('size', this.size);
@@ -83,6 +105,14 @@ export class ListQuestionComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.QuestionFilter = this.fb.group({
+    //   levelSelected: [''],
+    //   typeSelected: [''],
+    //   categorySelected: [''],
+    //   tagSelected: [''],
+    //   dateInputFilter: [''],
+    //   userInputFilter: ['']
+    // });
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch(property) {
         case 'category': return item.questionCategory.categoryName;
@@ -93,15 +123,17 @@ export class ListQuestionComponent implements OnInit {
         case 'tag': return item.questionTag.tagName;
         default: return item[property];
       }
+
+
     };
     this.dataSource.sort = this.sort;
     //  tag class and validate
     this.tagFrm = this.fb.group({
-      tag_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(225)]],
-      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(225)]],
+      tagName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(225)]],
+      tagDescription: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(225)]],
       status: ['', [Validators.required]]
     });
-    this.loadListQuestion(this.pages.toString(), this.size.toString());
+    this.loadListQuestion(this.pages, this.size);
 
     this.service.getQuestionSum().subscribe(
       sum => {
@@ -129,7 +161,7 @@ export class ListQuestionComponent implements OnInit {
     );
   }
 
-  loadListQuestion(p: string, s: string) {
+  loadListQuestion(p: number, s: number) {
     this.service.getQuestions(p, s).subscribe(
       lquestion => {
         this.listQuestion = lquestion;
@@ -139,13 +171,29 @@ export class ListQuestionComponent implements OnInit {
   }
 
   /** function search by content question*/
-  searchByContent(contentQuestion) {
+  searchByContent(contentQuestion:string) {
     this.service.getListQuestionByContent(contentQuestion).subscribe(
       lquestionbyContent => {
         this.listQuestion = lquestionbyContent;
         this.dataSource.data = this.listQuestion;
       }
     );
+  }
+
+  // get list question by filter
+  filterByAttribute(categoryName: String, levelName: String, typeName: String,
+    fullName: String, dateCreated: String , tagName: String) {
+
+      // dateCreated = new Date('+this.dateInputFilter+');
+      this.service.filterByAttribute(categoryName, levelName, typeName,
+        fullName, dateCreated, tagName).subscribe(
+        lquestionbyFilter => {
+          this.listQuestion = lquestionbyFilter;
+          this.dataSource.data = this.listQuestion;
+        }
+
+      );
+      console.log(dateCreated);
   }
 
   loadPopupUpdate() {
@@ -186,7 +234,7 @@ export class ListQuestionComponent implements OnInit {
     console.log("currentpage", this.currentPage);
     console.log('size', this.size);
     console.log('pages', this.pages);
-    this.loadListQuestion(page.toString(), this.size.toString());
+    this.loadListQuestion(page, this.size);
     this.selection = new SelectionModel<Question>(true, []);
   }
   numberOfPage():number{

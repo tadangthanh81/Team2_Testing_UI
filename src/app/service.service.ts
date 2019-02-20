@@ -29,7 +29,7 @@ export class ServiceService {
 
   //==========QUESTION=============
   //get question ang pagination
-  getQuestions(p: string, s: string): Observable<Question[]> {
+  getQuestions(p: number, s: number): Observable<Question[]> {
     return this.http.get<Question[]>(this.url + `question/pagination?page=${p}&size=${s}`).pipe(
       tap()
     )
@@ -43,7 +43,18 @@ export class ServiceService {
 
   //====== get list question by contents=====
   getListQuestionByContent(content: String): Observable<Question[]> {
-    return this.http.get<Question[]>(this.url + `question/search-by-content`).pipe(
+    return this.http.get<Question[]>(this.url + `question/search-by-content/${content}`).pipe(
+      tap(),
+      catchError(er => of([]))
+    );
+  }
+
+ // ?categoryName=test%20update%201402&levelName=hard&typeName=type1&fullName=lhlinh&dateCreated=2019-01-10&tagName=it
+// get list question by filter
+  filterByAttribute(categoryName: String, levelName: String, typeName: String,
+    fullName: String, dateCreated : String, tagName: String):Observable<Question[]> {
+    return this.http.get<Question[]>(this.url + `question/filter?categoryName=${categoryName}&levelName=${levelName}&typeName=${typeName}&fullName=${fullName}&dateCreated=${dateCreated}
+    &tagName=${tagName}&page=0&size=10`).pipe(
       tap(),
       catchError(er => of([]))
     );
