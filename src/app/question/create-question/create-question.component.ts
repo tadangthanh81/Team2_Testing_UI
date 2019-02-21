@@ -42,7 +42,7 @@ export class CreateQuestionComponent implements OnInit {
       questionType: [''],
       questionTag: [''],
       content: ['', [Validators.required, Validators.minLength(2)]],
-      sugguestion: ['', [Validators.required, Validators.minLength(2)]],
+      sugguestion: [''],
       questionAnswer: this.fb.array([this.createAnswer()])
     })
     this.listAnswerFrm = this.questionFrm.get('questionAnswer') as FormArray;
@@ -112,7 +112,8 @@ export class CreateQuestionComponent implements OnInit {
         ...value
       };
       this.service.createQuestion(question).subscribe(() => {
-        console.log(question)
+        alert("Insert success");
+        this.router.navigateByUrl('/question');
       });
     }
   }
