@@ -62,7 +62,7 @@ export class ListCategoryComponent implements OnInit {
 
     this.dataSource.sort = this.sort;
 
-    this.tabAllCategory = { currentPage: 0, entities: 0, sizeOfPage: 10 };
+    this.tabAllCategory = { currentPage: 0, entities: 0, sizeOfPage: 5 };
 
     this.user = {
       id: "1",
@@ -89,8 +89,7 @@ export class ListCategoryComponent implements OnInit {
       this.service.countSearchCategory(this.searchStr).subscribe(
         count => {
           this.tabAllCategory.entities = +count.headers.get('CountSearchCategory'),
-            this.maxPage = Math.trunc(+count.headers.get('CountSearchCategory') / this.tabAllCategory.sizeOfPage),
-            console.log("a", this.maxPage)
+            this.maxPage = Math.ceil(+count.headers.get('CountSearchCategory') / this.tabAllCategory.sizeOfPage)
         }
       );
     } else {
@@ -107,9 +106,7 @@ export class ListCategoryComponent implements OnInit {
       this.service.getCategorySum().subscribe(
         sum => {
           this.tabAllCategory.entities = +sum.headers.get('SumCategory');
-          this.maxPage = Math.trunc(+sum.headers.get('SumCategory') / this.tabAllCategory.sizeOfPage);
-          console.log("b", this.maxPage);
-          console.log("c", this.tabAllCategory.currentPage);
+          this.maxPage = Math.ceil(+sum.headers.get('SumCategory') / this.tabAllCategory.sizeOfPage);
         }
       );
     }
@@ -143,23 +140,16 @@ export class ListCategoryComponent implements OnInit {
   }
 
   nextPage() {
-    if (this.tabAllCategory.currentPage === this.maxPage) {
-      this.tabAllCategory.currentPage = this.maxPage;
-    } else if (this.maxPage === 1) {
-      this.tabAllCategory.currentPage = this.maxPage - 1;
+    if (this.tabAllCategory.currentPage === this.maxPage -1) {
+      this.tabAllCategory.currentPage = this.maxPage -1;
     } else {
       this.tabAllCategory.currentPage++;
     }
     this.loadListCategory();
   }
   setPage(page: number) {
-    if (this.tabAllCategory.currentPage === 1) {
-      this.tabAllCategory.currentPage = page - 1;
-    } else if (this.maxPage === 1) {
-      this.tabAllCategory.currentPage = this.maxPage - 1;
-    } else {
-      this.tabAllCategory.currentPage = page;
-    }
+    this.tabAllCategory.currentPage = page;
+
     console.log(this.tabAllCategory.currentPage);
 
     this.loadListCategory();

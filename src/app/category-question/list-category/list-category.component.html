@@ -102,10 +102,9 @@
         <div class="clearfix">
           <div class=hint-text>Showing
             <select name="choisepage" (change)="choisePage($event.target)">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
             </select>
             entries
           </div>
@@ -116,11 +115,11 @@
             <li class="page-item" [ngClass]="{disabled:tabAllCategory.currentPage===0}">
               <a (click)="previousPage()"><i class="glyphicon glyphicon-menu-left"></i></a>
             </li>
-            <li class="page-item" [ngClass]="{disabled:tabAllCategory.currentPage=== maxPage}">
+            <li class="page-item" [ngClass]="{disabled:tabAllCategory.currentPage=== maxPage - 1}">
               <a (click)="nextPage()"><i class="glyphicon glyphicon-menu-right"></i></a>
             </li>
-            <li class="page-item" [ngClass]="{disabled:tabAllCategory.currentPage=== maxPage}">
-              <a (click)="setPage(maxPage)"><i class="glyphicon glyphicon-step-forward"></i></a>
+            <li class="page-item" [ngClass]="{disabled:tabAllCategory.currentPage=== maxPage - 1}">
+              <a (click)="setPage(maxPage - 1)"><i class="glyphicon glyphicon-step-forward"></i></a>
             </li>
           </ul>
         </div>
@@ -262,9 +261,6 @@
           </form>
         </div>
       </div>
-    </div>
-    <div class="box-footer">
-      Footer
     </div>
   </div>
 </section>
