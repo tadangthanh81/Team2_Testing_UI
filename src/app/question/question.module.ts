@@ -27,6 +27,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     MatTableModule,
     MatSortModule,
     MatButtonModule, MatCheckboxModule,
+    FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,

@@ -21,8 +21,10 @@ import { TypeQuestion } from 'src/entity/TypeQuestion';
 export class ListQuestionComponent implements OnInit {
 
 
-  //save data json
-  listQuestion: any[];
+  tag: Tag = new Tag();
+
+
+  listQuestion: Question[];
   listLvl: Level[];
   listCategory: Category[];
   listTag: Tag[];
@@ -86,7 +88,6 @@ export class ListQuestionComponent implements OnInit {
   }
 
   @ViewChild(MatSort) sort: MatSort;
-
 
   constructor(
     private service: ServiceService,
@@ -164,8 +165,9 @@ export class ListQuestionComponent implements OnInit {
   loadListQuestion(p: number, s: number) {
     this.service.getQuestions(p, s).subscribe(
       lquestion => {
-        this.listQuestion = lquestion;
-        this.dataSource.data = this.listQuestion;
+        this.listQuestion = lquestion,
+        this.dataSource.data = this.listQuestion,
+        console.table(this.listQuestion)
       }
     );
   }
@@ -241,5 +243,4 @@ export class ListQuestionComponent implements OnInit {
     this.pages = Math.ceil((this.sumQ) / (this.size));
     return this.pages;
   }
-
 }

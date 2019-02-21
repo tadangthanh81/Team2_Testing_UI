@@ -171,7 +171,7 @@
     <div id="editEmployeeModal" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
-          <form novalidate [formGroup]="categoryFrm2">
+          <form novalidate [formGroup]="EditCategoryFrm">
             <div class="modal-header">
               <h4 class="modal-title">Edit Category</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -180,18 +180,18 @@
               <div class="form-group">
                 <label>categoryName:</label>
                 <input type="text" class="form-control" formControlName="categoryName" [ngClass]="{
-                      'is-valid': categoryFrm2.get('categoryName').valid,
-                      'is-invalid': categoryFrm2.get('categoryName').invalid
-                      && categoryFrm2.get('categoryName').touched
+                      'is-valid': EditCategoryFrm.get('categoryName').valid,
+                      'is-invalid': EditCategoryFrm.get('categoryName').invalid
+                      && EditCategoryFrm.get('categoryName').touched
                     }">
               </div>
-              <div *ngIf="categoryFrm2.get('categoryName').invalid && categoryFrm2.get('categoryName').touched"
+              <div *ngIf="EditCategoryFrm.get('categoryName').invalid && EditCategoryFrm.get('categoryName').touched"
                 class="alert alert-danger">
-                <ng-container *ngIf="categoryFrm2.get('categoryName').hasError('required')">
+                <ng-container *ngIf="EditCategoryFrm.get('categoryName').hasError('required')">
                   categoryName is required
                 </ng-container>
-                <ng-container *ngIf="categoryFrm2.get('categoryName').hasError('minlength')">
-                  Min length {{categoryFrm2.get('categoryName').getError('minlength').requiredLength}}
+                <ng-container *ngIf="EditCategoryFrm.get('categoryName').hasError('minlength')">
+                  Min length {{EditCategoryFrm.get('categoryName').getError('minlength').requiredLength}}
                 </ng-container>
               </div>
 
@@ -199,14 +199,14 @@
               <div class="form-group">
                 <label>userIdCreated:</label>
                 <input type="text" class="form-control" formControlName="userIdCreated" [ngClass]="{
-                      'is-valid': categoryFrm2.get('userIdCreated').valid,
-                      'is-invalid': categoryFrm2.get('userIdCreated').invalid
-                      && categoryFrm2.get('userIdCreated').touched
+                      'is-valid': EditCategoryFrm.get('userIdCreated').valid,
+                      'is-invalid': EditCategoryFrm.get('userIdCreated').invalid
+                      && EditCategoryFrm.get('userIdCreated').touched
                     }">
               </div>
-              <div *ngIf="categoryFrm2.get('userIdCreated').invalid && categoryFrm2.get('userIdCreated').touched"
+              <div *ngIf="EditCategoryFrm.get('userIdCreated').invalid && EditCategoryFrm.get('userIdCreated').touched"
                 class="alert alert-danger">
-                <ng-container *ngIf="categoryFrm2.get('userIdCreated').hasError('required')">
+                <ng-container *ngIf="EditCategoryFrm.get('userIdCreated').hasError('required')">
                   userIdCreated is required
                 </ng-container>
               </div>
@@ -216,14 +216,14 @@
                 <label>dateCreated:</label>
                 <input type="text" class="form-control"  formControlName="dateCreated" 
                   [ngClass]="{
-                  'is-valid': categoryFrm2.get('dateCreated').valid,
-                  'is-invalid': categoryFrm2.get('dateCreated').invalid
-                  && categoryFrm2.get('dateCreated').touched
+                  'is-valid': EditCategoryFrm.get('dateCreated').valid,
+                  'is-invalid': EditCategoryFrm.get('dateCreated').invalid
+                  && EditCategoryFrm.get('dateCreated').touched
                 }">
               </div>
-              <div *ngIf="categoryFrm2.get('dateCreated').invalid && categoryFrm2.get('dateCreated').touched"
+              <div *ngIf="EditCategoryFrm.get('dateCreated').invalid && EditCategoryFrm.get('dateCreated').touched"
                 class="alert alert-danger">
-                <ng-container *ngIf="categoryFrm2.get('dateCreated').hasError('required')">
+                <ng-container *ngIf="EditCategoryFrm.get('dateCreated').hasError('required')">
                   dateCreated is required
                 </ng-container>
               </div>
@@ -232,21 +232,21 @@
               <div class="form-group">
                 <label>status:</label>
                 <input type="text" class="form-control" formControlName="status" [ngClass]="{
-                      'is-valid': categoryFrm2.get('status').valid,
-                      'is-invalid': categoryFrm2.get('status').invalid
-                      && categoryFrm2.get('status').touched
+                      'is-valid': EditCategoryFrm.get('status').valid,
+                      'is-invalid': EditCategoryFrm.get('status').invalid
+                      && EditCategoryFrm.get('status').touched
                     }">
               </div>
-              <div *ngIf="categoryFrm2.get('status').invalid && categoryFrm2.get('status').touched"
+              <div *ngIf="EditCategoryFrm.get('status').invalid && EditCategoryFrm.get('status').touched"
                 class="alert alert-danger">
-                <ng-container *ngIf="categoryFrm2.get('status').hasError('required')">
+                <ng-container *ngIf="EditCategoryFrm.get('status').hasError('required')">
                   status is required
                 </ng-container>
               </div>
             </div>
             <div class="modal-footer">
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-              <input type="submit" class="btn btn-success" value="Save" *ngIf="category1" (click)="updateCategory()"
+              <input type="submit" class="btn btn-success" value="Save" *ngIf="categoryedit" (click)="updateCategory()"
                 data-dismiss="modal">
             </div>
           </form>
@@ -258,7 +258,7 @@
     <div id="viewEmployeeModal" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
-          <form novalidate [formGroup]="categoryFrm2">
+          <form novalidate [formGroup]="EditCategoryFrm">
             <div class="modal-header">
               <h4 class="modal-title">View Category</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -305,8 +305,8 @@
             </div>
             <div class="modal-footer">
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-              <input type="submit" class="btn btn-danger" value="Delete" *ngIf="category1"
-                (click)="deleteCategory(category1)" data-dismiss="modal">
+              <input type="submit" class="btn btn-danger" value="Delete" *ngIf="categoryedit"
+                (click)="deleteCategory(categoryedit)" data-dismiss="modal">
             </div>
           </form>
         </div>

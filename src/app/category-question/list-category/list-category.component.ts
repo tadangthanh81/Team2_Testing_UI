@@ -14,8 +14,8 @@ export class ListCategoryComponent implements OnInit {
 
   categorys: Category[] = [];
   categoryFrm: FormGroup;
-  categoryFrm2: FormGroup;
-  category1: Category;
+  EditCategoryFrm: FormGroup;
+  categoryedit: Category;
   constructor(
     private service: ServiceService,
     private fb: FormBuilder,
@@ -43,7 +43,7 @@ export class ListCategoryComponent implements OnInit {
       status: ['', [Validators.required]]
     });
 
-    this.categoryFrm2 = this.fb.group({
+    this.EditCategoryFrm = this.fb.group({
       categoryName: ['', [Validators.required, Validators.minLength(2)]],
       userIdCreated: ['', [Validators.required]],
       dateCreated: ['', [Validators.required]],
@@ -86,7 +86,7 @@ export class ListCategoryComponent implements OnInit {
   }
 
   getCategoryForCreateAndDelete(category: Category) {
-    this.category1 = category;
+    this.categoryedit = category;
   }
 
   categoryTrackByFn(category: Category) {
@@ -94,23 +94,23 @@ export class ListCategoryComponent implements OnInit {
   }
 
   getCategoryForUpdateAndView(category: Category) {
-    this.category1 = category;
-   // this.categoryFrm2.patchValue(this.category1);
-   this.categoryFrm2.get('categoryName').setValue(category.categoryName);
-   this.categoryFrm2.get('userIdCreated').setValue(category.userCategory["id"]);
-   this.categoryFrm2.get('dateCreated').setValue(category.dateCreated);
-   this.categoryFrm2.get('status').setValue(category.status);
-   console.log(this.category1);
+    this.categoryedit = category;
+   // this.EditCategoryFrm.patchValue(this.categoryedit);
+   this.EditCategoryFrm.get('categoryName').setValue(category.categoryName);
+   this.EditCategoryFrm.get('userIdCreated').setValue(category.userCategory["id"]);
+   this.EditCategoryFrm.get('dateCreated').setValue(category.dateCreated);
+   this.EditCategoryFrm.get('status').setValue(category.status);
+   console.log(this.categoryedit);
   }
 
   // update category
   updateCategory() {
-    if (this.categoryFrm2.valid) {
-      const category2 = this.categoryFrm2.value;
-      this.service.updateCategory(this.category1.id, category2)
+    if (this.EditCategoryFrm.valid) {
+      const category2 = this.EditCategoryFrm.value;
+      this.service.updateCategory(this.categoryedit.id, category2)
         .subscribe(() => {
           this.reloadData();
-          this.categoryFrm2.reset();
+          this.EditCategoryFrm.reset();
         })
     }
   }

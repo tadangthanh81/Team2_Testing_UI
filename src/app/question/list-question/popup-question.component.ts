@@ -16,7 +16,7 @@ import {v4 as uuid} from 'uuid';
   styleUrls: ['./list-question.component.css']
 })
 export class PopupListQuestionComponent implements OnInit {
-
+  isChecked : boolean;
   listQuestion: Question[];
   listLvl: Level[];
   listCategory: Category[];
@@ -25,8 +25,8 @@ export class PopupListQuestionComponent implements OnInit {
   tag: Tag = new Tag();
 
   //  tag mesage sucess
-  success = false;
-  message: string;
+
+  message: boolean;
 
   tagFrm: FormGroup;
   searchText : string;
@@ -44,7 +44,8 @@ export class PopupListQuestionComponent implements OnInit {
     this.tagFrm = this.fb.group({
       tagName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(225)]],
       tagDescription: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(225)]],
-      status: ['', [Validators.required]]
+
+      status: ['']
     });
 
     this.service.getAllLvl().subscribe(
@@ -59,35 +60,31 @@ export class PopupListQuestionComponent implements OnInit {
   }
 
   newTag(): void {
-    this.success = true;
+    this.message = true;
     this.tag = new Tag();
   }
   save() {
+    if( this.tagFrm.value.status === true){
+      this.tagFrm.value.status = 1;
+    }else{
+      this.tagFrm.value.status = 0;
+    }
     const value = this.tagFrm.value;
     const newTags: Tag = {
-      id: 100,
+      id: 1000000,
       ...value
     }
 
-    this.service.createTag(newTags).subscribe(data => console.log(data), error => console.log(error));
-      // .subscribe(data => console.log(data), error => console.log(error));
-      // .subscribe(hero => this.heroes.push(hero));
+
+   this.service.createTag(this.tagFrm.value)
+   .subscribe( () => {
+    this.tagFrm.reset();
+    });
     this.tag = new Tag();
   }
   onSubmit() {
-    //  tag add + auto generate id
-    // if (this.tagFrm.value) {
-    //   const value = this.tagFrm.value;
-    //   const tag: Tag = {
-    //     id: uuid(),
-    //     ...value
-    //   };
-    //   this.http.post('http://localhost:3000/tag', tag).subscribe(() => { this.router.navigateByUrl('/tag'); });
-    //   this.success = true;
-    // }
-    this.success = true;
-    this.save();
-
+     this.message = true;
+     this.save();
   }
 
 }

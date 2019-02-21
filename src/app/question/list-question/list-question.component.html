@@ -164,7 +164,7 @@
           </div>
         </div>
         <!-- table -->
-        <table mat-table [dataSource]="dataSource" matSort class="table table-striped table-hover">
+        <table mat-table [dataSource]="dataSource" matSort class="table table-striped table-hover"  >
           <!-- Checkbox Column -->
           <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
@@ -231,15 +231,16 @@
               style="width: 300px; font-size: 18px; font-weight: bold;">
               Action </th>
             <td mat-cell *matCellDef="let element">
-              <a class="btn btn-primary" style="margin-right: 5px;"><i class="glyphicon glyphicon-eye-open"
-                  title="View Detail"></i></a>
-              <a class="btn btn-warning" data-toggle="modal" style="margin-right: 5px;"><i
-                  class="glyphicon glyphicon-pencil" title="Edit"></i></a>
+              <a class="btn btn-primary" style="margin-right: 5px;" [routerLink]="['/question', element.id]">
+                <i class="glyphicon glyphicon-eye-open" title="View Detail"></i></a>
+              <a class="btn btn-warning" data-toggle="modal" style="margin-right: 5px;"
+               [routerLink]="['/question','edit', element.id]">
+                <i class="glyphicon glyphicon-pencil" title="Edit"></i>
+              </a>
               <a class="btn btn-danger" href="#deleteEmployeeModal" data-toggle="modal" style="margin-right: 5px;"><i
                   class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i></a>
             </td>
           </ng-container>
-
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
@@ -312,6 +313,7 @@
       </div>
     </div>
     <app-popup-list-question></app-popup-list-question>
+
   </div>
 
 </section>
