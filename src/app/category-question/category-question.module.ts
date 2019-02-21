@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CategoryRoutingModule } from './category-routing.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule, MatCheckboxModule, MatSortModule } from '@angular/material';
-
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [ListCategoryComponent],
@@ -17,7 +17,8 @@ import { MatButtonModule, MatCheckboxModule, MatSortModule } from '@angular/mate
     MatSortModule,
     MatButtonModule, 
     MatCheckboxModule,
-    MatTableModule
+    MatTableModule,
+    BsDatepickerModule.forRoot(),
   ],
   exports:[
     ListCategoryComponent,

@@ -15,7 +15,6 @@ export class ServiceService {
   private url = "http://localhost:8080/";
   private fakedata = "http://localhost:3000/"
   private baseUrl = 'http://localhost:8080/api/tag';
-  private url1 = "http://localhost:8080/";
   httpOption = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -123,29 +122,43 @@ export class ServiceService {
       catchError(er => of([]))
     );
   }
+    //====== get list question by contents=====
+    searchCategoryByContent(content: string, p: string, s: string): Observable<Category[]> {
+      return this.http.get<Category[]>(this.url + `category/search-by-content?contentSearch=${content}&page=${p}&size=${s}`).pipe(
+        tap(),
+        catchError(er => of([]))
+      );
+    }
+
+    countSearchCategory(content: string): Observable<HttpResponse<Object>> {
+      return this.http.get<HttpResponse<Object>>(this.url + `category/count-search-category?content=${content}`, { observe: 'response' }).pipe(
+        tap(resp => resp.headers.get('CountSearchCategory'))
+      );
+    }
+
   // lay danh sach Category
   getCategoryList() {
-    return this.http.get<Category[]>(this.url1 + `category`);
+    return this.http.get<Category[]>(this.url + `category`);
   }
 
   // lay tung Category theo id
   getCategory(id: number) {
-    return this.http.get<Category>(`${this.url1 + `category`}/${id}`);
+    return this.http.get<Category>(`${this.url + `category`}/${id}`);
   }
 
   // them moi category
   createCategory(category: Category) {
-    return this.http.post(this.url1 + `category`, category);
+    return this.http.post(this.url + `category`, category, this.httpOption);
   }
 
   // edit category theo id
   updateCategory(id: number, category: Category) {
-    return this.http.patch(this.url1 + `category/${id}`, category);
+    return this.http.patch(this.url + `category/${id}`, category);
   }
 
   // delete category theo id
   deleteCategory(id: number) {
-    return this.http.delete(this.url1 + `category/${id}`);
+    return this.http.delete(this.url + `category/${id}`);
   }
   //==========TAG=============
   getAllTag(): Observable<Tag[]> {
