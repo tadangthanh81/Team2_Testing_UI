@@ -17,68 +17,31 @@
             <div class="col-sm-6">
               <h2>Manage <b>Category</b></h2>
             </div>
-            <!-- <div class="col-sm-6">
+            <div class="col-sm-6">
               <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i
                   class="glyphicon glyphicon-plus-sign"></i>
                 <span>Add New Category</span></a>
-              <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons"></i>
-                <span>Delete</span></a>
-            </div> -->
+            </div>
           </div>
         </div>
 
         <!--------------- search---------------->
-        <div class="table-title-2">
+        <div class="table-title-2" style="padding-bottom: 10px">
           <div class="row">
             <div class="col-md-4 col-md-offset-8">
               <div class="input-group input-group-sm">
-                <input type="text" class="form-control" placeholder="Question content...">
+                <input type="text" class="form-control" placeholder="Category content..." [(ngModel)]="searchStr" (keypress)="keyPressSearch($event)">
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-info btn-flat">Search</button>
+                  <button type="button" class="btn btn-info btn-flat" (click)="searchByContent()">Search</button>
                 </span>
               </div>
             </div>
           </div>
         </div>
-
-
-        <!-- <table class="table table-striped table-hover">
-            <thead >
-              <tr>
-                <th style="width: 30%;">CategoryName</th>
-                <th style="width: 10%;">UserCreated</th>
-                <th style="width: 30%;">DateCreated</th>
-                <th style="width: 10%;">Status</th>
-                <th style="width: 17.5%;">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor='let category of categorys; let i = index; trackBy: categoryTrackByFn'>
-                <td >{{category.categoryName}}</td>
-                <td >{{category.userCategory["fullName"]}}</td>
-                <td >{{category.dateCreated | date:'yyy/MM/dd'}}</td>
-                <td >{{category.status}}</td>
-                <td>
-                  <a href="#addEmployeeModal" class="" data-toggle="modal" style="margin-right: 5px;"
-                    (click)="getCategoryForCreateAndDelete(category)"><i class="material-icons" data-toggle="tooltip"
-                      title="Add">&#xe145;</i></a>
-                  <a href="#viewEmployeeModal" class="View" data-toggle="modal" style="margin-right: 5px;"
-                    (click)="getCategoryForUpdateAndView(category)"><i class="material-icons" data-toggle="tooltip"
-                      title="View">&#xe8f4;</i></a>
-                  <a href="#editEmployeeModal" class="edit" data-toggle="modal" style="margin-right: 5px;"
-                    (click)="getCategoryForUpdateAndView(category)"><i class="material-icons" data-toggle="tooltip"
-                      title="Edit">&#xE254;</i></a>
-                  <a href="#deleteEmployeeModal" class="delete" data-toggle="modal" style="margin-right: 5px;"
-                    (click)="getCategoryForCreateAndDelete(category)"><i class="material-icons" data-toggle="tooltip"
-                      title="Delete">&#xE872;</i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table> -->
+        <!-- <br> -->
 
         <!-- table -->
-        <table mat-table [dataSource]="dataSource" matSort class="table table-striped table-hover">
-
+        <table mat-table [dataSource]="dataSource" matSort class="table table-striped table-hover table-bordered">
           <!-- Category Column -->
           <ng-container matColumnDef="CategoryName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header
@@ -117,16 +80,9 @@
               style="width: 300px; font-size: 18px; font-weight: bold;">
               Action </th>
             <td mat-cell *matCellDef="let element">
-              <!-- <a class="btn btn-primary" href="#viewEmployeeModal1" style="margin-right: 5px;"><i
-                  class="glyphicon glyphicon-eye-open" title="View Detail"></i></a>
-              <a class="btn btn-warning" href="#editEmployeeModal" data-toggle="modal" style="margin-right: 5px;"><i
-                  class="glyphicon glyphicon-pencil" title="Edit"></i></a>
-              <a class="btn btn-danger" href="#deleteEmployeeModal" data-toggle="modal" style="margin-right: 5px;"><i
-                  class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i></a> -->
-
-              <a href="#addEmployeeModal" class="" data-toggle="modal" style="margin-right: 5px;"
+              <!-- <a href="#addEmployeeModal" class="" data-toggle="modal" style="margin-right: 5px;"
                 (click)="getCategoryForCreateAndDelete(element)"><i class="material-icons" data-toggle="tooltip"
-                  title="Add">&#xe145;</i></a>
+                  title="Add">&#xe145;</i></a> -->
               <a href="#viewEmployeeModal" class="View" data-toggle="modal" style="margin-right: 5px;"
                 (click)="getCategoryForUpdateAndView(element)"><i class="material-icons" data-toggle="tooltip"
                   title="View">&#xe8f4;</i></a>
@@ -144,28 +100,27 @@
         </table>
 
         <div class="clearfix">
-          <!-- <div class="hint-text">Showing <b *ngIf='sum < 3'>{{sum}}</b><b *ngIf='sum > 2'>2</b> out of <b>{{sum}}</b>
-              entries</div> -->
           <div class=hint-text>Showing
-            <select name="choisepage" (change)="choisePage()" [(ngModel)]="size">
+            <select name="choisepage" (change)="choisePage($event.target)">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
+              <option value="4">4</option>
             </select>
             entries
           </div>
           <ul class="pagination">
-            <li class="page-item" [ngClass]="{disabled:currentPage===0}">
+            <li class="page-item" [ngClass]="{disabled:tabAllCategory.currentPage===0}">
               <a (click)="setPage(0)"><i class="glyphicon glyphicon-step-backward"></i></a>
             </li>
-            <li class="page-item" [ngClass]="{hide:currentPage===0}">
-              <a (click)="setPage(this.currentPage - 1)"><i class="glyphicon glyphicon-menu-left"></i></a>
+            <li class="page-item" [ngClass]="{disabled:tabAllCategory.currentPage===0}">
+              <a (click)="previousPage()"><i class="glyphicon glyphicon-menu-left"></i></a>
             </li>
-            <li class="page-item" [ngClass]="{hide:currentPage===pages-1}">
-              <a (click)="setPage(this.currentPage + 1)"><i class="glyphicon glyphicon-menu-right"></i></a>
+            <li class="page-item" [ngClass]="{disabled:tabAllCategory.currentPage=== maxPage}">
+              <a (click)="nextPage()"><i class="glyphicon glyphicon-menu-right"></i></a>
             </li>
-            <li class="page-item" [ngClass]="{disabled:currentPage===pages-1}">
-              <a (click)="setPage(pages - 1)"><i class="glyphicon glyphicon-step-forward"></i></a>
+            <li class="page-item" [ngClass]="{disabled:tabAllCategory.currentPage=== maxPage}">
+              <a (click)="setPage(maxPage)"><i class="glyphicon glyphicon-step-forward"></i></a>
             </li>
           </ul>
         </div>
@@ -201,55 +156,6 @@
                   Min length {{categoryFrm.get('categoryName').getError('minlength').requiredLength}}
                 </ng-container>
               </div>
-
-
-              <!-- <div class="form-group">
-                <label>userIdCreated:</label>
-                <input type="text" class="form-control" formControlName="userIdCreated" [ngClass]="{
-                  'is-valid': categoryFrm.get('userIdCreated').valid,
-                  'is-invalid': categoryFrm.get('userIdCreated').invalid
-                  && categoryFrm.get('userIdCreated').touched
-                }">
-              </div>
-              <div *ngIf="categoryFrm.get('userIdCreated').invalid && categoryFrm.get('userIdCreated').touched"
-                class="alert alert-danger">
-                <ng-container *ngIf="categoryFrm.get('userIdCreated').hasError('required')">
-                  userIdCreated is required
-                </ng-container>
-              </div>
-
-
-              <div class="form-group">
-                <label>dateCreated:</label>
-                <input type="text" class="form-control" formControlName="dateCreated" [ngClass]="{
-                  'is-valid': categoryFrm.get('dateCreated').valid,
-                  'is-invalid': categoryFrm.get('dateCreated').invalid
-                  && categoryFrm.get('dateCreated').touched
-                }">
-              </div>
-              <div *ngIf="categoryFrm.get('dateCreated').invalid && categoryFrm.get('dateCreated').touched"
-                class="alert alert-danger">
-                <ng-container *ngIf="categoryFrm.get('dateCreated').hasError('required')">
-                  dateCreated is required
-                </ng-container>
-              </div>
-
-
-              <div class="form-group">
-                <label>status:</label>
-                <input type="text" class="form-control" formControlName="status" [ngClass]="{
-                  'is-valid': categoryFrm.get('status').valid,
-                  'is-invalid': categoryFrm.get('status').invalid
-                  && categoryFrm.get('status').touched
-                }">
-              </div>
-              <div *ngIf="categoryFrm.get('status').invalid && categoryFrm.get('status').touched"
-                class="alert alert-danger">
-                <ng-container *ngIf="categoryFrm.get('status').hasError('required')">
-                  status is required
-                </ng-container>
-              </div> -->
-
             </div>
             <div class="modal-footer">
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -259,8 +165,6 @@
         </div>
       </div>
     </div>
-
-
     <!-- Edit Modal HTML -->
     <div id="editEmployeeModal" class="modal fade">
       <div class="modal-dialog">
@@ -288,53 +192,6 @@
                   Min length {{categoryFrm2.get('categoryName').getError('minlength').requiredLength}}
                 </ng-container>
               </div>
-              <!-- 
-              <div class="form-group">
-                <label>userIdCreated:</label>
-                <input type="text" class="form-control" formControlName="userIdCreated" [ngClass]="{
-                      'is-valid': categoryFrm2.get('userIdCreated').valid,
-                      'is-invalid': categoryFrm2.get('userIdCreated').invalid
-                      && categoryFrm2.get('userIdCreated').touched
-                    }">
-              </div>
-              <div *ngIf="categoryFrm2.get('userIdCreated').invalid && categoryFrm2.get('userIdCreated').touched"
-                class="alert alert-danger">
-                <ng-container *ngIf="categoryFrm2.get('userIdCreated').hasError('required')">
-                  userIdCreated is required
-                </ng-container>
-              </div>
-
-
-              <div class="form-group">
-                <label>dateCreated:</label>
-                <input type="text" class="form-control" formControlName="dateCreated" [ngClass]="{
-                  'is-valid': categoryFrm2.get('dateCreated').valid,
-                  'is-invalid': categoryFrm2.get('dateCreated').invalid
-                  && categoryFrm2.get('dateCreated').touched
-                }">
-              </div>
-              <div *ngIf="categoryFrm2.get('dateCreated').invalid && categoryFrm2.get('dateCreated').touched"
-                class="alert alert-danger">
-                <ng-container *ngIf="categoryFrm2.get('dateCreated').hasError('required')">
-                  dateCreated is required
-                </ng-container>
-              </div>
-
-
-              <div class="form-group">
-                <label>status:</label>
-                <input type="text" class="form-control" formControlName="status" [ngClass]="{
-                      'is-valid': categoryFrm2.get('status').valid,
-                      'is-invalid': categoryFrm2.get('status').invalid
-                      && categoryFrm2.get('status').touched
-                    }">
-              </div>
-              <div *ngIf="categoryFrm2.get('status').invalid && categoryFrm2.get('status').touched"
-                class="alert alert-danger">
-                <ng-container *ngIf="categoryFrm2.get('status').hasError('required')">
-                  status is required
-                </ng-container>
-              </div> -->
             </div>
             <div class="modal-footer">
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -358,16 +215,18 @@
             <div class="modal-body">
               <div class="form-group">
                 <label>Category Name:</label>
-                <input type="text" class="form-control" formControlName="categoryName" [disabled]="true">
+                <input type="text" class="form-control" formControlName="categoryName" disabled="true">
               </div>
               <div class="form-group">
                 <label>User Created:</label>
-                <input type="text" class="form-control" formControlName="userIdCreated" [disabled]="true">
+                <input type="text" class="form-control" formControlName="userIdCreated" disabled="true">
               </div>
               <div class="form-group">
                 <label>Date Created:</label>
                 <!-- <textarea class="form-control" formControlName="dateCreated" disabled="true"></textarea> -->
-                <input type="text" class="form-control" formControlName="dateCreated" [disabled]="true">
+                <!-- <input type="text" class="form-control" formControlName="dateCreated" [disabled]="true">
+                 -->
+                <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker [bsValue]="bsValue" disabled="true">
               </div>
               <!-- <div class="form-group">
                 <label>status:</label>

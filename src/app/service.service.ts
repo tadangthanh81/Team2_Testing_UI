@@ -36,41 +36,40 @@ export class ServiceService {
     )
   }
 
-    //get category ang pagination
-    getCategorys(p: string, s: string): Observable<Category[]> {
-      return this.http.get<Category[]>(this.url + `category/pagination?page=${p}&size=${s}`).pipe(
-        tap()
-      )
-    }
   //get question sum
   getQuestionSum(): Observable<HttpResponse<Object>> {
     return this.http.get<HttpResponse<Object>>(this.url + `question/sum`, { observe: 'response' }).pipe(
       tap(resp => resp.headers.get('SumQuestion'))
     );
   }
+  countSearchQuestion(content: string): Observable<HttpResponse<Object>> {
+    return this.http.get<HttpResponse<Object>>(this.url + `question/count-search-question?content=${content}`, { observe: 'response' }).pipe(
+      tap(resp => resp.headers.get('CountSearchQuestion'))
+    );
+  }
 
-    //get category sum
-    getCategorySum(): Observable<HttpResponse<Object>> {
-      return this.http.get<HttpResponse<Object>>(this.url + `category/sum`, { observe: 'response' }).pipe(
-        tap(resp => resp.headers.get('SumCategory'))
-      );
-    }
+  //get category sum
+  getCategorySum(): Observable<HttpResponse<Object>> {
+    return this.http.get<HttpResponse<Object>>(this.url + `category/sum`, { observe: 'response' }).pipe(
+      tap(resp => resp.headers.get('SumCategory'))
+    );
+  }
 
   //====== get list question by contents=====
-  getListQuestionByContent(content: String): Observable<Question[]> {
-    return this.http.get<Question[]>(this.url + `question/search-by-content/${content}`).pipe(
+  searchQuestionByContent(content: string, p: string, s: string): Observable<Question[]> {
+    return this.http.get<Question[]>(this.url + `question/search-by-content?contentSearch=${content}&page=${p}&size=${s}`).pipe(
       tap(),
       catchError(er => of([]))
     );
   }
 
-    //====== get list question by contents=====
-    getListCategoryByContent(content: String): Observable<Category[]> {
-      return this.http.get<Category[]>(this.url + `category/search-by-content/${content}`).pipe(
-        tap(),
-        catchError(er => of([]))
-      );
-    }
+  //====== get list question by contents=====
+  getListCategoryByContent(content: String): Observable<Category[]> {
+    return this.http.get<Category[]>(this.url + `category/search-by-content/${content}`).pipe(
+      tap(),
+      catchError(er => of([]))
+    );
+  }
 
   //update multi question
   updateMutilQuestion(question: Question, id: string): Observable<Question> {
@@ -99,13 +98,32 @@ export class ServiceService {
     );
   }
   //==========CATEGORY=============
+  //get category ang pagination
+  getCategorys(p: string, s: string): Observable<Category[]> {
+    return this.http.get<Category[]>(this.url + `category/pagination?page=${p}&size=${s}`).pipe(
+      tap()
+    )
+  }
   getAllCategory(): Observable<Category[]> {
     return this.http.get<Category[]>(this.url + `category`).pipe(
       tap(),
       catchError(er => of([]))
     );
   }
-  //==========Category
+    //====== get list question by contents=====
+    searchCategoryByContent(content: string, p: string, s: string): Observable<Category[]> {
+      return this.http.get<Category[]>(this.url + `category/search-by-content?contentSearch=${content}&page=${p}&size=${s}`).pipe(
+        tap(),
+        catchError(er => of([]))
+      );
+    }
+
+    countSearchCategory(content: string): Observable<HttpResponse<Object>> {
+      return this.http.get<HttpResponse<Object>>(this.url + `category/count-search-category?content=${content}`, { observe: 'response' }).pipe(
+        tap(resp => resp.headers.get('CountSearchCategory'))
+      );
+    }
+    
   // lay danh sach Category
   getCategoryList() {
     return this.http.get<Category[]>(this.url1 + `category`);

@@ -21,8 +21,6 @@
 
               <a href="#formtag" class="btn btn-primary" data-toggle="modal"><i class="glyphicon glyphicon-plus-sign"></i>
                 <span>Add Tag</span></a>
-
-
               <a class="btn btn-success" [routerLink]="['/question','create']"><i class="glyphicon glyphicon-plus-sign"></i>
                 <span>Add New Question</span></a>
               <a href="#updateMultiQuestion" (click)="loadPopupUpdate()" class="btn btn-warning" data-toggle="modal"><i
@@ -36,9 +34,9 @@
           <div class="row">
             <div class="col-md-4 col-md-offset-8">
               <div class="input-group input-group-sm">
-                <input type="text" class="form-control" placeholder="Question content...">
+                <input type="text" class="form-control" placeholder="Enter Question content ..." [(ngModel)]="searchStr" (keypress)="keyPressSearch($event)">
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-info btn-flat">Search</button>
+                  <button type="button" class="btn btn-info btn-flat" (click)="searchByContent()">Search</button>
                 </span>
               </div>
             </div>
@@ -62,7 +60,7 @@
                   <div class="row">
                     <div class="col-md-4 col-xs-12">
                       <div class="form-group">
-                        <select class="form-control" [(ngModel)]="levelSelected" name="categorySelected">
+                        <select class="form-control" [(ngModel)]="categorySelected" name="categorySelected">
                           <option value="">--Category--</option>
                           <option *ngFor="let lvl of listCategory" [value]="lvl.id">{{lvl.categoryName | titlecase}}</option>
                         </select>
@@ -183,28 +181,26 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
         <div class="clearfix">
-          <!-- <div class="hint-text">Showing <b *ngIf='sum < 3'>{{sum}}</b><b *ngIf='sum > 2'>2</b> out of <b>{{sum}}</b>
-            entries</div> -->
           <div class=hint-text>Showing
-            <select name="choisepage" (change)="choisePage()" [(ngModel)]="size">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
+            <select name="choisepage" (change)="choisePage($event.target)">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
             </select>
             entries
           </div>
           <ul class="pagination">
-            <li class="page-item" [ngClass]="{disabled:currentPage===0}">
+            <li class="page-item" [ngClass]="{disabled:tabAllQuestion.currentPage===0}">
               <a (click)="setPage(0)"><i class="glyphicon glyphicon-step-backward"></i></a>
             </li>
-            <li class="page-item" [ngClass]="{hide:currentPage===0}">
-              <a (click)="setPage(this.currentPage - 1)"><i class="glyphicon glyphicon-menu-left"></i></a>
+            <li class="page-item" [ngClass]="{disabled:tabAllQuestion.currentPage===0}">
+              <a (click)="previousPage()"><i class="glyphicon glyphicon-menu-left"></i></a>
             </li>
-            <li class="page-item" [ngClass]="{hide:currentPage===pages-1}">
-              <a (click)="setPage(this.currentPage + 1)"><i class="glyphicon glyphicon-menu-right"></i></a>
+            <li class="page-item" [ngClass]="{disabled:tabAllQuestion.currentPage=== maxPage}">
+              <a (click)="nextPage()"><i class="glyphicon glyphicon-menu-right"></i></a>
             </li>
-            <li class="page-item" [ngClass]="{disabled:currentPage===pages-1}">
-              <a (click)="setPage(pages - 1)"><i class="glyphicon glyphicon-step-forward"></i></a>
+            <li class="page-item" [ngClass]="{disabled:tabAllQuestion.currentPage=== maxPage}">
+              <a (click)="setPage(maxPage)"><i class="glyphicon glyphicon-step-forward"></i></a>
             </li>
           </ul>
         </div>
