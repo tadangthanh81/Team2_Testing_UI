@@ -10,6 +10,7 @@ import { Level } from 'src/entity/Level';
 import { Tag } from 'src/entity/Tag';
 import { TypeQuestion } from 'src/entity/TypeQuestion';
 import { Answer } from 'src/entity/Answer';
+import { User } from 'src/entity/User';
 
 @Component({
   selector: 'app-create-question',
@@ -23,6 +24,8 @@ export class CreateQuestionComponent implements OnInit {
   listLvl: Level[];
   listTag: Tag[];
   listType: TypeQuestion[];
+  user: User;
+  date: Date;
 
   get answerFormGroup() {
     return this.questionFrm.get('questionAnswer') as FormArray;
@@ -36,6 +39,18 @@ export class CreateQuestionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.user = {
+      id: "1",
+      fullName: "",
+      email: "",
+      mobile: "",
+      password: "",
+      status: 0
+    }
+    
+    this.date = new Date();
+
     this.questionFrm = this.fb.group({
       questionCategory: [''],
       questionLevel: [''],
@@ -43,6 +58,8 @@ export class CreateQuestionComponent implements OnInit {
       questionTag: [''],
       content: ['', [Validators.required, Validators.minLength(2)]],
       sugguestion: [''],
+      userQuestion: this.user,
+      dateCreated : this.date,
       questionAnswer: this.fb.array([this.createAnswer()])
     })
     this.listAnswerFrm = this.questionFrm.get('questionAnswer') as FormArray;
@@ -112,8 +129,9 @@ export class CreateQuestionComponent implements OnInit {
         ...value
       };
       this.service.createQuestion(question).subscribe(() => {
-        alert("Insert success");
-        this.router.navigateByUrl('/question');
+        //alert("Insert success");
+        //this.router.navigateByUrl('/question');
+        console.log(value);
       });
     }
   }
