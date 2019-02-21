@@ -48,6 +48,13 @@ export class ServiceService {
       catchError(er => of([]))
     );
   }
+  //create question
+  createQuestion(question:Question): Observable<Question>{
+    return this.http.post<Question>(this.url + `question/add`, question).pipe(
+      tap(),
+      catchError(er => of(new Question()))
+    );
+  }
   //update multi question
   updateMutilQuestion(question: Question, id: string): Observable<Question> {
     return this.http.put<Question>(this.url + `question/edit/${id}`, question, this.httpOption).pipe(

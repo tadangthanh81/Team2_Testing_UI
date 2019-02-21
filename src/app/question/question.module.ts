@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { PopupListQuestionComponent } from './list-question/popup-question.component';
 
+
 @NgModule({
   declarations: [
     ListQuestionComponent,
@@ -20,6 +21,7 @@ import { PopupListQuestionComponent } from './list-question/popup-question.compo
     ViewQuestionComponent,
     IplistQuestionComponent,
     PopupListQuestionComponent
+   
   ],
   imports: [
     CommonModule,

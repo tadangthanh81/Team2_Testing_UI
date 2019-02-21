@@ -137,7 +137,7 @@
           </div>
 
           <div class="modal-footer">
-            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+            <input type="button" class="btn btn-default" data-dismiss="modal"(click)="onReset()" value="Cancel">
             <button  [disabled]="tagFrm.invalid" type="submit" class="btn btn-success" value="Add" (click)="onSubmit()" data-dismiss="modal">Add</button>
           </div>
         </form>

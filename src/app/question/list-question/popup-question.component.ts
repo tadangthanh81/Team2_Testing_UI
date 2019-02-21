@@ -94,10 +94,11 @@ export class PopupListQuestionComponent implements OnInit {
     }
    this.service.createTag(newTags)
    .subscribe( () => { 
-    this.onReset();
+   
     });
+    this.onReset();
     this.newTag();
-
+    
    
   }
   onReset(): void { this.resetForm(); }
@@ -106,8 +107,7 @@ export class PopupListQuestionComponent implements OnInit {
   onSubmit() {
      this.save();
      
-     
   }
   
-
+  
 }

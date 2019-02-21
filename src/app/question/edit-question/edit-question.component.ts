@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { TypeQuestion } from 'src/entity/TypeQuestion';
+import { Tag } from 'src/entity/Tag';
+import { Level } from 'src/entity/Level';
+import { Category } from 'src/entity/Category';
+import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ServiceService } from 'src/app/service.service';
 import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+import { v4 as uuid } from 'uuid';
 import { mergeMap } from 'rxjs/operators';
 import { Question } from 'src/entity/Question';
-import { ServiceService } from 'src/app/service.service';
-import { Level } from 'src/entity/Level';
-import { Tag } from 'src/entity/Tag';
-import { TypeQuestion } from 'src/entity/TypeQuestion';
-import { Category } from 'src/entity/Category';
 
 @Component({
   selector: 'app-edit-question',
@@ -16,61 +17,61 @@ import { Category } from 'src/entity/Category';
   styleUrls: ['./edit-question.component.css']
 })
 export class EditQuestionComponent implements OnInit {
-  question:  Question;
-  editquestionFrm: FormGroup;
-  data: Question;
-  stus: string;
+
+  editQuestionFrm: FormGroup;
+  listAnswerFrm: FormArray;
   listCategory: Category[];
   listLvl: Level[];
   listTag: Tag[];
   listType: TypeQuestion[];
-  listAnswerCorrectFrm: FormArray;
-  listAnswerWrongFrm: FormArray;
-  
+  questionEdit: Question;
 
-  constructor( private fb: FormBuilder,
+  categorySelected: string;
+
+  constructor(
+    private service: ServiceService,
+    private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private service: ServiceService
-    ) { }
+    private activatedRounte: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit() {
-    this.editquestionFrm = this.fb.group({
+    this.editQuestionFrm = this.fb.group({
+
       id : [''],
-      questionCategory :[''],
-      questionType:[''],
-      questionLevel:[''],
-      questionTag:[''],
+      questionCategory: [''],
+      questionLevel: [''],
+      questionType: [''],
+      questionTag: [''],
       content: ['', [Validators.required, Validators.minLength(2)]],
-      answer_wrongs: this.fb.array([this.createAnswerWrong()]),
-      answer_corrects: this.fb.array([this.createAnswerCorrect()]),
       sugguestion: ['', [Validators.required, Validators.minLength(2)]],
+      questionAnswer: this.fb.array([this.createAnswer()]),
       status : [''],
       dateCreated:"2019-02-15",
       userQuestion: 1
-    })
-    this.listAnswerWrongFrm = this.editquestionFrm.get('answer_wrongs') as FormArray;
-    this.listAnswerCorrectFrm = this.editquestionFrm.get('answer_corrects') as FormArray;
-    this.activatedRoute.paramMap.pipe(
+    });
+    
+    this.activatedRounte.paramMap.pipe(
       mergeMap(
         params => {
           const id = params.get('id');
-          return  this.http.get<Question>(`http://localhost:8080/question/${id}`);
+          return this.http.get<Question>(`http://localhost:8080/question/${id}`);
         }
       )
     ).subscribe(question => {
-      this.editquestionFrm.patchValue(question); 
-      this.data = question;
+      this.editQuestionFrm.patchValue(question)
+      this.questionEdit = question
     }
     );
     
+    this.listAnswerFrm = this.editQuestionFrm.get('questionAnswer') as FormArray;
+
     this.service.getAllCategory().subscribe(
       lCategory => {
         this.listCategory = lCategory
       }
     );
-
     this.service.getAllLvl().subscribe(
       lLvl => {
         this.listLvl = lLvl
@@ -91,69 +92,52 @@ export class EditQuestionComponent implements OnInit {
 
   }
 
-  createAnswerWrong(): FormGroup{
+  get answerFormGroup() {
+    return this.editQuestionFrm.get('questionAnswer') as FormArray;
+  }
+
+  createAnswer(): FormGroup {
     return this.fb.group({
-      answer_wrong:[null, Validators.compose([Validators.required])]
+      id: uuid(),
+      content: ['', Validators.compose([Validators.required])],
+      isTrue: [0]
     });
   }
 
-  createAnswerCorrect(): FormGroup{
-    return this.fb.group({
-      answer_correct:[null, Validators.compose([Validators.required])]
-    });
+  addAnswer() {
+    this.listAnswerFrm.push(this.createAnswer());
   }
 
-  addAnswerCorrect(){
-    this.listAnswerCorrectFrm.push(this.createAnswerCorrect());
+  removeAnswer(index) {
+    this.listAnswerFrm.removeAt(index);
   }
 
-  addAnswerWrong(){
-    this.listAnswerWrongFrm.push(this.createAnswerWrong());
-  }
-
-  removeAnswerCorrect(index){
-    this.listAnswerCorrectFrm.removeAt(index);
-  }
-
-  removeAnswerWrong(index){
-    this.listAnswerWrongFrm.removeAt(index);
-  }
-
-  getAnswerCorrectFormGroup(index): FormGroup{
-    const formGroup = this.listAnswerCorrectFrm.controls[index] as FormGroup;
+  getAnswerFormGroup(index): FormGroup {
+    const formGroup = this.listAnswerFrm.controls[index] as FormGroup;
     return formGroup;
   }
 
-  getAnswerWrongFormGroup(index): FormGroup{
-    const formGroup = this.listAnswerWrongFrm.controls[index] as FormGroup;
-    return formGroup;
-  }
-  
-  get answerWrongFormGroup(){
-    return this.editquestionFrm.get('answer_wrongs') as FormArray;
-  }
+  onSubmit() {
 
-  get answerCorrectFormGroup(){
-    return this.editquestionFrm.get('answer_corrects') as FormArray;
-  }
+    
+    if (this.listAnswerFrm.length) {
+      for (var i = 0; i < this.listAnswerFrm.length; i++) {
+        if (this.getAnswerFormGroup(i).value.isTrue === true) {
+          this.getAnswerFormGroup(i).value.isTrue = 1
+        }
+      }
+    }
 
-  getData1(){
-    this.data.questionCategory.id
-   
+    if (this.editQuestionFrm.value) {
+      const value = this.editQuestionFrm.value;
+      const question: Question =
+      {
+        id: this.questionEdit.id,
+        ...value
+      };
+      this.service.createQuestion(question).subscribe(() => {
+        console.log(question);
+      });
+    }
   }
-  onSubmit(){
-      console.log(this.data.questionCategory.id)
-    
-    
-    if( this.editquestionFrm.value.status === true){
-      this.editquestionFrm.value.status = 1;
-    }else{
-      this.editquestionFrm.value.status = 0;
-    }
-    this.service.updateMutilQuestion1(this.editquestionFrm.value).subscribe( () => {
-      this.router.navigateByUrl('/question');
-    });
-    console.log(Question);
-    }
-  
 }
