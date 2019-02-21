@@ -102,7 +102,7 @@
                 <div *ngFor="let answer of answerFormGroup.controls; let i = index;">
                   <div [formGroupName]="i" class="row">
                     <div class="row">
-                      <label style="margin-left: 5%;margin-top: 20px;">Content answer correct</label>
+                      <label style="margin-left: 5%;margin-top: 20px;">Content answer</label>
                       <div class="col-sm-11">
                         <input class="form-control" formControlName="content" type="text"
                           style="width: 98%;margin-left: 14px;margin-top: 1%;height: 35px;" [ngClass]="{
@@ -118,7 +118,7 @@
 
                       <div class="col-sm-9">
                         <mat-checkbox color='primary' style="margin-left: 3%;" formControlName="isTrue" value="1">
-                          True/False</mat-checkbox>
+                          True</mat-checkbox>
                       </div>
 
                     </div>
@@ -131,7 +131,7 @@
                       </ng-container>
                     </div>
                     <!-- <div class="alert alert-danger" role="alert" *ngIf="getAnswerCorrectFormGroup(i).controls['answer_correct'].touched && getAnswerCorrectFormGroup(i).controls['answer_correct'].hasError('required')">
-                            Answer correct is required! 
+                            Answer correct is required!
                           </div> -->
                   </div>
                 </div>
