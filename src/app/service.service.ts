@@ -12,10 +12,10 @@ import { TypeQuestion } from 'src/entity/TypeQuestion';
 })
 export class ServiceService {
 
-  private url = "http://localhost:8081/";
+  private url = "http://localhost:8080/";
   private fakedata = "http://localhost:3000/"
-  private baseUrl = 'http://localhost:8081/api/tag';
-  private url1 = "http://localhost:8081/";
+  private baseUrl = 'http://localhost:8080/api/tag';
+  private url1 = "http://localhost:8080/";
   httpOption = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ export class ServiceService {
         tap(resp => resp.headers.get('CountSearchCategory'))
       );
     }
-    
+
   // lay danh sach Category
   getCategoryList() {
     return this.http.get<Category[]>(this.url1 + `category`);
