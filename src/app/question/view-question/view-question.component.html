@@ -18,23 +18,70 @@
     </div>
     <div class="box-body">
 
-        <table class="table table-bordered table-hover">
-              <tr>
-                <th scope="row" style="width: 20%">Question ID</th>
-                <td>Mark</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-              </tr>
-          </table>
-     </div>
+      <table class="table table-bordered table-hover" style="width: 80%;
+       text-align: center;">
+        <tr>
+          <th scope="row" style="width: 20%">Question ID</th>
+          <td>{{questionDetail.id}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Question Type</th>
+          <td>{{questionDetail.questionType.typeName}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Question Level</th>
+          <td colspan="2">{{questionDetail.questionLevel.levelName}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Question Tag</th>
+          <td colspan="2">{{questionDetail.questionTag.tagName}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Content</th>
+          <td colspan="2">{{questionDetail.content}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Sugguestion</th>
+          <td colspan="2">{{questionDetail.sugguestion}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Date Create</th>
+            <td colspan="2">{{questionDetail.dateCreated}}</td>
+          </tr>
+        <tr>
+            <th scope="row">Create By</th>
+            <td colspan="2">{{questionDetail.userQuestion.fullName}}</td>
+          </tr>
+        <tr>
+          <th scope="row">Answer correct</th>
+          <td colspan="2">
+            <table  class="table table-bordered" style="margin: 0">
+                <tr *ngFor="let item of questionDetail.questionAnswer">
+                    <td colspan="2"  *ngIf="(item.isTrue == 1)">{{item.content}}</td>
+                </tr>
+
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Answer wrong</th>
+          <td colspan="2">
+              <table  class="table table-bordered" style="margin: 0">
+                  <tr *ngFor="let item of questionDetail.questionAnswer">
+                      <td colspan="2"  *ngIf="(item.isTrue == 0)">{{item.content}}</td>
+                  </tr>
+
+              </table>
+          </td>
+        </tr>
+        <tr>
+            <th scope="row">Status</th>
+            <td colspan="2">{{questionDetail.status}}</td>
+          </tr>
+      </table>
+      <a class="btn btn-primary" style="margin: 5px;" [routerLink]="['/question']">
+        <i class="fa fa-arrow-circle-left" title="View Detail" style="margin-right: 5px;"></i>Go back</a>
+    </div>
 
   </div>
 </section>
-
-

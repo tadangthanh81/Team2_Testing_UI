@@ -6,11 +6,11 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Level } from 'src/entity/Level';
 import { Category } from 'src/entity/Category';
 import { Tag } from 'src/entity/Tag';
-import { Router } from '@angular/router';
-import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { v4 as uuid } from 'uuid';
 import { TypeQuestion } from 'src/entity/TypeQuestion';
+import { mergeMap } from 'rxjs/operators';
 
 
 @Component({
@@ -22,8 +22,6 @@ export class ListQuestionComponent implements OnInit {
 
 
   tag: Tag = new Tag();
-
-
   listQuestion: Question[];
   listLvl: Level[];
   listCategory: Category[];
@@ -48,10 +46,10 @@ export class ListQuestionComponent implements OnInit {
   //   firstName: new FormControl(''),
   //   lastName: new FormControl(''),
   // });
-  levelSelected: string = "1";
-  typeSelected: string = "1";
-  categorySelected: string = "1";
-  tagSelected: string = "1";
+  levelSelected: string = "";
+  typeSelected: string = "";
+  categorySelected: string = "";
+  tagSelected: string = "";
   dateInputFilter= new Date();
   userInputFilter: String;
     // lvChoice: string;
@@ -91,9 +89,9 @@ export class ListQuestionComponent implements OnInit {
 
   constructor(
     private service: ServiceService,
-    private router: Router,
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   choisePage() {
@@ -174,7 +172,7 @@ export class ListQuestionComponent implements OnInit {
 
   /** function search by content question*/
   searchByContent(contentQuestion:string) {
-    this.service.getListQuestionByContent(contentQuestion).subscribe(
+    this.service.searchQuestionByContent(contentQuestion).subscribe(
       lquestionbyContent => {
         this.listQuestion = lquestionbyContent;
         this.dataSource.data = this.listQuestion;
@@ -184,18 +182,42 @@ export class ListQuestionComponent implements OnInit {
 
   // get list question by filter
   filterByAttribute(categoryName: String, levelName: String, typeName: String,
-    fullName: String, dateCreated: String , tagName: String) {
+    fullName: String, dateCreated: Date , tagName: String) {
+      if(null == dateCreated) {
+        this.service.filterByAttribute(categoryName, levelName, typeName,
+          fullName, tagName).subscribe(
+          lquestionbyFilter => {
+            this.listQuestion = lquestionbyFilter;
+            this.dataSource.data = this.listQuestion;
+          }
+        );
+      } else {
+        this.service.filterByALl(categoryName, levelName, typeName,
+          fullName, dateCreated.toLocaleDateString(), tagName).subscribe(
+          lquestionbyFilter => {
+            this.listQuestion = lquestionbyFilter;
+            this.dataSource.data = this.listQuestion;
+          }
 
+        );
+      }
       // dateCreated = new Date('+this.dateInputFilter+');
-      this.service.filterByAttribute(categoryName, levelName, typeName,
-        fullName, dateCreated, tagName).subscribe(
-        lquestionbyFilter => {
-          this.listQuestion = lquestionbyFilter;
-          this.dataSource.data = this.listQuestion;
-        }
 
-      );
       console.log(dateCreated);
+  }
+  // delete question by id
+  deleteQuestion(id: String) {
+    const choice:boolean = confirm('Are you sure you want to delete these Records?');
+    console.log(choice);
+    if(choice){
+      this.service.deleteQuestionById(id).subscribe((data)=>{
+             console.log("success");
+    });
+  }
+    // this.id = this.route.snapshot.params.id;
+    // this.ticketService.deleteTicket(this.id).subscribe((data)=>{
+    //      console.log("success");
+    // });
   }
 
   loadPopupUpdate() {

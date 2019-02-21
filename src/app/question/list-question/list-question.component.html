@@ -65,7 +65,7 @@
                     <div class="col-md-4 col-xs-12">
                       <div class="form-group">
                         <select class="form-control" [(ngModel)]="categorySelected" name="categorySelected">
-                          <option value="1">--Category--</option>
+                          <option value="">--Category--</option>
                           <option *ngFor="let categorySelected of listCategory" [value]="categorySelected.categoryName">
                             {{categorySelected.categoryName | titlecase}}</option>
                         </select>
@@ -83,7 +83,7 @@
                     <div class="col-md-4 col-xs-12">
                       <div class="form-group">
                         <select class="form-control" [(ngModel)]="levelSelected" name="levelSelected">
-                          <option value="1">--Level--</option>
+                          <option value="">--Level--</option>
                           <option *ngFor="let lvl of listLvl" [value]="lvl.levelName">{{lvl.levelName | titlecase}}
                           </option>
                         </select>
@@ -122,7 +122,7 @@
                   <div class="col-md-4 col-xs-12">
                     <div class="form-group">
                       <select class="form-control" [(ngModel)]="typeSelected" name="typeSelected">
-                        <option value="1">--Type--</option>
+                        <option value="">--Type--</option>
                         <option *ngFor="let lvl of listType" [value]="lvl.typeName">{{lvl.typeName}}</option>
                       </select>
                       <!-- <select formControlName="tpChoice" class="form-control ">
@@ -134,7 +134,7 @@
                     <!-- filter tag -->
                     <div class="form-group">
                       <select class="form-control" [(ngModel)]="tagSelected" name="tagSelected">
-                        <option value="1">--Tag--</option>
+                        <option value="">--Tag--</option>
                         <option *ngFor="let lvl of listTag" [value]="lvl.tagName">{{lvl.tagName}}</option>
                       </select>
                       <!-- <select formControlName="tagChoice" class="form-control ">
@@ -154,7 +154,7 @@
                       levelSelected,
                       typeSelected,
                       userInputFilter,
-                      dateInputFilter.toLocaleDateString(),
+                      dateInputFilter,
                       tagSelected)">Filter</button>
                     </div>
                   </div>
@@ -237,16 +237,14 @@
                [routerLink]="['/question','edit', element.id]">
                 <i class="glyphicon glyphicon-pencil" title="Edit"></i>
               </a>
-              <a class="btn btn-danger" href="#deleteEmployeeModal" data-toggle="modal" style="margin-right: 5px;"><i
-                  class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i></a>
+              <button class="btn btn-danger"  style="margin-right: 5px;" (click) = "deleteQuestion(element.id)"><i
+                  class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i></button>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
         <div class="clearfix">
-          <!-- <div class="hint-text">Showing <b *ngIf='sum < 3'>{{sum}}</b><b *ngIf='sum > 2'>2</b> out of <b>{{sum}}</b>
-            entries</div> -->
           <div class=hint-text>Showing
             <select name="choisepage" (change)="choisePage()" [(ngModel)]="size">
               <option value="5" >5</option>
@@ -256,19 +254,19 @@
             entries
           </div>
           <ul class="pagination">
-            <li class="page-item" [ngClass]="{disabled:currentPage===0}">
-              <a (click)="setPage(0)"><i class="glyphicon glyphicon-step-backward"></i></a>
-            </li>
-            <li class="page-item" [ngClass]="{hide:currentPage===0}">
-              <a (click)="setPage(this.currentPage - 1)"><i class="glyphicon glyphicon-menu-left"></i></a>
-            </li>
-            <li class="page-item" [ngClass]="{hide:currentPage===pages-1}">
-              <a (click)="setPage(this.currentPage + 1)"><i class="glyphicon glyphicon-menu-right"></i></a>
-            </li>
-            <li class="page-item" [ngClass]="{disabled:currentPage===pages-1}">
-              <a (click)="setPage(pages - 1)"><i class="glyphicon glyphicon-step-forward"></i></a>
-            </li>
-          </ul>
+              <li class="page-item" [ngClass]="{disabled:currentPage===0}">
+                <a (click)="setPage(0)"><i class="glyphicon glyphicon-step-backward"></i></a>
+              </li>
+              <li class="page-item" [ngClass]="{hide:currentPage===0}">
+                <a (click)="setPage(this.currentPage - 1)"><i class="glyphicon glyphicon-menu-left"></i></a>
+              </li>
+              <li class="page-item" [ngClass]="{hide:currentPage===pages-1}">
+                <a (click)="setPage(this.currentPage + 1)"><i class="glyphicon glyphicon-menu-right"></i></a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:currentPage===pages-1}">
+                <a (click)="setPage(pages - 1)"><i class="glyphicon glyphicon-step-forward"></i></a>
+              </li>
+            </ul>
         </div>
       </div>
     </div>
