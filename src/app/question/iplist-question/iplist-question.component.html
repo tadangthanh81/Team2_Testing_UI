@@ -1,16 +1,76 @@
 <section class="content-header">
   <h1>
-    <small>Import List Question</small>
+    Dashboard
+    <small>Control panel</small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
     <li class="active">Dashboard</li>
   </ol>
 </section>
+<notifier-container></notifier-container>
+<section class="content-header">
+  <h1>
+    <small>Import List Question</small>
+  </h1>
+</section>
 <section class="content">
   <div class="box">
     <div class="box-body">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Import
+      </button>
 
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Choose a file</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <span style="color: red">{{mess}}</span>
+                  </div>
+              <div style="text-align:center">
+                  <input type="file" (change)="selectFile($event)" accept=".xlsx">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button (click)="upload()" class="btn btn-primary" data-dismiss="modal">Upload</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+     
     </div>
   </div>
-</section>
+
+
+
+
+<!-- <div [hidden]="!showFile">
+  <div class="panel panel-primary">
+    <div class="panel-heading">List of Files</div>
+    <div *ngFor="let file of fileUploads | async">
+      <div class="panel-body">
+        <app-iplist-question [fileUpload]='file'></app-iplist-question>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section> -->
+
+
+<!-- <section class ="detailupload">
+  <a href="http://localhost:8080/api/file/{{fileUpload.id}}">{{fileUpload.name}}</a>
+</section> --> 
