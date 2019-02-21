@@ -41,14 +41,14 @@ export class CreateQuestionComponent implements OnInit {
   ngOnInit() {
 
     this.user = {
-      id: "1",
+      userId: "1",
       fullName: "",
       email: "",
       mobile: "",
       password: "",
       status: 0
     }
-    
+
     this.date = new Date();
 
     this.questionFrm = this.fb.group({
@@ -131,7 +131,7 @@ export class CreateQuestionComponent implements OnInit {
       this.service.createQuestion(question).subscribe(() => {
         //alert("Insert success");
         //this.router.navigateByUrl('/question');
-        console.log(value);
+        console.log(JSON.stringify(question));
       });
     }
   }

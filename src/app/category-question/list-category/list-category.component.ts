@@ -65,7 +65,7 @@ export class ListCategoryComponent implements OnInit {
     this.tabAllCategory = { currentPage: 0, entities: 0, sizeOfPage: 5 };
 
     this.user = {
-      id: "1",
+      userId: "1",
       fullName: "thanh",
       email: "thanh@gmail.com",
       mobile: "123123123",
