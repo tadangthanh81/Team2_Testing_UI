@@ -96,14 +96,18 @@ export class CreateQuestionComponent implements OnInit {
 
   onSubmit() {
 
-    if (this.questionFrm.value) {
-      for (let i; i <= this.listAnswerFrm.length; i++) {
+    if (this.listAnswerFrm.length) {
+      for (var i = 0; i < this.listAnswerFrm.length; i++) {
         if (this.getAnswerFormGroup(i).value.isTrue === true) {
-          console.log(this.getAnswerFormGroup(i).value)
+          this.getAnswerFormGroup(i).value.isTrue = 1
         }
       }
+    }
+
+    if (this.questionFrm.value) {
       const value = this.questionFrm.value;
-      const question: Question = {
+      const question: Question =
+      {
         id: uuid(),
         ...value
       };

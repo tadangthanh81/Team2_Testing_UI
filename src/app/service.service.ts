@@ -49,8 +49,15 @@ export class ServiceService {
     );
   }
   //create question
-  createQuestion(question:Question): Observable<Question>{
+  createQuestion(question: Question): Observable<Question> {
     return this.http.post<Question>(this.url + `question/add`, question).pipe(
+      tap(),
+      catchError(er => of(new Question()))
+    );
+  }
+  //get question by id
+  getQuestion(id: string): Observable<Question> {
+    return this.http.get<Question>(this.url + `question/${id}`).pipe(
       tap(),
       catchError(er => of(new Question()))
     );

@@ -172,7 +172,7 @@
               Action </th>
             <td mat-cell *matCellDef="let element">
               <a class="btn btn-primary" style="margin-right: 5px;"><i class="glyphicon glyphicon-eye-open" title="View Detail"></i></a>
-              <a class="btn btn-warning" data-toggle="modal" style="margin-right: 5px;"><i class="glyphicon glyphicon-pencil"
+              <a class="btn btn-warning" [routerLink]="['/question',element.id,'edit']" data-toggle="modal" style="margin-right: 5px;"><i class="glyphicon glyphicon-pencil"
                   title="Edit"></i></a>
               <a class="btn btn-danger" href="#deleteEmployeeModal" data-toggle="modal" style="margin-right: 5px;"><i
                   class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i></a>
