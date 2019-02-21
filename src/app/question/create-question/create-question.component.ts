@@ -4,6 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Question } from 'src/entity/Question';
 import { v4 as uuid } from 'uuid';
+import { ServiceService } from 'src/app/service.service';
+import { Category } from 'src/entity/Category';
+import { Level } from 'src/entity/Level';
+import { Tag } from 'src/entity/Tag';
+import { TypeQuestion } from 'src/entity/TypeQuestion';
+import { Answer } from 'src/entity/Answer';
+import { User } from 'src/entity/User';
 
 @Component({
   selector: 'app-create-question',
@@ -12,83 +19,121 @@ import { v4 as uuid } from 'uuid';
 })
 export class CreateQuestionComponent implements OnInit {
   questionFrm: FormGroup;
-  listAnswerCorrectFrm: FormArray;
-  listAnswerWrongFrm: FormArray;
+  listAnswerFrm: FormArray;
+  listCategory: Category[];
+  listLvl: Level[];
+  listTag: Tag[];
+  listType: TypeQuestion[];
+  user: User;
+  date: Date;
 
-  get answerWrongFormGroup(){
-    return this.questionFrm.get('answer_wrongs') as FormArray;
-  }
-
-  get answerCorrectFormGroup(){
-    return this.questionFrm.get('answer_corrects') as FormArray;
+  get answerFormGroup() {
+    return this.questionFrm.get('questionAnswer') as FormArray;
   }
 
   constructor(
+    private service: ServiceService,
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router
-    ) { }
+  ) { }
 
   ngOnInit() {
+
+    this.user = {
+      id: 1,
+      fullName: "lhlinh",
+      email: "lhlinh@gmail.com",
+      mobile: "09688667",
+      password: "123456",
+      status: 1
+    }
+
+    this.date = new Date();
+
     this.questionFrm = this.fb.group({
+      questionCategory: [''],
+      questionLevel: [''],
+      questionType: [''],
+      questionTag: [''],
       content: ['', [Validators.required, Validators.minLength(2)]],
-      suggestion: ['', [Validators.required, Validators.minLength(2)]],
-      answer_wrongs: this.fb.array([this.createAnswerWrong()]),
-      answer_corrects: this.fb.array([this.createAnswerCorrect()])
+      sugguestion: [''],
+      userQuestion: this.user,
+      dateCreated : this.date,
+      questionAnswer: this.fb.array([this.createAnswer()])
     })
-    this.listAnswerWrongFrm = this.questionFrm.get('answer_wrongs') as FormArray;
-    this.listAnswerCorrectFrm = this.questionFrm.get('answer_corrects') as FormArray;
+    this.listAnswerFrm = this.questionFrm.get('questionAnswer') as FormArray;
+
+    this.service.getAllCategory().subscribe(
+      lCategory => {
+        this.listCategory = lCategory
+      }
+    );
+
+    this.service.getAllLvl().subscribe(
+      lLvl => {
+        this.listLvl = lLvl
+      }
+    );
+
+    this.service.getAllTag().subscribe(
+      lTag => {
+        this.listTag = lTag
+      }
+    );
+
+    this.service.getAllType().subscribe(
+      lType => {
+        this.listType = lType
+      }
+    );
   }
 
-  createAnswerWrong(): FormGroup{
+  createAnswer(): FormGroup {
     return this.fb.group({
-      answer_wrong:[null, Validators.compose([Validators.required])]
+      id: uuid(),
+      content: ['', Validators.compose([Validators.required])],
+      isTrue: [0]
     });
   }
 
-  createAnswerCorrect(): FormGroup{
-    return this.fb.group({
-      answer_correct:[null, Validators.compose([Validators.required])]
-    });
+  addAnswer() {
+    this.listAnswerFrm.push(this.createAnswer());
   }
 
-  addAnswerCorrect(){
-    this.listAnswerCorrectFrm.push(this.createAnswerCorrect());
+
+  removeAnswer(index) {
+    this.listAnswerFrm.removeAt(index);
   }
 
-  addAnswerWrong(){
-    this.listAnswerWrongFrm.push(this.createAnswerWrong());
-  }
-
-  removeAnswerCorrect(index){
-    this.listAnswerCorrectFrm.removeAt(index);
-  }
-
-  removeAnswerWrong(index){
-    this.listAnswerWrongFrm.removeAt(index);
-  }
-
-  getAnswerCorrectFormGroup(index): FormGroup{
-    const formGroup = this.listAnswerCorrectFrm.controls[index] as FormGroup;
+  getAnswerFormGroup(index): FormGroup {
+    const formGroup = this.listAnswerFrm.controls[index] as FormGroup;
     return formGroup;
   }
 
-  getAnswerWrongFormGroup(index): FormGroup{
-    const formGroup = this.listAnswerWrongFrm.controls[index] as FormGroup;
-    return formGroup;
-  }
+  onSubmit() {
 
-   onSubmit(){
-     if (this.questionFrm.value) {
-       const value = this.questionFrm.value;
-       const question: Question = {
-         id: uuid(),
-         ...value
-       }
-       this.http.post('http://localhost:3000/questions', question).subscribe(() => {
-         this.router.navigateByUrl('/question');
-       });
-   }
-   }
+    if (this.listAnswerFrm.length) {
+      for (var i = 0; i < this.listAnswerFrm.length; i++) {
+        if (this.getAnswerFormGroup(i).value.isTrue === true) {
+          this.getAnswerFormGroup(i).value.isTrue = 1
+        }
+      }
+    }
+
+    if (this.questionFrm.value) {
+      const value = this.questionFrm.value;
+      const question: Question =
+      {
+        id: uuid(),
+        ...value
+      };
+      this.service.createQuestion(question).subscribe(() => {
+        //alert("Insert success");
+        //this.router.navigateByUrl('/question');
+        console.log(value);
+      });
+    }
+  }
 
 }

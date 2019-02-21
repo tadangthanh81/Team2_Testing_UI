@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { TypeQuestion } from 'src/entity/TypeQuestion';
+import { Tag } from 'src/entity/Tag';
+import { Level } from 'src/entity/Level';
+import { Category } from 'src/entity/Category';
+import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ServiceService } from 'src/app/service.service';
 import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+import { v4 as uuid } from 'uuid';
 import { mergeMap } from 'rxjs/operators';
 import { Question } from 'src/entity/Question';
-import { ServiceService } from 'src/app/service.service';
-import { Level } from 'src/entity/Level';
-import { Tag } from 'src/entity/Tag';
-import { TypeQuestion } from 'src/entity/TypeQuestion';
-import { Category } from 'src/entity/Category';
-import { Observable } from 'rxjs';
+
 @Component({
   selector: 'app-edit-question',
   templateUrl: './edit-question.component.html',
@@ -71,7 +72,6 @@ export class EditQuestionComponent implements OnInit {
         this.listCategory = lCategory
       }
     );
-
     this.service.getAllLvl().subscribe(
       lLvl => {
         this.listLvl = lLvl
