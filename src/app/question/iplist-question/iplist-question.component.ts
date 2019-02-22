@@ -31,7 +31,7 @@ export class IplistQuestionComponent implements OnInit {
   ngOnInit() {
   }
 
-  //to upload 
+  //to upload
 
   selectFile(event) {
     this.selectedFiles = event.target.files;
