@@ -32,9 +32,12 @@ export class ListQuestionComponent implements OnInit {
   message: string;
 
   //selection
-  levelSelected: string = "1";
-  categorySelected: string = "2";
-  tagSelected: string = "1";
+  levelSelected: string = "";
+  typeSelected: string = "";
+  categorySelected: string = "";
+  tagSelected: string = "";
+  dateInputFilter= new Date();
+  userInputFilter: String;
 
   tagFrm: FormGroup;
   searchText: string;
@@ -154,6 +157,60 @@ export class ListQuestionComponent implements OnInit {
     }
     this.loadListQuestion();
   }
+
+  // delete question by id
+//   deleteQuestion(id: string) {
+//     const choice:boolean = confirm('Are you sure you want to delete these Records?');
+//     console.log(choice);
+//     if(choice){
+//       var questionDelete = this.service.getQuestion(id);
+//       for (let index = 0; index < this.listQuestion.length; index++) {
+//         if(this.listCategory[i])
+
+//       }
+//       this.service.deleteQuestionById(id).subscribe((data)=>{
+//              console.log("success");
+//     });
+//   }
+// }
+
+  deleteQuestion(id: String) {
+    const choice:boolean = confirm('Are you sure you want to delete these Records?');
+    console.log(choice);
+    if(choice){
+      this.service.deleteQuestionById(id).subscribe((data)=>{
+             console.log("success");
+    });
+  }
+}
+
+  // get list question by filter
+  filterByAttribute(categoryName: String, levelName: String, typeName: String,
+    fullName: String, dateCreated: Date , tagName: String) {
+      if(null == dateCreated) {
+        this.service.filterByAttribute(categoryName, levelName, typeName,
+          fullName, tagName).subscribe(
+          lquestionbyFilter => {
+            this.listQuestion = lquestionbyFilter;
+            this.dataSource.data = this.listQuestion;
+          }
+        );
+      } else {
+        this.service.filterByALl(categoryName, levelName, typeName,
+          fullName, dateCreated.toLocaleDateString(), tagName).subscribe(
+          lquestionbyFilter => {
+            this.listQuestion = lquestionbyFilter;
+            this.dataSource.data = this.listQuestion;
+          }
+
+        );
+      }
+      // dateCreated = new Date('+this.dateInputFilter+');
+
+      console.log(dateCreated);
+  }
+
+
 
   loadPopupUpdate() {
     this.message = "";

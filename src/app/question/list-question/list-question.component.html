@@ -46,8 +46,8 @@
             <nav class="navbar navbar-default">
               <!-- Brand and toggle get grouped for better mobile display -->
               <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-                  aria-expanded="false">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                  data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                   <span class="sr-only">Toggle navigation</span>
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
@@ -60,48 +60,98 @@
                   <div class="row">
                     <div class="col-md-4 col-xs-12">
                       <div class="form-group">
-                        <select class="form-control" [(ngModel)]="levelSelected" name="categorySelected">
+                        <select class="form-control" [(ngModel)]="categorySelected" name="categorySelected">
                           <option value="">--Category--</option>
-                          <option *ngFor="let lvl of listCategory" [value]="lvl.id">{{lvl.categoryName | titlecase}}</option>
+                          <option *ngFor="let categorySelected of listCategory" [value]="categorySelected.categoryName">
+                            {{categorySelected.categoryName | titlecase}}</option>
                         </select>
+
+                        <!-- <select formControlName="ctChoice" class="form-control select2">
+                          <option *ngFor="let ctg of listCategory" [ngValue]="ctg" selected="selected">{{ctg.categoryName}}</option>
+                        </select> -->
                       </div>
                       <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Create by...">
+                        <input type="text" class="form-control" placeholder="Create by..." [(ngModel)]="userInputFilter"
+                          name="userInputFilter">
+                        <!-- <input formControlName = "userChoice" class="form-control" placeholder="Create by..."> -->
                       </div>
                     </div>
                     <div class="col-md-4 col-xs-12">
                       <div class="form-group">
                         <select class="form-control" [(ngModel)]="levelSelected" name="levelSelected">
                           <option value="">--Level--</option>
-                          <option *ngFor="let lvl of listLvl" [value]="lvl.id">{{lvl.levelName | titlecase}}</option>
+                          <option *ngFor="let lvl of listLvl" [value]="lvl.levelName">{{lvl.levelName | titlecase}}
+                          </option>
                         </select>
+                        <!-- <select formControlName="lvChoice" class="form-control ">
+                          <option *ngFor="let lvl of listLvl" [ngValue]="lvl" selected="selected">{{lvl.levelName}}</option>
+                        </select> -->
                       </div>
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <div class="input-group date">
                           <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                           </div>
-                          <input type="text" class="form-control pull-right" id="datepicker">
+                        <input type="datetime" class="form-control pull-right" id="datepicker"
+                          [(ngModel)]="dateInputFilter" name = "dateInputFilter">
                         </div>
-                        <!-- /.input group -->
-                      </div>
-                    </div>
-                    <div class="col-md-4 col-xs-12">
+                      </div> -->
                       <div class="form-group">
-                        <select class="form-control" [(ngModel)]="levelSelected" name="levelSelected">
-                          <option value="">--Type--</option>
-                          <option *ngFor="let lvl of listType" [value]="lvl.id">{{lvl.typeName}}</option>
-                        </select>
+                        <div class="row">
+                          <div class="col-md-9 col-xs-12">
+                              <input
+                              class="form-control"
+                              #dpYMD="bsDatepicker"
+                              bsDatepicker
+                              [(ngModel)]="dateInputFilter" name = "dateInputFilter"
+                              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+                          </div>
+                          <div class="col-md-3 col-xs-12">
+                              <button class="btn btn-success" (click)="dpYMD.toggle()"
+                              [attr.aria-expanded]="dpYMD.isOpen">Date </button>
+                          </div>
+                        </div>
+
+
                       </div>
-                      <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Tag...">
-                      </div>
-                    </div>
                   </div>
+                  <div class="col-md-4 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control" [(ngModel)]="typeSelected" name="typeSelected">
+                        <option value="">--Type--</option>
+                        <option *ngFor="let lvl of listType" [value]="lvl.typeName">{{lvl.typeName}}</option>
+                      </select>
+                      <!-- <select formControlName="tpChoice" class="form-control ">
+                          <option *ngFor="let tp of listType" [ngValue]="tp" selected="selected">{{tp.typeName}}</option>
+                        </select> -->
+
+                    </div>
+
+                    <!-- filter tag -->
+                    <div class="form-group">
+                      <select class="form-control" [(ngModel)]="tagSelected" name="tagSelected">
+                        <option value="">--Tag--</option>
+                        <option *ngFor="let lvl of listTag" [value]="lvl.tagName">{{lvl.tagName}}</option>
+                      </select>
+                      <!-- <select formControlName="tagChoice" class="form-control ">
+                          <option *ngFor="let tag of listTag" [ngValue]="tag" selected="selected">{{tag.tagName}}</option>
+                        </select> -->
+                    </div>
+                    <!-- <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Tag..." [(ngModel)]="tagSelected">
+                      </div> -->
+                  </div>
+                  </div>
+
                   <!-- /.box-body -->
                   <div class="row">
                     <div class="box-footer col-md-12">
-                      <button type="submit" class="btn btn-info">Filter</button>
+                      <button type="submit" class="btn btn-info" (click)="filterByAttribute(categorySelected,
+                      levelSelected,
+                      typeSelected,
+                      userInputFilter,
+                      dateInputFilter,
+                      tagSelected)">Filter</button>
                     </div>
                   </div>
                 </form>
@@ -169,11 +219,17 @@
               rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 300px; font-size: 18px; font-weight: bold;">
               Action </th>
             <td mat-cell *matCellDef="let element">
-              <a class="btn btn-primary" style="margin-right: 5px;"><i class="glyphicon glyphicon-eye-open" title="View Detail"></i></a>
-              <a class="btn btn-warning" data-toggle="modal" style="margin-right: 5px;"><i class="glyphicon glyphicon-pencil"
-                  title="Edit"></i></a>
-              <a class="btn btn-danger" href="#deleteEmployeeModal" data-toggle="modal" style="margin-right: 5px;"><i
-                  class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i></a>
+              <a class="View" style="margin-right: 5px;" [routerLink]="['/question', element.id]">
+                <i class="material-icons" data-toggle="tooltip"
+                      title="View">&#xe8f4;</i></a>
+              <a class="edit" style="margin-right: 5px;"
+               [routerLink]="['/question','edit', element.id]">
+               <i class="material-icons" data-toggle="tooltip"
+               title="Edit">&#xE254;</i>
+              </a>
+              <a class="delete"  style="margin-right: 5px;" (click) = "deleteQuestion(element.id)">
+                <i class="material-icons" data-toggle="tooltip"
+                      title="Delete">&#xE872;</i></a>
             </td>
           </ng-container>
 
