@@ -9,7 +9,6 @@ import { Category } from 'src/entity/Category';
 import { Level } from 'src/entity/Level';
 import { Tag } from 'src/entity/Tag';
 import { TypeQuestion } from 'src/entity/TypeQuestion';
-import { Answer } from 'src/entity/Answer';
 
 @Component({
   selector: 'app-create-question',
@@ -37,13 +36,17 @@ export class CreateQuestionComponent implements OnInit {
 
   ngOnInit() {
     this.questionFrm = this.fb.group({
+      id : [''],
       questionCategory: [''],
       questionLevel: [''],
       questionType: [''],
       questionTag: [''],
       content: ['', [Validators.required, Validators.minLength(2)]],
       sugguestion: ['', [Validators.required, Validators.minLength(2)]],
-      questionAnswer: this.fb.array([this.createAnswer()])
+      questionAnswer: this.fb.array([this.createAnswer()]),
+      status : [''],
+      dateCreated:"2019-02-15",
+      userQuestion: 1
     })
     this.listAnswerFrm = this.questionFrm.get('questionAnswer') as FormArray;
 
@@ -112,7 +115,7 @@ export class CreateQuestionComponent implements OnInit {
         ...value
       };
       this.service.createQuestion(question).subscribe(() => {
-        console.log(question)
+        this.router.navigateByUrl('/question');
       });
     }
   }

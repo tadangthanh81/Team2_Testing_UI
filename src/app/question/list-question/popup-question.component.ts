@@ -56,8 +56,6 @@ export class PopupListQuestionComponent implements OnInit {
     this.service.getAllTag().subscribe(res => {
       for (let i = 0; i < res.length; i++) {
         this.nametag[i] = res[i].tagName.toLocaleUpperCase();
-       
-        
       }
     });
     //  tag class and validate
@@ -106,7 +104,7 @@ export class PopupListQuestionComponent implements OnInit {
       this.tagFrm.reset(value);}
   onSubmit() {
      this.save();
-     
+     this.onReset();
   }
   
   

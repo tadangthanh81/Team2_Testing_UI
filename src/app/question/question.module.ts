@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { PopupListQuestionComponent } from './list-question/popup-question.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { PopupListQuestionComponent } from './list-question/popup-question.compo
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    NgMultiSelectDropDownModule
     
   ],
   exports: [

@@ -7,6 +7,7 @@ import { Level } from 'src/entity/Level';
 import { Question } from 'src/entity/Question';
 import { Tag } from 'src/entity/Tag';
 import { TypeQuestion } from 'src/entity/TypeQuestion';
+import { Answer } from 'src/entity/Answer';
 @Injectable({
   providedIn: 'root'
 })
@@ -53,6 +54,12 @@ export class ServiceService {
     return this.http.post<Question>(this.url + `question/add`, question).pipe(
       tap(),
       catchError(er => of(new Question()))
+    );
+  }
+  createAnswer(answer:Answer): Observable<Answer>{
+    return this.http.post<Answer>(this.url + `answer/add`, answer).pipe(
+      tap(),
+      catchError(er => of(new Answer()))
     );
   }
   //update multi question
@@ -135,4 +142,26 @@ export class ServiceService {
       catchError(e => of([]))
     );
   }
+
+  //===========Answer=============
+  getAllAnswer(): Observable<Answer[]> {
+    return this.http.get<Answer[]>(this.url + `answer` ).pipe(
+      tap(),
+      catchError(er => of([]))
+    );
+  }
+  getAById(id: number): Observable<Object> {
+    return this.http.get(`${this.url + `answer`}/${id}`);
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
