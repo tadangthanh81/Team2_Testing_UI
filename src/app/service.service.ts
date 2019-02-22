@@ -97,8 +97,8 @@ export class ServiceService {
   }
 
   //update multi question
-  updateMutilQuestion(question: Question, id: string): Observable<Question> {
-    return this.http.put<Question>(this.url + `question/edit/${id}`, question, this.httpOption).pipe(
+  updateQuestion(question: Question): Observable<Question> {
+    return this.http.put<Question>(this.url + `question/edit`, question, this.httpOption).pipe(
       tap(),
       catchError(e => of(new Question())),
     );

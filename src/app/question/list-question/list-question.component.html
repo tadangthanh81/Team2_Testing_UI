@@ -209,10 +209,21 @@
             <td mat-cell *matCellDef="let element"> {{element.content}} </td>
           </ng-container>
           <!-- Tag Column -->
-          <ng-container matColumnDef="tag">
+          <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 121.8px; font-size: 18px; font-weight: bold;">
-              Tag </th>
-            <td mat-cell *matCellDef="let element"> {{element.questionTag.tagName}} </td>
+              Status </th>
+            <td mat-cell *matCellDef="let element">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-block"
+                  [ngClass]="{
+                    'btn-success' : element.status === 1,
+                    'btn-warning' : element.status === 0
+                  }"
+                  (click)="updateStatus(element.id, element.status)">
+                    {{element.status===1?'Show':'Hidden'}}
+                  </button>
+                </div>
+            </td>
           </ng-container>
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef class="sorting" tabindex="0" aria-controls="DataTables_Table_0"

@@ -8,6 +8,7 @@ import { Category } from 'src/entity/Category';
 import { Tag } from 'src/entity/Tag';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { TypeQuestion } from 'src/entity/TypeQuestion';
+import { mergeMap, tap } from 'rxjs/operators';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class ListQuestionComponent implements OnInit {
   listCategory: Category[];
   listTag: Tag[];
   listType: TypeQuestion[];
-  quesiton: Question[] = [];
+  question: Question;
 
   //tag mesage sucess
   success = false;
@@ -36,13 +37,13 @@ export class ListQuestionComponent implements OnInit {
   typeSelected: string = "";
   categorySelected: string = "";
   tagSelected: string = "";
-  dateInputFilter= new Date();
+  dateInputFilter = new Date();
   userInputFilter: String;
 
   tagFrm: FormGroup;
   searchText: string;
 
-  displayedColumns: string[] = ['select', 'category', 'create_by', 'date', 'level', 'content', 'tag', 'action'];
+  displayedColumns: string[] = ['select', 'category', 'create_by', 'date', 'level', 'content', 'status', 'action'];
   dataSource = new MatTableDataSource<Question>(this.listQuestion);
   selection = new SelectionModel<Question>(true, []);
 
@@ -51,6 +52,7 @@ export class ListQuestionComponent implements OnInit {
   isSearching = false;
   isCheckAll = false;
   maxPage: number;
+
   @Input()
   numberOfQuestion: number;
   @Input()
@@ -125,8 +127,8 @@ export class ListQuestionComponent implements OnInit {
       this.service.countSearchQuestion(this.searchStr).subscribe(
         count => {
           this.tabAllQuestion.entities = +count.headers.get('CountSearchQuestion'),
-          this.maxPage = Math.trunc(+count.headers.get('CountSearchQuestion') / this.tabAllQuestion.sizeOfPage),
-          console.log("a", this.maxPage)
+            this.maxPage = Math.trunc(+count.headers.get('CountSearchQuestion') / this.tabAllQuestion.sizeOfPage),
+            console.log("a", this.maxPage)
         }
       );
     } else {
@@ -141,9 +143,11 @@ export class ListQuestionComponent implements OnInit {
       );
       this.selection = new SelectionModel<Question>(true, []);
       this.service.getQuestionSum().subscribe(
-        sum => {this.tabAllQuestion.entities = +sum.headers.get('SumQuestion'),
-        this.maxPage = Math.ceil(+sum.headers.get('SumQuestion') / this.tabAllQuestion.sizeOfPage),
-          console.log("b", this.maxPage)}
+        sum => {
+          this.tabAllQuestion.entities = +sum.headers.get('SumQuestion'),
+          this.maxPage = Math.ceil(+sum.headers.get('SumQuestion') / this.tabAllQuestion.sizeOfPage),
+          console.log("b", this.maxPage)
+        }
       );
     }
   }
@@ -159,58 +163,81 @@ export class ListQuestionComponent implements OnInit {
   }
 
   // delete question by id
-//   deleteQuestion(id: string) {
-//     const choice:boolean = confirm('Are you sure you want to delete these Records?');
-//     console.log(choice);
-//     if(choice){
-//       var questionDelete = this.service.getQuestion(id);
-//       for (let index = 0; index < this.listQuestion.length; index++) {
-//         if(this.listCategory[i])
+  //   deleteQuestion(id: string) {
+  //     const choice:boolean = confirm('Are you sure you want to delete these Records?');
+  //     console.log(choice);
+  //     if(choice){
+  //       var questionDelete = this.service.getQuestion(id);
+  //       for (let index = 0; index < this.listQuestion.length; index++) {
+  //         if(this.listCategory[i])
 
-//       }
-//       this.service.deleteQuestionById(id).subscribe((data)=>{
-//              console.log("success");
-//     });
-//   }
-// }
+  //       }
+  //       this.service.deleteQuestionById(id).subscribe((data)=>{
+  //              console.log("success");
+  //     });
+  //   }
+  // }
 
   deleteQuestion(id: String) {
-    const choice:boolean = confirm('Are you sure you want to delete these Records?');
+    const choice: boolean = confirm('Are you sure you want to delete these Records?');
     console.log(choice);
-    if(choice){
-      this.service.deleteQuestionById(id).subscribe((data)=>{
-             console.log("success");
-    });
+    if (choice) {
+      this.service.deleteQuestionById(id).subscribe((data) => {
+        console.log("success");
+      });
+    }
   }
-}
 
   // get list question by filter
   filterByAttribute(categoryName: String, levelName: String, typeName: String,
-    fullName: String, dateCreated: Date , tagName: String) {
-      if(null == dateCreated) {
-        this.service.filterByAttribute(categoryName, levelName, typeName,
-          fullName, tagName).subscribe(
+    fullName: String, dateCreated: Date, tagName: String) {
+    if (null == dateCreated) {
+      this.service.filterByAttribute(categoryName, levelName, typeName,
+        fullName, tagName).subscribe(
           lquestionbyFilter => {
             this.listQuestion = lquestionbyFilter;
             this.dataSource.data = this.listQuestion;
           }
         );
-      } else {
-        this.service.filterByALl(categoryName, levelName, typeName,
-          fullName, dateCreated.toLocaleDateString(), tagName).subscribe(
+    } else {
+      this.service.filterByALl(categoryName, levelName, typeName,
+        fullName, dateCreated.toLocaleDateString(), tagName).subscribe(
           lquestionbyFilter => {
             this.listQuestion = lquestionbyFilter;
             this.dataSource.data = this.listQuestion;
           }
 
         );
-      }
-      // dateCreated = new Date('+this.dateInputFilter+');
+    }
+    // dateCreated = new Date('+this.dateInputFilter+');
 
-      console.log(dateCreated);
+    console.log(dateCreated);
   }
 
+  updateStatus(id, status) {
+    console.log(id+"---"+ status);
+    this.question = new Question();
 
+    // if(status === 1){
+    //   this.service.getQuestion(id).subscribe(
+    //   quesiton =>this.question = quesiton,
+
+    //   );
+    //   this.question.status = 0;
+    //   this.service.updateMutilQuestion1(this.question).subscribe();
+    // }else{
+    //   this.question.status = 1;
+    //   this.service.updateMutilQuestion1(this.question).subscribe();
+    // }
+
+    // if(this.quesiton.status === 1){
+    //   this.quesiton.status = 0;
+    // }else{
+    //   this.quesiton.status = 1;
+    // }
+    // this.service.updateMutilQuestion1(this.quesiton);
+    // this.loadListQuestion();
+  }
 
   loadPopupUpdate() {
     this.message = "";
@@ -225,7 +252,9 @@ export class ListQuestionComponent implements OnInit {
         element.questionCategory.id = +this.categorySelected;
         element.questionTag.id = this.tagSelected;
         this.service.updateMutilQuestion1(element).subscribe(success => {
-          update => this.quesiton.push(update)
+          // update => this.quesiton.push(update)
+          console.log(success);
+
         }, error => {
           console.log(error);
         });
@@ -250,8 +279,8 @@ export class ListQuestionComponent implements OnInit {
     this.isCheckAll = false;
   }
   nextPage() {
-    if (this.tabAllQuestion.currentPage === this.maxPage-1) {
-      this.tabAllQuestion.currentPage = this.maxPage -1;
+    if (this.tabAllQuestion.currentPage === this.maxPage - 1) {
+      this.tabAllQuestion.currentPage = this.maxPage - 1;
     } else {
       this.tabAllQuestion.currentPage++;
     }
