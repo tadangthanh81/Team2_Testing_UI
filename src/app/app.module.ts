@@ -11,6 +11,7 @@ import { FooterModule } from './footer/footer.module';
 import { CategoryQuestionModule } from './category-question/category-question.module';
 import { QuestionModule } from './question/question.module';
 import { HttpClientModule } from '@angular/common/http';
+import { NotifierModule } from 'angular-notifier';
 @NgModule({
   declarations: [
     AppComponent
@@ -25,6 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
     QuestionModule,
     CategoryQuestionModule,
     HttpClientModule,
+    NotifierModule,
     AppRoutingModule
   ],
   providers: [],
