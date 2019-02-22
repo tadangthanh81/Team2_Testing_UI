@@ -9,11 +9,4 @@ export class Category {
   userCategory: User;
   dateCreated: Date;
   status: number;
-
-  constructor(){}
-   
-  Category_Name(value: string) {
-    console.log(value);
-    this.categoryName = value;
-  }
 }

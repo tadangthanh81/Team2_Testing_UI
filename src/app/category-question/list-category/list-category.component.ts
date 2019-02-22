@@ -65,7 +65,7 @@ export class ListCategoryComponent implements OnInit {
     this.tabAllCategory = { currentPage: 0, entities: 0, sizeOfPage: 5 };
 
     this.user = {
-      id: "1",
+      id: '1',
       fullName: "hieu",
       email: "hieu@gmail.com",
       mobile: "0968461675",
@@ -197,26 +197,21 @@ export class ListCategoryComponent implements OnInit {
     if (this.categoryFrm.valid) {
       let test = this.categoryFrm.get('categoryName').value;
 
-      console.log(test);
-      
-      // this.category1.categoryName = test;
-      // // this.category1.setCategory_Name(test);
-      
-      // this.category1.dateCreated = new Date();
-      // this.category1.id = Math.random();
-      // console.log(this.category1);
-      this.category.id = Math.random();
-      this.category.categoryName = test;
-      this.category.dateCreated = new Date();
-      this.category.userCategory = this.user;
-      this.category.status = 1;
+       console.log(test);
+       this.category.id = Math.random();
+       this.category.categoryName = test;
+       this.category.dateCreated = new Date();
+       this.category.userCategory = this.user;
+       this.category.status = 1;
 
       this.service.createCategory(this.category)
         .subscribe(() => {
           // this.reloadData();
-          this.loadListCategory();
-          this.categoryFrm.reset();
+          // this.loadListCategory();
+          // this.categoryFrm.reset();
+          
         });
+        console.log(this.category)
     }
   }
 
