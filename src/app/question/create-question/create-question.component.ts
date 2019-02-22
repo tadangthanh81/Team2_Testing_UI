@@ -41,7 +41,7 @@ export class CreateQuestionComponent implements OnInit {
   ngOnInit() {
 
     this.user = {
-      id: 1,
+      userId: 1,
       fullName: "lhlinh",
       email: "lhlinh@gmail.com",
       mobile: "09688667",

@@ -216,7 +216,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header
               style="width: 240.2px; font-size: 18px; font-weight: bold;">
               Content </th>
-            <td mat-cell *matCellDef="let element"> {{element.content}} </td> 
+            <td mat-cell *matCellDef="let element"> {{element.content}} </td>
           </ng-container>
           <!-- Tag Column -->
           <ng-container matColumnDef="tag">
@@ -231,14 +231,17 @@
               style="width: 300px; font-size: 18px; font-weight: bold;">
               Action </th>
             <td mat-cell *matCellDef="let element">
-              <a class="btn btn-primary" style="margin-right: 5px;" [routerLink]="['/question', element.id]">
-                <i class="glyphicon glyphicon-eye-open" title="View Detail"></i></a>
-              <a class="btn btn-warning" data-toggle="modal" style="margin-right: 5px;"
+              <a class="View" style="margin-right: 5px;" [routerLink]="['/question', element.id]">
+                <i class="material-icons" data-toggle="tooltip"
+                      title="View">&#xe8f4;</i></a>
+              <a class="edit" style="margin-right: 5px;"
                [routerLink]="['/question','edit', element.id]">
-                <i class="glyphicon glyphicon-pencil" title="Edit"></i>
+               <i class="material-icons" data-toggle="tooltip"
+               title="Edit">&#xE254;</i>
               </a>
-              <button class="btn btn-danger"  style="margin-right: 5px;" (click) = "deleteQuestion(element.id)"><i
-                  class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i></button>
+              <a class="delete"  style="margin-right: 5px;" (click) = "deleteQuestion(element.id)">
+                <i class="material-icons" data-toggle="tooltip"
+                      title="Delete">&#xE872;</i></a>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
