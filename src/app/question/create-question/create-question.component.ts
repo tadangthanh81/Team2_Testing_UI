@@ -129,8 +129,8 @@ export class CreateQuestionComponent implements OnInit {
         ...value
       };
       this.service.createQuestion(question).subscribe(() => {
-        //alert("Insert success");
-        //this.router.navigateByUrl('/question');
+        alert("Insert success");
+        this.router.navigateByUrl('/question');
         console.log(JSON.stringify(question));
       });
     }
