@@ -30,9 +30,9 @@
           <div class="form-group row">
             <label for="inputEmail3" class="col-sm-3 control-label">Category Question</label>
             <div class="col-sm-9">
-              <select formControlName="questionCategory" [(ngModel)]="questionEdit.questionType.id"
+              <select formControlName="questionCategory" [(ngModel)]="questionEdit.questionType.typeId"
               class="form-control select2">
-                <option *ngFor="let category of listCategory" [ngValue]="category.id" selected="selected">
+                <option *ngFor="let category of listCategory" [ngValue]="category.categoryId" selected="selected">
                   {{category.categoryName}}
                 </option>
               </select>
@@ -43,9 +43,9 @@
           <div class="form-group row">
             <label for="inputPassword3" class="col-sm-3 control-label">Question Type</label>
             <div class="col-sm-9">
-              <select formControlName="questionType" [(ngModel)]="questionEdit.questionType.id"
+              <select formControlName="questionType" [(ngModel)]="questionEdit.questionType.typeId"
               class="form-control select2">
-                <option *ngFor="let type of listType" [ngValue]="type.id">{{type.typeName}}</option>
+                <option *ngFor="let type of listType" [ngValue]="type.typeId">{{type.typeName}}</option>
               </select>
             </div>
           </div>
@@ -55,9 +55,9 @@
           <div class="form-group row">
             <label for="inputPassword3" class="col-sm-3 control-label">Level</label>
             <div class="col-sm-9">
-              <select formControlName="questionLevel" [(ngModel)]="questionEdit.questionLevel.id"
+              <select formControlName="questionLevel" [(ngModel)]="questionEdit.questionLevel.levelId"
               class="form-control select2">
-                <option *ngFor="let level of listLvl" [ngValue]="level.id">{{level.levelName}}</option>
+                <option *ngFor="let level of listLvl" [ngValue]="level.levelId">{{level.levelName}}</option>
               </select>
             </div>
           </div>
@@ -66,11 +66,11 @@
           <div class="form-group row">
             <label for="inputPassword3" class="col-sm-3 control-label">Tag</label>
             <div class="col-sm-9">
-              <select formControlName="questionTag" [(ngModel)]="questionEdit.questionTag.id"
+              <select formControlName="questionTag" [(ngModel)]="questionEdit.questionTag.tagId"
               class="form-control select2">
-                <option *ngFor="let tag of listTag" [ngValue]="tag.id">{{tag.tagName}}</option>
+                <option *ngFor="let tag of listTag" [ngValue]="tag.tagId">{{tag.tagName}}</option>
               </select>
-            </div> 
+            </div>
           </div>
           <br>
 
@@ -104,7 +104,7 @@
             <label for="inputPassword3" class="col-sm-3 control-label" style="margin-top: 20px;">Answer</label>
             <div class="col-sm-9">
               <div formArrayName="questionAnswer">
-                <div *ngFor="let answer of answerFormGroup.controls; let i = index;">                  
+                <div *ngFor="let answer of answerFormGroup.controls; let i = index;">
                   <div [formGroupName]="i" class="row">
                     <div class="row">
                       <label style="margin-left: 5%;margin-top: 20px;">Content answer correct</label>
@@ -136,7 +136,7 @@
                       </ng-container>
                     </div>
                     <!-- <div class="alert alert-danger" role="alert" *ngIf="getAnswerCorrectFormGroup(i).controls['answer_correct'].touched && getAnswerCorrectFormGroup(i).controls['answer_correct'].hasError('required')">
-                            Answer correct is required! 
+                            Answer correct is required!
                           </div> -->
                   </div>
                 </div>

@@ -14,6 +14,7 @@ import { PopupListQuestionComponent } from './list-question/popup-question.compo
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NotifierModule } from 'angular-notifier';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { NotifierModule } from 'angular-notifier';
          */
         stacking: 4
       }
-    })
+    }),
+    BsDatepickerModule.forRoot(),
   ],
   exports: [
     ListQuestionComponent,

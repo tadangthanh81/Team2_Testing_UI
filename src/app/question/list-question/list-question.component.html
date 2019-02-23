@@ -34,7 +34,8 @@
           <div class="row">
             <div class="col-md-4 col-md-offset-8">
               <div class="input-group input-group-sm">
-                <input type="text" class="form-control" placeholder="Enter Question content ..." [(ngModel)]="searchStr" (keypress)="keyPressSearch($event)">
+                <input type="text" class="form-control" placeholder="Enter Question content ..." [(ngModel)]="searchStr"
+                  (keypress)="keyPressSearch($event)">
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-info btn-flat" (click)="searchByContent()">Search</button>
                 </span>
@@ -60,48 +61,64 @@
                   <div class="row">
                     <div class="col-md-4 col-xs-12">
                       <div class="form-group">
-                        <select class="form-control" [(ngModel)]="categorySelected" name="categorySelected">
+                        <select class="form-control" [(ngModel)]="categoryF" name="categoryF">
                           <option value="">--Category--</option>
-                          <option *ngFor="let lvl of listCategory" [value]="lvl.id">{{lvl.categoryName | titlecase}}</option>
+                          <option *ngFor="let categorySelected of listCategory" [value]="categorySelected.categoryName">
+                            {{categorySelected.categoryName | titlecase}}</option>
                         </select>
                       </div>
                       <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Create by...">
+                        <input type="text" class="form-control" placeholder="Create by..." [(ngModel)]="userInputFilter"
+                          name="userInputFilter">
                       </div>
                     </div>
                     <div class="col-md-4 col-xs-12">
                       <div class="form-group">
-                        <select class="form-control" [(ngModel)]="levelSelected" name="levelSelected">
+                        <select class="form-control" [(ngModel)]="levelF" name="levelF">
                           <option value="">--Level--</option>
-                          <option *ngFor="let lvl of listLvl" [value]="lvl.id">{{lvl.levelName | titlecase}}</option>
+                          <option *ngFor="let lvl of listLvl" [value]="lvl.levelName">{{lvl.levelName | titlecase}}
+                          </option>
                         </select>
                       </div>
                       <div class="form-group">
-                        <div class="input-group date">
-                          <div class="input-group-addon">
-                            <i class="fa fa-calendar"></i>
+                        <div class="row">
+                          <div class="col-md-9 col-xs-12">
+                            <input class="form-control" #dpYMD="bsDatepicker" bsDatepicker [(ngModel)]="dateInputFilter"
+                              name="dateInputFilter" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
                           </div>
-                          <input type="text" class="form-control pull-right" id="datepicker">
+                          <div class="col-md-3 col-xs-12">
+                            <button class="btn btn-success" (click)="dpYMD.toggle()" [attr.aria-expanded]="dpYMD.isOpen">Date
+                            </button>
+                          </div>
                         </div>
-                        <!-- /.input group -->
                       </div>
                     </div>
                     <div class="col-md-4 col-xs-12">
                       <div class="form-group">
-                        <select class="form-control" [(ngModel)]="levelSelected" name="levelSelected">
+                        <select class="form-control" [(ngModel)]="typeF" name="typeF">
                           <option value="">--Type--</option>
-                          <option *ngFor="let lvl of listType" [value]="lvl.id">{{lvl.typeName}}</option>
+                          <option *ngFor="let lvl of listType" [value]="lvl.typeName">{{lvl.typeName}}</option>
                         </select>
                       </div>
+                      <!-- filter tag -->
                       <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Tag...">
+                        <select class="form-control" [(ngModel)]="tagF" name="tagF">
+                          <option value="">--Tag--</option>
+                          <option *ngFor="let lvl of listTag" [value]="lvl.tagName">{{lvl.tagName}}</option>
+                        </select>
                       </div>
                     </div>
                   </div>
+
                   <!-- /.box-body -->
                   <div class="row">
                     <div class="box-footer col-md-12">
-                      <button type="submit" class="btn btn-info">Filter</button>
+                      <button type="submit" class="btn btn-info" (click)="filterByAttribute(categorySelected,
+                      levelSelected,
+                      typeSelected,
+                      userInputFilter,
+                      dateInputFilter,
+                      tagSelected)">Filter</button>
                     </div>
                   </div>
                 </form>
@@ -129,14 +146,14 @@
           <ng-container matColumnDef="category">
             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 100px; font-size: 18px; font-weight: bold;">
               Category </th>
-            <td mat-cell *matCellDef="let element"> {{element.questionCategory.categoryName}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.category.categoryName}} </td>
           </ng-container>
 
           <!-- Creat_by Column -->
           <ng-container matColumnDef="create_by">
             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 130px; font-size: 18px; font-weight: bold;">
               Create By </th>
-            <td mat-cell *matCellDef="let element"> {{element.userQuestion.fullName}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.userQuestion.fullName | titlecase}} </td>
           </ng-container>
 
           <!-- Date Column -->
@@ -150,7 +167,7 @@
           <ng-container matColumnDef="level">
             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 121.8px; font-size: 18px; font-weight: bold;">
               Level </th>
-            <td mat-cell *matCellDef="let element"> {{element.questionLevel.levelName}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.questionLevel.levelName | titlecase}} </td>
           </ng-container>
           <!-- Content Column -->
           <ng-container matColumnDef="content">
@@ -159,21 +176,79 @@
             <td mat-cell *matCellDef="let element"> {{element.content}} </td>
           </ng-container>
           <!-- Tag Column -->
-          <ng-container matColumnDef="tag">
+          <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 121.8px; font-size: 18px; font-weight: bold;">
-              Tag </th>
-            <td mat-cell *matCellDef="let element"> {{element.questionTag.tagName}} </td>
+              Status </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="btn-group" *ngIf="element.status === 1 || element.status === 0">
+                <button type="button" class="btn btn-block" [ngClass]="{
+                    'btn-success' : element.status === 1,
+                    'btn-warning' : element.status === 0
+                  }"
+                  (click)="updateStatus(element.questionId, element.status)">
+                  {{element.status===1?'Show':'Hidden'}}
+                </button>
+              </div>
+              <div class="btn-group" *ngIf="element.status === 2">
+                <button type="button" class="btn btn-danger btn-block">
+                  Is used
+                </button>
+              </div>
+
+              <!-- =========================== -->
+              <!-- <div class="btn-group" *ngIf="element.status === 1 || element.status === 0">
+                <button type="button" class="btn"
+                [ngClass]="{
+                  'btn-success': element.status === 1,
+                  'btn-primary' : element.status === 0
+                }"
+                >{{element.status===1?'Show':'Hidden'}}</button>
+                <button type="button" class="btn dropdown-toggle"
+                [ngClass]="{
+                  'btn-success': element.status === 1,
+                  'btn-primary' : element.status === 0
+                }"
+                data-toggle="dropdown" aria-expanded="false">
+                  <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu" *ngIf="element.status!==2">
+                  <li *ngIf="element.status!==1"><a href="#">Show</a></li>
+                  <li *ngIf="element.status!==0"><a href="#">Hidden</a></li>
+                </ul>
+              </div>
+              <div class="btn-group" *ngIf="element.status === 2">
+                <button type="button" class="btn btn-danger"
+                [ngClass]="{
+                  'btn-success': element.status === 1,
+                  'btn-primary' : element.status === 0
+                }"
+                >Is Used</button>
+                <button type="button" class="btn btn-danger dropdown-toggle"
+                [ngClass]="{
+                  'btn-success': element.status === 1,
+                  'btn-primary' : element.status === 0
+                }"
+                data-toggle="dropdown" aria-expanded="false">
+                  <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu" *ngIf="element.status===2">
+                  <li><a href="#">Show in exam</a></li>
+                </ul>
+              </div> -->
+            </td>
           </ng-container>
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
               rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 300px; font-size: 18px; font-weight: bold;">
               Action </th>
             <td mat-cell *matCellDef="let element">
-              <a class="btn btn-primary" style="margin-right: 5px;"><i class="glyphicon glyphicon-eye-open" title="View Detail"></i></a>
-              <a class="btn btn-warning" [routerLink]="['/question',element.id,'edit']" data-toggle="modal" style="margin-right: 5px;"><i class="glyphicon glyphicon-pencil"
-                  title="Edit"></i></a>
-              <a class="btn btn-danger" href="#deleteEmployeeModal" data-toggle="modal" style="margin-right: 5px;"><i
-                  class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i></a>
+              <a class="View" style="margin-right: 5px;" [routerLink]="['/question', element.questionId]">
+                <i class="material-icons" data-toggle="tooltip" title="View">&#xe8f4;</i></a>
+              <a class="edit" style="margin-right: 5px;" [routerLink]="['/question','edit', element.questionId]">
+                <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+              </a>
             </td>
           </ng-container>
 
@@ -219,21 +294,21 @@
               <div class="form-group">
                 <label>Level</label>
                 <select class="form-control" [(ngModel)]="levelSelected" name="levelSelected">
-                  <option *ngFor="let lvl of listLvl" [value]="lvl.id">{{lvl.levelName | titlecase}}</option>
+                  <option *ngFor="let lvl of listLvl" [value]="lvl.levelId">{{lvl.levelName | titlecase}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <label>Category</label>
                 <select class="form-control" [(ngModel)]="categorySelected" name="categorySelected">
-                  <option disabled="true" value="2">--Select--</option>
-                  <option *ngFor="let cate of listCategory" [value]="cate.id">{{cate.categoryName | titlecase}}</option>
+                  <option disabled="true" selected>--Select--</option>
+                  <option *ngFor="let cate of listCategory" [value]="cate.categoryId">{{cate.categoryName | titlecase}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <label>Tag</label>
                 <select class="form-control" [(ngModel)]="tagSelected" name="tagSelected">
-                  <option disabled="true" value="1">--Select--</option>
-                  <option *ngFor="let tag of listTag" [value]="tag.id">{{tag.tagName}}</option>
+                  <option disabled="true" selected>--Select--</option>
+                  <option *ngFor="let tag of listTag" [value]="tag.tagId">{{tag.tagName}}</option>
                 </select>
               </div>
               <p>{{ message }}</p>
@@ -248,5 +323,4 @@
     </div>
     <app-popup-list-question></app-popup-list-question>
   </div>
-
 </section>

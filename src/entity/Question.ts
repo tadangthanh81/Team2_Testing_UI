@@ -6,12 +6,12 @@ import { Answer } from './Answer';
 import { TypeQuestion } from './TypeQuestion';
 
 export class Question {
-  id: string;
-  questionCategory: Category;
+  questionId: string;
+  category: Category;
   content: string;
   questionType: TypeQuestion;
   questionLevel: Level;
-  suggestion: string;
+  sugguestion: string;
   questionTag: Tag;
   status: number;
   dateCreated: Date;

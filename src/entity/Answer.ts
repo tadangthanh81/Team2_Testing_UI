@@ -1,7 +1,7 @@
 import { Question } from './Question';
 
 export class Answer {
-  id: string;
+  answerId: string;
   content: string;
   isTrue: number;
   status: number;

@@ -1,5 +1,5 @@
 export class Level {
-  id: string;
+  levelId: string;
   levelName: string;
   status: number;
 }

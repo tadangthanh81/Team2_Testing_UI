@@ -8,6 +8,7 @@ import { Category } from 'src/entity/Category';
 import { Tag } from 'src/entity/Tag';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { TypeQuestion } from 'src/entity/TypeQuestion';
+import { mergeMap, tap } from 'rxjs/operators';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class ListQuestionComponent implements OnInit {
   listCategory: Category[];
   listTag: Tag[];
   listType: TypeQuestion[];
-  quesiton: Question[] = [];
+  question: Question;
 
   //tag mesage sucess
   success = false;
@@ -32,14 +33,23 @@ export class ListQuestionComponent implements OnInit {
   message: string;
 
   //selection
-  levelSelected: string = "1";
-  categorySelected: string = "2";
-  tagSelected: string = "1";
+  levelSelected = '1';
+  typeSelected;
+  categorySelected;
+  tagSelected;
+
+  levelF: string = "";
+  typeF: string = "";
+  categoryF: string = "";
+  tagF: string = "";
+
+  dateInputFilter = new Date();
+  userInputFilter: String;
 
   tagFrm: FormGroup;
   searchText: string;
 
-  displayedColumns: string[] = ['select', 'category', 'create_by', 'date', 'level', 'content', 'tag', 'action'];
+  displayedColumns: string[] = ['select', 'category', 'create_by', 'date', 'level', 'content', 'status', 'action'];
   dataSource = new MatTableDataSource<Question>(this.listQuestion);
   selection = new SelectionModel<Question>(true, []);
 
@@ -48,6 +58,7 @@ export class ListQuestionComponent implements OnInit {
   isSearching = false;
   isCheckAll = false;
   maxPage: number;
+
   @Input()
   numberOfQuestion: number;
   @Input()
@@ -76,7 +87,7 @@ export class ListQuestionComponent implements OnInit {
   ngOnInit() {
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
-        case 'category': return item.questionCategory.categoryName;
+        case 'category': return item.category.categoryName;
         case 'create_by': return item.userQuestion.fullName;
         case 'date': return item.dateCreated;
         case 'level': return item.questionLevel.levelName;
@@ -101,7 +112,9 @@ export class ListQuestionComponent implements OnInit {
       type => this.listType = type
     );
     this.service.getAllLvl().subscribe(
-      lvl => this.listLvl = lvl
+      lvl => {
+        this.listLvl = lvl
+      }
     );
     this.service.getAllCategory().subscribe(
       category => this.listCategory = category
@@ -122,8 +135,8 @@ export class ListQuestionComponent implements OnInit {
       this.service.countSearchQuestion(this.searchStr).subscribe(
         count => {
           this.tabAllQuestion.entities = +count.headers.get('CountSearchQuestion'),
-          this.maxPage = Math.trunc(+count.headers.get('CountSearchQuestion') / this.tabAllQuestion.sizeOfPage),
-          console.log("a", this.maxPage)
+            this.maxPage = Math.trunc(+count.headers.get('CountSearchQuestion') / this.tabAllQuestion.sizeOfPage),
+            console.log("a", this.maxPage)
         }
       );
     } else {
@@ -132,15 +145,17 @@ export class ListQuestionComponent implements OnInit {
         this.tabAllQuestion.sizeOfPage + ''
       ).subscribe(
         lquestion => {
-          this.listQuestion = lquestion;
-          this.dataSource.data = this.listQuestion
+          this.listQuestion = lquestion,
+            this.dataSource.data = this.listQuestion
         }
       );
       this.selection = new SelectionModel<Question>(true, []);
       this.service.getQuestionSum().subscribe(
-        sum => {this.tabAllQuestion.entities = +sum.headers.get('SumQuestion'),
-        this.maxPage = Math.ceil(+sum.headers.get('SumQuestion') / this.tabAllQuestion.sizeOfPage),
-          console.log("b", this.maxPage)}
+        sum => {
+          this.tabAllQuestion.entities = +sum.headers.get('SumQuestion'),
+            this.maxPage = Math.ceil(+sum.headers.get('SumQuestion') / this.tabAllQuestion.sizeOfPage),
+            console.log("b", this.maxPage)
+        }
       );
     }
   }
@@ -155,6 +170,58 @@ export class ListQuestionComponent implements OnInit {
     this.loadListQuestion();
   }
 
+  // get list question by filter
+  filterByAttribute(categoryName: String, levelName: String, typeName: String,
+    fullName: String, dateCreated: Date, tagName: String) {
+    if (null == dateCreated) {
+      this.service.filterByAttribute(categoryName, levelName, typeName,
+        fullName, tagName).subscribe(
+          lquestionbyFilter => {
+            this.listQuestion = lquestionbyFilter;
+            this.dataSource.data = this.listQuestion;
+          }
+        );
+    } else {
+      this.service.filterByALl(categoryName, levelName, typeName,
+        fullName, dateCreated.toLocaleDateString(), tagName).subscribe(
+          lquestionbyFilter => {
+            this.listQuestion = lquestionbyFilter;
+            this.dataSource.data = this.listQuestion;
+          }
+
+        );
+    }
+    // dateCreated = new Date('+this.dateInputFilter+');
+
+    console.log(dateCreated);
+  }
+
+  //update status
+  updateStatus(id, status) {
+    console.log(id + "---" + status);
+    if (status === 1) {
+      this.service.getQuestion(id).subscribe(
+        q => {
+          this.question = q,
+          this.question.status = 0,
+          this.service.updateQuestion(this.question).subscribe(
+            pip => this.loadListQuestion()
+          )
+        }
+      );
+    }else{
+      this.service.getQuestion(id).subscribe(
+        q => {
+          this.question = q,
+          this.question.status = 1,
+          this.service.updateQuestion(this.question).subscribe(
+            pip => this.loadListQuestion()
+          )
+        }
+      );
+    }
+  }
+
   loadPopupUpdate() {
     this.message = "";
   }
@@ -164,11 +231,13 @@ export class ListQuestionComponent implements OnInit {
       this.message = "No records have been selected yet!";
     } else {
       this.selection.selected.forEach(element => {
-        element.questionLevel.id = this.levelSelected;
-        element.questionCategory.id = +this.categorySelected;
-        element.questionTag.id = this.tagSelected;
+        element.questionLevel.levelId = this.levelSelected;
+        element.category.categoryId = +this.categorySelected;
+        element.questionTag.tagId = this.tagSelected;
         this.service.updateMutilQuestion1(element).subscribe(success => {
-          update => this.quesiton.push(update)
+          // update => this.quesiton.push(update)
+          console.log(success);
+
         }, error => {
           console.log(error);
         });
@@ -193,8 +262,8 @@ export class ListQuestionComponent implements OnInit {
     this.isCheckAll = false;
   }
   nextPage() {
-    if (this.tabAllQuestion.currentPage === this.maxPage-1) {
-      this.tabAllQuestion.currentPage = this.maxPage -1;
+    if (this.tabAllQuestion.currentPage === this.maxPage - 1) {
+      this.tabAllQuestion.currentPage = this.maxPage - 1;
     } else {
       this.tabAllQuestion.currentPage++;
     }

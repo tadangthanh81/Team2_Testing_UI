@@ -1,5 +1,5 @@
 export class Tag {
-  id: string;
+  tagId: string;
   tagName: string;
   status: number;
 }

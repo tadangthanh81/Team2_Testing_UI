@@ -13,8 +13,7 @@ import { TypeQuestion } from 'src/entity/TypeQuestion';
 export class ServiceService {
 
   private url = "http://localhost:8080/";
-  private fakedata = "http://localhost:3000/"
-  private baseUrl = 'http://localhost:8080/api/tag';
+  private baseUrl = 'http://localhost:8080/tag';
   httpOption = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -63,6 +62,31 @@ export class ServiceService {
     );
   }
 
+  // get list question filter by one field
+  filterByAttribute(categoryName: String, levelName: String, typeName: String,
+    fullName: String, tagName: String):Observable<Question[]> {
+    return this.http.get<Question[]>(this.url + `question/filter?categoryName=${categoryName}&levelName=${levelName}&typeName=${typeName}&fullName=${fullName}
+    &tagName=${tagName}&page=0&size=5`).pipe(
+      tap(),
+      catchError(er => of([]))
+    );
+  }
+
+  // delete question by id
+  deleteQuestionById(questionId: String) {
+    return this.http.delete(this.url + `question/delete/${questionId}`);
+  }
+
+   // get list question filter by all field
+  filterByALl(categoryName: String, levelName: String, typeName: String,
+    fullName: String, dateCreated : String, tagName: String):Observable<Question[]>  {
+      return this.http.get<Question[]>(this.url + `question/filter?categoryName=${categoryName}&levelName=${levelName}&typeName=${typeName}&fullName=${fullName}&dateCreated=${dateCreated}
+    &tagName=${tagName}&page=0&size=5`).pipe(
+      tap(),
+      catchError(er => of([]))
+    );
+  }
+
   //====== get list question by contents=====
   getListCategoryByContent(content: String): Observable<Category[]> {
     return this.http.get<Category[]>(this.url + `category/search-by-content/${content}`).pipe(
@@ -85,8 +109,8 @@ export class ServiceService {
     );
   }
   //update multi question
-  updateMutilQuestion(question: Question, id: string): Observable<Question> {
-    return this.http.put<Question>(this.url + `question/edit/${id}`, question, this.httpOption).pipe(
+  updateQuestion(question: Question): Observable<Question> {
+    return this.http.put<Question>(this.url + `question/edit`, question, this.httpOption).pipe(
       tap(),
       catchError(e => of(new Question())),
     );

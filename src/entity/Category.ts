@@ -1,13 +1,10 @@
 import { User } from './User';
-import { inject } from '@angular/core/testing';
 
 
 export class Category {
-
-  id: number;
+  categoryId: number;
   categoryName: string;
   userCategory: User;
   dateCreated: Date;
   status: number;
-
 }

@@ -46,7 +46,7 @@ export class EditQuestionComponent implements OnInit {
       sugguestion: ['', [Validators.required, Validators.minLength(2)]],
       questionAnswer: this.fb.array([this.createAnswer()])
     });
-    
+
     this.activatedRounte.paramMap.pipe(
       mergeMap(
         params => {
@@ -59,7 +59,7 @@ export class EditQuestionComponent implements OnInit {
       this.questionEdit = question
     }
     );
-    
+
     this.listAnswerFrm = this.editQuestionFrm.get('questionAnswer') as FormArray;
 
     this.service.getAllCategory().subscribe(
@@ -136,7 +136,7 @@ export class EditQuestionComponent implements OnInit {
       const value = this.editQuestionFrm.value;
       const question: Question =
       {
-        id: this.questionEdit.id,
+        id: this.questionEdit.questionId,
         ...value
       };
       this.service.createQuestion(question).subscribe(() => {

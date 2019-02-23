@@ -22,11 +22,12 @@ export class ListCategoryComponent implements OnInit {
   categoryFrm2: FormGroup;
   category1: Category = new Category();
   category: Category = new Category();
+  cate:Category;
   bsValue: Date;
   user: User;
 
   searchText: string;
-  displayedColumns: string[] = ['CategoryName', 'UserCreated', 'DateCreated', 'action'];
+  displayedColumns: string[] = ['CategoryName', 'UserCreated', 'DateCreated', 'status', 'action'];
   dataSource = new MatTableDataSource<Category>(this.listCategory);
 
 
@@ -107,6 +108,31 @@ export class ListCategoryComponent implements OnInit {
         sum => {
           this.tabAllCategory.entities = +sum.headers.get('SumCategory');
           this.maxPage = Math.ceil(+sum.headers.get('SumCategory') / this.tabAllCategory.sizeOfPage);
+        }
+      );
+    }
+  }
+
+  updateStatus(id, status) {
+    console.log(id + "---" + status);
+    if (status === 1) {
+      this.service.getCategory(id).subscribe(
+        q => {
+          this.cate = q,
+          this.cate.status = 0,
+          this.service.updateCategory(id,this.cate).subscribe(
+            pip => this.loadListCategory()
+          )
+        }
+      );
+    }else{
+      this.service.getCategory(id).subscribe(
+        q => {
+          this.cate = q,
+          this.cate.status = 0,
+          this.service.updateCategory(id,this.cate).subscribe(
+            pip => this.loadListCategory()
+          )
         }
       );
     }
@@ -216,7 +242,7 @@ export class ListCategoryComponent implements OnInit {
   }
 
   categoryTrackByFn(category: Category) {
-    return category.id;
+    return category.categoryId;
   }
 
   getCategoryForUpdateAndView(category: Category) {

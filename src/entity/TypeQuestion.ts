@@ -1,5 +1,5 @@
 export class TypeQuestion {
-  id: string;
+  typeId: string;
   typeName: string;
   status: number;
 }
