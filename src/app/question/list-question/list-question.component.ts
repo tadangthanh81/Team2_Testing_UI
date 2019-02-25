@@ -123,6 +123,7 @@ export class ListQuestionComponent implements OnInit {
       tag => this.listTag = tag
     );
   }
+
   loadListQuestion() {
     if (this.isSearching) {
       this.service.searchQuestionByContent(this.searchStr, this.tabAllQuestion.currentPage + '', this.tabAllQuestion.sizeOfPage + '').subscribe(
@@ -135,8 +136,7 @@ export class ListQuestionComponent implements OnInit {
       this.service.countSearchQuestion(this.searchStr).subscribe(
         count => {
           this.tabAllQuestion.entities = +count.headers.get('CountSearchQuestion'),
-            this.maxPage = Math.trunc(+count.headers.get('CountSearchQuestion') / this.tabAllQuestion.sizeOfPage),
-            console.log("a", this.maxPage)
+            this.maxPage = Math.ceil(+count.headers.get('CountSearchQuestion') / this.tabAllQuestion.sizeOfPage)
         }
       );
     } else {
@@ -153,8 +153,7 @@ export class ListQuestionComponent implements OnInit {
       this.service.getQuestionSum().subscribe(
         sum => {
           this.tabAllQuestion.entities = +sum.headers.get('SumQuestion'),
-            this.maxPage = Math.ceil(+sum.headers.get('SumQuestion') / this.tabAllQuestion.sizeOfPage),
-            console.log("b", this.maxPage)
+            this.maxPage = Math.ceil(+sum.headers.get('SumQuestion') / this.tabAllQuestion.sizeOfPage)
         }
       );
     }
@@ -198,25 +197,24 @@ export class ListQuestionComponent implements OnInit {
 
   //update status
   updateStatus(id, status) {
-    console.log(id + "---" + status);
     if (status === 1) {
       this.service.getQuestion(id).subscribe(
         q => {
           this.question = q,
-          this.question.status = 0,
-          this.service.updateQuestion(this.question).subscribe(
-            pip => this.loadListQuestion()
-          )
+            this.question.status = 0,
+            this.service.updateQuestion(this.question).subscribe(
+              pip => this.loadListQuestion()
+            )
         }
       );
-    }else{
+    } else {
       this.service.getQuestion(id).subscribe(
         q => {
           this.question = q,
-          this.question.status = 1,
-          this.service.updateQuestion(this.question).subscribe(
-            pip => this.loadListQuestion()
-          )
+            this.question.status = 1,
+            this.service.updateQuestion(this.question).subscribe(
+              pip => this.loadListQuestion()
+            )
         }
       );
     }
@@ -280,6 +278,16 @@ export class ListQuestionComponent implements OnInit {
     if (e.charCode === 13) {
       this.searchByContent();
     }
+  }
+
+  submitPopUp(e) {
+    console.log('test');
+    this.service.getAllTag().subscribe(
+      tag => {
+        console.log(tag);
+        this.listTag = tag;
+      }
+    );
   }
 }
 export interface TabInfo {

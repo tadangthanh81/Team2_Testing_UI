@@ -11,6 +11,7 @@ import { Tag } from 'src/entity/Tag';
 import { TypeQuestion } from 'src/entity/TypeQuestion';
 import { Answer } from 'src/entity/Answer';
 import { User } from 'src/entity/User';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-create-question',
@@ -32,6 +33,7 @@ export class CreateQuestionComponent implements OnInit {
   }
 
   constructor(
+    private notifierService: NotifierService,
     private service: ServiceService,
     private fb: FormBuilder,
     private http: HttpClient,
@@ -129,11 +131,11 @@ export class CreateQuestionComponent implements OnInit {
         ...value
       };
       this.service.createQuestion(question).subscribe(() => {
-        alert("Insert success");
-        this.router.navigateByUrl('/question');
+        this.notifierService.notify( 'success', 'Create question successfully' );
         console.log(JSON.stringify(question));
       });
-    }
+    };
+    setTimeout(()=>this.router.navigateByUrl('/question'),1000)
   }
 
 }

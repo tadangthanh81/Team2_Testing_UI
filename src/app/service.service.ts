@@ -13,7 +13,6 @@ import { TypeQuestion } from 'src/entity/TypeQuestion';
 export class ServiceService {
 
   private url = "http://localhost:8080/";
-  private baseUrl = 'http://localhost:8080/tag';
   httpOption = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -43,7 +42,8 @@ export class ServiceService {
   }
   countSearchQuestion(content: string): Observable<HttpResponse<Object>> {
     return this.http.get<HttpResponse<Object>>(this.url + `question/count-search-question?content=${content}`, { observe: 'response' }).pipe(
-      tap(resp => resp.headers.get('CountSearchQuestion'))
+      tap(resp => console.log(resp.headers.get('CountSearchQuestion')))
+
     );
   }
 
@@ -96,7 +96,7 @@ export class ServiceService {
   }
   //create question
   createQuestion(question: Question): Observable<Question> {
-    return this.http.post<Question>(this.url + `question/add`, question).pipe(
+    return this.http.post<Question>(this.url + `question`, question).pipe(
       tap(),
       catchError(er => of(new Question()))
     );
@@ -201,11 +201,11 @@ export class ServiceService {
   }
 
   getTag(id: number): Observable<Object> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+    return this.http.get(`${this.url}tag/${id}`);
   }
 
   createTag(tag: Object): Observable<Object> {
-    return this.http.post(`${this.baseUrl}` + `/create`, tag);
+    return this.http.post(`${this.url}` + `tag/add`, tag);
   }
   //===========TYPE=============
   getType(): Observable<TypeQuestion[]> {

@@ -31,7 +31,8 @@
               "src/scss/bower_components/bootstrap/dist/css/bootstrap.min.css",
               "src/scss/bower_components/font-awesome/css/font-awesome.min.css",
               "src/scss/dist/css/AdminLTE.min.css",
-              "src/scss/dist/css/skins/_all-skins.min.css"
+              "src/scss/dist/css/skins/_all-skins.min.css",
+              "node_modules/angular-notifier/styles.css"
             ],
             "scripts": [
               "src/scss/bower_components/jquery/dist/jquery.min.js",

@@ -1,14 +1,24 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ServiceService } from 'src/app/service.service';
 import { Question } from 'src/entity/Question';
 import { Level } from 'src/entity/Level';
 import { Category } from 'src/entity/Category';
 import { Tag } from 'src/entity/Tag';
 import { Router } from '@angular/router';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import {v4 as uuid} from 'uuid';
+import { NotifierService } from 'angular-notifier';
 
+
+export function compareName(nametag = []) {
+  return (c: AbstractControl) => {
+    return nametag.includes(c.value.toLocaleUpperCase().trim())
+      ? {
+        invalidnametag: true
+      }
+      : null;
+  };
+}
 
 @Component({
   selector: 'app-popup-list-question',
@@ -22,16 +32,22 @@ export class PopupListQuestionComponent implements OnInit {
   listCategory: Category[];
   listTag: Tag[];
   quesiton: Question[];
-
+  tag: Tag = new Tag();
+  tag1: Tag;
+  nametag: string[] = [];
+  des: string[] = [];
+  sta: string[] = [];
   //  tag mesage sucess
-  success = false;
-  message: string;
+  @Output()
+  event: EventEmitter<boolean> = new EventEmitter<boolean>();
+  message: boolean;
 
   tagFrm: FormGroup;
-  searchText : string;
+  searchText: string;
   // contentQuestion =  new FormControl('');
 
   constructor(
+    private notifierService: NotifierService,
     private service: ServiceService,
     private router: Router,
     private fb: FormBuilder,
@@ -39,11 +55,16 @@ export class PopupListQuestionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.service.getAllTag().subscribe(res => {
+      for (let i = 0; i < res.length; i++) {
+        this.nametag[i] = res[i].tagName.toLocaleUpperCase();
+      }
+    });
     //  tag class and validate
     this.tagFrm = this.fb.group({
-      tag_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(225)]],
-      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(225)]],
-      status: ['', [Validators.required]]
+      tagName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(225), compareName(this.nametag)]],
+      tagDescription: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(225)]],
+      status: ['']
     });
 
     this.service.getAllLvl().subscribe(
@@ -57,18 +78,39 @@ export class PopupListQuestionComponent implements OnInit {
     );
   }
 
-  onSubmit() {
-    //  tag add + auto generate id
-    if (this.tagFrm.value) {
-      const value = this.tagFrm.value;
-      const tag: Tag = {
-        id: uuid(),
-        ...value
-      };
-      this.http.post('http://localhost:3000/tag', tag).subscribe(() => { this.router.navigateByUrl('/tag'); });
-      this.success = true;
-
-    }
+  newTag(): void {
+    this.tag = new Tag();
   }
+  save() {
+    if (this.tagFrm.value.status === true) {
+      this.tagFrm.value.status = 1;
+    } else {
+      this.tagFrm.value.status = 0;
+    }
+    const value = this.tagFrm.value;
+    const newTags: Tag = {
+      id: 1000000,
+      ...value
+    }
+    this.service.createTag(newTags)
+      .subscribe(() => {
+
+      });
+    this.onReset();
+    this.newTag();
+
+
+  }
+  onReset(): void { this.resetForm(); }
+  resetForm(value: any = undefined): void {
+    this.tagFrm.reset(value);
+  }
+  onSubmit() {
+    this.event.emit(true);
+    this.notifierService.notify('success', 'Add new tag successfully');
+    this.save();
+    this.onReset();
+  }
+
 
 }

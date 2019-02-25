@@ -63,7 +63,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
            * Defines the vertical distance to the screen edge (in px)
            // * @type {number}
            */
-          distance: 150,
+          distance: 67,
 
           /**
            * Defines the vertical gap, existing between multiple notifications (in px)

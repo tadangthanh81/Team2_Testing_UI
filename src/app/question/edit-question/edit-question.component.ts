@@ -93,7 +93,7 @@ export class EditQuestionComponent implements OnInit {
 
   createAnswer(): FormGroup {
     return this.fb.group({
-      id: uuid(),
+      answerId: uuid(),
       content: ['', Validators.compose([Validators.required])],
       isTrue: [0]
     });

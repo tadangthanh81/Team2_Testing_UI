@@ -22,12 +22,13 @@ export class ViewQuestionComponent implements OnInit {
       mergeMap(
         params => {
           const id = params.get('id');
-          //  this.questionEdit = this.http.get<Question>(`http://localhost:8080/question/${id}`);
-          return this.http.get<Question>(`http://localhost:8080/question/${id}`);
+          return this.service.getQuestion(id);
         }
       )
     ).subscribe(question => {
-      this.questionDetail = question;
+      this.questionDetail = question,
+      console.log(this.questionDetail);
+
     }
     );
   }

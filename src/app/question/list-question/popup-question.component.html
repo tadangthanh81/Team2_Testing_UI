@@ -1,75 +1,86 @@
-<!-- add tag -->
 <div id="formtag" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form (ngSubmit)="onSubmit()" [formGroup]="tagFrm">
+      <form #abc  [formGroup]="tagFrm">
 
         <div class="modal-header">
           <h4 class="modal-title">Add Tag</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <button type="button" class="close" data-dismiss="modal" (click)="onReset()" aria-hidden="true">&times;</button>
         </div>
 
 
         <div class="modal-body">
-          <h3 style="color: blueviolet;" *ngIf="success">Success!</h3>
+          <h3 style="color: blueviolet;" *ngIf="message">Success!</h3>
           <div class="form-group row">
             <label for="example-text-input" class="col-2 col-form-label">
               Name Tag:
             </label>
             <div class="col-10">
-              <input class="form-control" type="text" formControlName="tag_name" [ngClass]="{
-                          'is-valid': tagFrm.get('tag_name').valid,
-                          'is-invalid': tagFrm.get('tag_name').invalid
-                          && tagFrm.get('tag_name').touched
-                        }">
+              <input class="form-control" type="text" formControlName="tagName"
+              ng-model="tag.tagName"
+               my-unique="{property: 'tagName'}"
+               [ngClass]="{
+                'is-valid': tagFrm.get('tagName').valid,
+                'is-invalid': tagFrm.get('tagName').invalid
+                && tagFrm.get('tagName').touched
+              }"
+             >
+
             </div>
           </div>
-          <div *ngIf="tagFrm.get('tag_name').invalid && tagFrm.get('tag_name').touched" class="alert alert-danger">
-            <ng-container *ngIf="tagFrm.get('tag_name').hasError('required')">
+          <div *ngIf="tagFrm.get('tagName').invalid && tagFrm.get('tagName').touched" class="alert alert-danger">
+            <ng-container *ngIf="tagFrm.get('tagName').hasError('required')">
               Name cannot be empty!
             </ng-container>
-            <ng-container *ngIf="tagFrm.get('tag_name').hasError('minlength')">
-              Enter at least {{tagFrm.get('tag_name').getError('minlength').requiredLength}} characters!
+            <ng-container *ngIf="tagFrm.get('tagName').hasError('minlength')">
+              Enter at least {{tagFrm.get('tagName').getError('minlength').requiredLength}} characters!
             </ng-container>
-            <ng-container *ngIf="tagFrm.get('tag_name').hasError('maxlength')">
-              Enter at most {{tagFrm.get('tag_name').getError('maxlength').requiredLength}} characters!
+            <ng-container *ngIf="tagFrm.get('tagName').hasError('maxlength')">
+              Enter at most {{tagFrm.get('tagName').getError('maxlength').requiredLength}} characters!
+            </ng-container>
+            <ng-container *ngIf="tagFrm.hasError('invalidnametag', ['tagName'])">
+              Tag name already exists!
             </ng-container>
           </div>
 
           <div class="form-group row">
             <label for="example-text-input" class="col-2 col-form-label">
-              Description:
+              tagDescription:
             </label>
             <div class="col-10">
-              <input class="form-control" type="text" formControlName="description" [ngClass]="{
-                      'is-valid': tagFrm.get('description').valid,
-                      'is-invalid': tagFrm.get('description').invalid
-                      && tagFrm.get('description').touched
-                    }">
+              <textarea class="form-control" type="text" formControlName="tagDescription"
+              ng-model="tag.tagDescription"
+              my-unique="{property: 'tagDescription'}"
+                [ngClass]="{
+                      'is-valid': tagFrm.get('tagDescription').valid,
+                      'is-invalid': tagFrm.get('tagDescription').invalid
+                      && tagFrm.get('tagDescription').touched
+                    }"></textarea>
             </div>
           </div>
-          <div *ngIf="tagFrm.get('description').invalid && tagFrm.get('description').touched" class="alert alert-danger">
-            <ng-container *ngIf="tagFrm.get('description').hasError('required')">
-              Description cannot be empty!
+          <div *ngIf="tagFrm.get('tagDescription').invalid && tagFrm.get('tagDescription').touched" class="alert alert-danger">
+            <ng-container *ngIf="tagFrm.get('tagDescription').hasError('required')">
+              tagDescription cannot be empty!
             </ng-container>
-            <ng-container *ngIf="tagFrm.get('description').hasError('minlength')">
-              Enter at least {{tagFrm.get('description').getError('minlength').requiredLength}} characters!
+            <ng-container *ngIf="tagFrm.get('tagDescription').hasError('minlength')">
+              Enter at least {{tagFrm.get('tagDescription').getError('minlength').requiredLength}} characters!
             </ng-container>
-            <ng-container *ngIf="tagFrm.get('description').hasError('maxlength')">
-              Enter at most {{tagFrm.get('description').getError('maxlength').requiredLength}} characters!
+            <ng-container *ngIf="tagFrm.get('tagDescription').hasError('maxlength')">
+              Enter at most {{tagFrm.get('tagDescription').getError('maxlength').requiredLength}} characters!
             </ng-container>
           </div>
-          <div class="form-group row">
+
+         <div class="form-group row">
             <label for="example-text-input" class="col-2 col-form-label">Status:</label>
             <div class="col-10">
-
-              <mat-checkbox color='primary'> Show/Hide</mat-checkbox>
+              <mat-checkbox color='primary' formControlName="status" > Show/Hide</mat-checkbox>
             </div>
           </div>
         </div>
+
         <div class="modal-footer">
-          <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-          <button type="submit" class="btn btn-primary" value="Add">Add</button>
+          <input type="button" class="btn btn-default" data-dismiss="modal"(click)="onReset()" value="Cancel">
+          <button  [disabled]="tagFrm.invalid" type="submit" class="btn btn-success" value="Add" (click)="onSubmit()" data-dismiss="modal">Add</button>
         </div>
       </form>
     </div>
