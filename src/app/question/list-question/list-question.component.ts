@@ -9,7 +9,7 @@ import { Tag } from 'src/entity/Tag';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { TypeQuestion } from 'src/entity/TypeQuestion';
 import { mergeMap, tap } from 'rxjs/operators';
-
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-list-question',
@@ -42,6 +42,8 @@ export class ListQuestionComponent implements OnInit {
   typeF: string = "";
   categoryF: string = "";
   tagF: string = "";
+  fullName:string ="";
+  datecreated:string ="";
 
   dateInputFilter = new Date();
   userInputFilter: String;
@@ -169,30 +171,38 @@ export class ListQuestionComponent implements OnInit {
     this.loadListQuestion();
   }
 
+
+  // .set("userName", this.fullName)
+  // .set("dateCreated", this.dateCreated)
+  // .set("tagId", this.tagF)
+  // .set("levelId", this.levelF)
+  // .set("categoryId",this.categoryF)
+  params = new HttpParams();
   // get list question by filter
-  filterByAttribute(categoryName: String, levelName: String, typeName: String,
-    fullName: String, dateCreated: Date, tagName: String) {
-    if (null == dateCreated) {
-      this.service.filterByAttribute(categoryName, levelName, typeName,
-        fullName, tagName).subscribe(
-          lquestionbyFilter => {
-            this.listQuestion = lquestionbyFilter;
-            this.dataSource.data = this.listQuestion;
-          }
-        );
-    } else {
-      this.service.filterByALl(categoryName, levelName, typeName,
-        fullName, dateCreated.toLocaleDateString(), tagName).subscribe(
-          lquestionbyFilter => {
-            this.listQuestion = lquestionbyFilter;
-            this.dataSource.data = this.listQuestion;
-          }
-
-        );
+  filterByAttribute(fullName: string, dateCreated: Date) {
+    if(fullName!==''){
+      this.params.set("userName", fullName);
+    }else if(dateCreated.toString()!==''){
+      this.params.set("dateCreated", dateCreated.toString());
+    }else if(this.tagF!==''){
+      this.params.set("tagId", this.tagF);
+    }else if(this.levelF !==''){
+      this.params.set("levelId", this.levelF)
+    }else if(this.categoryF !==''){
+      this.params.set("categoryId",this.categoryF)
+    }else if(this.typeF !==''){
+      this.params.set("typeId", this.typeF)
     }
-    // dateCreated = new Date('+this.dateInputFilter+');
+    this.params.set("page","0");
+    this.params.set("size","5");
+    console.log("hi",this.params.get("hi"));
 
-    console.log(dateCreated);
+    // this.service.filterByALl(this.params).subscribe(
+    //     lquestionbyFilter => {
+    //       this.listQuestion = lquestionbyFilter;
+    //       this.dataSource.data = this.listQuestion;
+    //     }
+    //   );
   }
 
   //update status

@@ -120,7 +120,7 @@ export class ListCategoryComponent implements OnInit {
         q => {
           this.cate = q,
           this.cate.status = 0,
-          this.service.updateCategory(id,this.cate).subscribe(
+          this.service.updateCategory1(this.cate).subscribe(
             pip => this.loadListCategory()
           )
         }
@@ -129,8 +129,8 @@ export class ListCategoryComponent implements OnInit {
       this.service.getCategory(id).subscribe(
         q => {
           this.cate = q,
-          this.cate.status = 0,
-          this.service.updateCategory(id,this.cate).subscribe(
+          this.cate.status = 1,
+          this.service.updateCategory1(this.cate).subscribe(
             pip => this.loadListCategory()
           )
         }

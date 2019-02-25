@@ -16,7 +16,8 @@
       <h3 class="box-title">View Detail Question</h3>
 
     </div>
-    <div class="box-body">
+    <div class="box-body row">
+      <div class="col-md-offset-2 col-md-8 col-xs-12">
 
       <table class="table table-bordered table-hover" style="width: 80%;
        text-align: center;" >
@@ -76,11 +77,14 @@
         </tr>
         <tr>
             <th scope="row">Status</th>
-            <td colspan="2">{{questionDetail.status}}</td>
+            <td colspan="2" *ngIf="questionDetail.status===0">Hidden</td>
+            <td colspan="2" *ngIf="questionDetail.status===1">Show</td>
+            <td colspan="2" *ngIf="questionDetail.status===2">Is Used</td>
           </tr>
       </table>
       <a class="btn btn-primary" style="margin: 5px;" [routerLink]="['/question']">
         <i class="fa fa-arrow-circle-left" title="View Detail" style="margin-right: 5px;"></i>Go back</a>
+        </div>
     </div>
 
   </div>

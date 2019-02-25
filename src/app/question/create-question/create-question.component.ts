@@ -9,7 +9,6 @@ import { Category } from 'src/entity/Category';
 import { Level } from 'src/entity/Level';
 import { Tag } from 'src/entity/Tag';
 import { TypeQuestion } from 'src/entity/TypeQuestion';
-import { Answer } from 'src/entity/Answer';
 import { User } from 'src/entity/User';
 import { NotifierService } from 'angular-notifier';
 

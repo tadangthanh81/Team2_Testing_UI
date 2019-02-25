@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
@@ -64,7 +64,7 @@ export class ServiceService {
 
   // get list question filter by one field
   filterByAttribute(categoryName: String, levelName: String, typeName: String,
-    fullName: String, tagName: String):Observable<Question[]> {
+    fullName: String, tagName: String): Observable<Question[]> {
     return this.http.get<Question[]>(this.url + `question/filter?categoryName=${categoryName}&levelName=${levelName}&typeName=${typeName}&fullName=${fullName}
     &tagName=${tagName}&page=0&size=5`).pipe(
       tap(),
@@ -77,11 +77,9 @@ export class ServiceService {
     return this.http.delete(this.url + `question/delete/${questionId}`);
   }
 
-   // get list question filter by all field
-  filterByALl(categoryName: String, levelName: String, typeName: String,
-    fullName: String, dateCreated : String, tagName: String):Observable<Question[]>  {
-      return this.http.get<Question[]>(this.url + `question/filter?categoryName=${categoryName}&levelName=${levelName}&typeName=${typeName}&fullName=${fullName}&dateCreated=${dateCreated}
-    &tagName=${tagName}&page=0&size=5`).pipe(
+  // get list question filter by all field
+  filterByALl(params: HttpParams): Observable<Question[]> {
+    return this.http.get<Question[]>(this.url + `question/filterQuestion`, {params}).pipe(
       tap(),
       catchError(er => of([]))
     );
@@ -147,19 +145,28 @@ export class ServiceService {
       catchError(er => of([]))
     );
   }
-    //====== get list question by contents=====
-    searchCategoryByContent(content: string, p: string, s: string): Observable<Category[]> {
-      return this.http.get<Category[]>(this.url + `category/search-by-content?contentSearch=${content}&page=${p}&size=${s}`).pipe(
-        tap(),
-        catchError(er => of([]))
-      );
-    }
+  //====== get list question by contents=====
+  searchCategoryByContent(content: string, p: string, s: string): Observable<Category[]> {
+    return this.http.get<Category[]>(this.url + `category/search-by-content?contentSearch=${content}&page=${p}&size=${s}`).pipe(
+      tap(),
+      catchError(er => of([]))
+    );
+  }
+  updateCategory1(cate: Category): Observable<Category> {
+    return this.http.put<Category>(this.url + `category/edit`, cate).pipe(
+      tap(),
+      catchError(e => {
+        console.log(e);
+        return of(new Category());
+      }),
+    );
+  }
 
-    countSearchCategory(content: string): Observable<HttpResponse<Object>> {
-      return this.http.get<HttpResponse<Object>>(this.url + `category/count-search-category?content=${content}`, { observe: 'response' }).pipe(
-        tap(resp => resp.headers.get('CountSearchCategory'))
-      );
-    }
+  countSearchCategory(content: string): Observable<HttpResponse<Object>> {
+    return this.http.get<HttpResponse<Object>>(this.url + `category/count-search-category?content=${content}`, { observe: 'response' }).pipe(
+      tap(resp => resp.headers.get('CountSearchCategory'))
+    );
+  }
 
   // lay danh sach Category
   getCategoryList() {

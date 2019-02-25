@@ -16,8 +16,8 @@
     </div>
     <div class="box-body">
 
-      <form novalidate [formGroup]="questionFrm" class="row justify-content-md-center">
-        <div class="col-md-8">
+      <form novalidate (ngSubmit)="onSubmit()" [formGroup]="questionFrm" class="row justify-content-md-center">
+        <div class="col-md-offset-2 col-md-8 col-xs-12">
 
           <!-- Category Question -->
           <div class="form-group row">
@@ -147,7 +147,7 @@
           <!-- Button -->
           <div class="form-group">
             <div class="col-9 offset-3">
-              <button class="btn btn-success pull-right" type="submit" (click)="onSubmit()">Submit</button>
+                <button class="btn btn-success pull-right" type="submit" [disabled]="questionFrm.invalid" >Submit</button>
               <button class="btn btn-primary" [routerLink]="['/question']">Cancel</button>
             </div>
           </div>
