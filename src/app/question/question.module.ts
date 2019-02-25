@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { PopupListQuestionComponent } from './list-question/popup-question.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
-    NgMultiSelectDropDownModule
+    NgMultiSelectDropDownModule,
+    CKEditorModule
     
   ],
   exports: [

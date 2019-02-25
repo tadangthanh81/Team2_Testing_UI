@@ -23,15 +23,13 @@
     </div>
     <div class="box-body">
 
-      <form novalidate (ngSubmit)="onSubmit()" [formGroup]="editQuestionFrm" class="row justify-content-md-center">
+      <form novalidate [formGroup]="editQuestionFrm" class="row justify-content-md-center form-horizontal" >
         <div class="col-md-8">
-
           <!-- Category Question -->
           <div class="form-group row">
             <label for="inputEmail3" class="col-sm-3 control-label">Category Question</label>
-            <div class="col-sm-9">
-              <select formControlName="questionCategory"    [(ngModel)]="questionEdit.questionCategory.id"
-              class="form-control select2"> 
+            <div class="col-sm-9" formGroupName="questionCategory">
+              <select formControlName="id" class="form-control select2">
                 <option *ngFor="let category of listCategory" [ngValue]="category.id">
                   {{category.categoryName}}
                 </option>
@@ -42,9 +40,8 @@
 
           <div class="form-group row">
             <label for="inputPassword3" class="col-sm-3 control-label">Question Type</label>
-            <div class="col-sm-9">
-              <select formControlName="questionType"  [(ngModel)]="questionEdit.questionType.id"
-              class="form-control select2">
+            <div class="col-sm-9" formGroupName="questionType">
+              <select formControlName="id" class="form-control select2">
                 <option *ngFor="let type of listType" [ngValue]="type.id">{{type.typeName}}</option>
               </select>
             </div>
@@ -53,10 +50,9 @@
 
           <!-- Level Question -->
           <div class="form-group row">
-            <label for="inputPassword3" class="col-sm-3 control-label">Level</label>
-            <div class="col-sm-9">
-              <select formControlName="questionLevel"  [(ngModel)]="questionEdit.questionLevel.id"
-              class="form-control select2">
+            <label for="inputPassword3" class="col-sm-3 control-label">Question Level</label>
+            <div class="col-sm-9" formGroupName="questionLevel">
+              <select formControlName="id" class="form-control select2">
                 <option *ngFor="let level of listLvl" [ngValue]="level.id">{{level.levelName}}</option>
               </select>
             </div>
@@ -64,31 +60,35 @@
           <br>
 
           <div class="form-group row">
-            <label for="inputPassword3" class="col-sm-3 control-label">Tag</label>
-            <div class="col-sm-9">
-              <select formControlName="questionTag" [(ngModel)]="questionEdit.questionTag.id"
-              class="form-control select2">
+            <label for="inputPassword3" class="col-sm-3 control-label">Question Tag</label>
+            <div class="col-sm-9" formGroupName="questionTag">
+              <select formControlName="id" class="form-control select2">
                 <option *ngFor="let tag of listTag" [ngValue]="tag.id">{{tag.tagName}}</option>
               </select>
             </div>
           </div>
+
           <br>
 
           <!-- Content Question -->
           <div class="form-group row">
-            <label for="inputPassword3" class="col-sm-3 control-label"> Content</label>
+            <label for="inputPassword3" class="col-sm-3 control-label">Question Content</label>
             <div class="col-sm-9">
-              <textarea type="text" formControlName="content" class="form-control" id="inputPassword3"
-                placeholder=" Content..." [ngClass]="{
+              <!-- <textarea type="text" formControlName="content" class="form-control" id="inputPassword3" placeholder=" Content..."
+                [ngClass]="{
                     'is-valid': editQuestionFrm.get('content').valid,
                     'is-invalid': editQuestionFrm.get('content').invalid
                       && editQuestionFrm.get('content').touched
-                  }"></textarea>
+                  }"></textarea> -->
+              <ckeditor [editor]="Editor" formControlName="content" id="inputPassword3" [ngClass]="{
+                    'is-valid': editQuestionFrm.get('content').valid,
+                    'is-invalid': editQuestionFrm.get('content').invalid
+                      && editQuestionFrm.get('content').touched
+                  }"></ckeditor>
             </div>
           </div>
-          <div *ngIf="editQuestionFrm.get('content').invalid
-                    && editQuestionFrm.get('content').touched" class="alert alert-danger" role="alert"
-            style="width: 74%;margin-left: 26%;">
+          <div *ngIf="editQuestionFrm.get('content').invalid && editQuestionFrm.get('content').touched" class="alert alert-danger"
+            role="alert" style="width: 74%;margin-left: 26%;">
             <ng-container *ngIf="editQuestionFrm.get('content').hasError('required')">
               Content is required
             </ng-container>
@@ -99,96 +99,37 @@
           </div>
           <br>
 
-
-          <div class="form-group row">
-              <label for="inputPassword3" class="col-sm-3 control-label"> Answer</label>
-            <div class="col-12 col-md-9">
-                <ng-container *ngFor="let ans of this.questionEdit.questionAnswer" > 
-                      <input formControlName="questionAnswer" class="form-control" [value]="ans.content"  >
-                </ng-container>
-            </div>
-        </div>
-
-
-
-          <!-- Answer correct Question -->
+ <!--open editanswer -->
           <!-- <div class="form-group row">
-            <label for="inputPassword3" class="col-sm-3 control-label" style="margin-top: 20px;">Answer</label>
-            <div class="col-sm-3">
-              <div formArrayName="questionAnswer">
-                <div *ngFor="let answer of answerFormGroup.controls; let i = index;">                  
-                  <div [formGroupName]="i" class="row">
-                    <div class="row">
-                      <label style="margin-left: 5%;margin-top: 20px;">Content answert</label>
-                      <div class="col-sm-11">
-                        <input class="form-control" formControlName="content" type="text"
-                          style="width: 98%;margin-left: 14px;margin-top: 1%;height: 35px;" [ngClass]="{
-                                  'is-valid': getAnswerFormGroup(i).valid,
-                                  'is-invalid': getAnswerFormGroup(i).invalid
-                                    && getAnswerFormGroup(i).touched
-                                }">
-                      </div>
-                      <div class="col-sm-1">
-                        <button class="btn btn-danger pull-right" type="button" (click)="removeAnswer(i)"
-                          style="margin-right:-280px; margin-top:-45px; "> X </button>
-                      </div>
-
-                      <div class="col-sm-9">
-                        <mat-checkbox color='primary' style="margin-left: 3%;" formControlName="isTrue" value="1">
-                          True/False</mat-checkbox>
-                      </div>
-
-                    </div>
-                    <div *ngIf="getAnswerFormGroup(i).invalid
-                                && getAnswerFormGroup(i).touched" class="alert alert-danger" role="alert"
-                      style="width: 96%;margin-left: 16px;margin-top: 15px;">
-                      <ng-container *ngIf="getAnswerFormGroup(i).controls['content'].touched
-                                && getAnswerFormGroup(i).controls['content'].hasError('required')">
-                        Content answer is required
-                      </ng-container>
-                    </div>
-                   
-                  </div>
-                </div>
+            <label for="inputPassword3" class="col-sm-3 control-label">Question Answer</label>
+            <div class="col-12 col-md-9">
+              <div *ngFor="let ans of this.questionEdit.questionAnswer">
+                <input class="form-control" [value]="ans.content">
+                <mat-checkbox type="checkbox" color='primary' [checked]="ans.isTrue"> isTrue </mat-checkbox>&nbsp;
+                <mat-checkbox type="checkbox" color='primary' [checked]="ans.status"> Status</mat-checkbox>
               </div>
             </div>
-            <button class="btn btn-primary pull-right" type="button" (click)="addAnswer()"
-              style="margin-right: 42%; margin-top:10%;"> Add </button>
-              <!-- mutichoi -->
-              <!-- <form [formGroup]="listAnswerFrm" class="col-sm-4" style="margin-left: 67%; margin-top:-8.5%; ">
-                <ng-multiselect-dropdown
-               
-                    name="questionAnswer"
-                    [placeholder]="'Select Answer'"
-                    [data]="listans"
-                    formControlName="questionAnswer"
-                    
-                    [settings]="dropdownSettings"
-                    (onSelect)="onItemSelect($event)">
-                </ng-multiselect-dropdown>
-           </form>
-          </div>
-          <!-- close answer -->
+          </div> -->
+          <!-- <br> -->
+      <!-- close edit answer -->
 
-          <br>
-
-
-<!-- Sugguestion Question -->
+          <!-- Sugguestion Question -->
           <div class="form-group row">
-            <label for="inputPassword3" class="col-sm-3 control-label">Sugguestion</label>
+            <label for="inputPassword3" class="col-sm-3 control-label">Question Sugguestion</label>
             <div class="col-sm-9">
-              <textarea type="text" class="form-control" formControlName="sugguestion" placeholder=" Sugguestion..."
+              <!-- <textarea type="text" class="form-control" formControlName="sugguestion" placeholder=" Sugguestion..."
                 [ngClass]="{
                     'is-valid': editQuestionFrm.get('sugguestion').valid,
                     'is-invalid': editQuestionFrm.get('sugguestion').invalid
                       && editQuestionFrm.get('sugguestion').touched
-                  }"></textarea>
+                  }"></textarea> -->
+                  <ckeditor [editor]="Editor" formControlName="sugguestion"></ckeditor>
             </div>
           </div>
 
           <div *ngIf="editQuestionFrm.get('sugguestion').invalid
-                    && editQuestionFrm.get('sugguestion').touched" class="alert alert-danger" role="alert"
-            style="width: 74%;margin-left: 26%;">
+                    && editQuestionFrm.get('sugguestion').touched"
+            class="alert alert-danger" role="alert" style="width: 74%;margin-left: 26%;">
             <ng-container *ngIf="editQuestionFrm.get('sugguestion').hasError('required')">
               Sugguestion is required
             </ng-container>
@@ -198,18 +139,25 @@
             </ng-container>
           </div>
           <br>
-
-<!-- Button -->
-          <div class="form-group">
-            <div class="col-9 offset-3">
-              <button class="btn btn-success pull-right" type="submit">Submit</button>
-              <button class="btn btn-primary">Cancel</button>
+          <div class="form-group row">
+            <label for="inputPassword3" class="col-sm-3 control-label">Question Status</label>
+            <div class="col-sm-9">
+              <mat-checkbox type="checkbox" color='primary' formControlName="status"> Show/Hide</mat-checkbox>
             </div>
           </div>
+
+          <!-- Button -->
+          <div class="form-group">
+            <div class="col-9 offset-3">
+              <button style="margin-right:2%;" class="btn btn-success pull-right" type="submit" (click)="onSubmit()">Submit</button>
+              <button style="margin-left: 27%;" class="btn btn-primary " [routerLink]="['/question']">Cancel</button>
+            </div>
+          </div>
+
         </div>
 
       </form>
     </div>
-    
+
   </div>
 </section>

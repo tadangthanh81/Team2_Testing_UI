@@ -11,6 +11,7 @@ import { v4 as uuid } from 'uuid';
 import { mergeMap } from 'rxjs/operators';
 import { Question } from 'src/entity/Question';
 import { Answer } from 'src/entity/Answer';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 @Component({
@@ -19,24 +20,21 @@ import { Answer } from 'src/entity/Answer';
   styleUrls: ['./edit-question.component.css']
 })
 export class EditQuestionComponent implements OnInit {
-  // myForm:FormGroup;
-  // disabled = false;
-  //ShowFilter = false;
-  // limitSelection = false;
-  // ans: Array = [];
-  // selectedItems: Array = [];
-  //dropdownSettings: any = {};
 
   editQuestionFrm: FormGroup;
-  //listAnswerFrm: FormArray;
+  // listAnswerFrm: FormGroup;
   listCategory: Category[];
   listLvl: Level[];
   listTag: Tag[];
   listType: TypeQuestion[];
   questionEdit: Question;
-  listans :Answer[];
-
+  listans: Answer[];
+  as: Answer;
+  // stta : Answer[];
   categorySelected: string;
+  arayQ: Question[];
+  listAnswerFrm: FormArray;
+  public Editor = ClassicEditor;
 
   constructor(
     private service: ServiceService,
@@ -47,52 +45,46 @@ export class EditQuestionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-  // this.selectedItems = [{ item_id: 4, item_text: 'Pune' }, { item_id: 6, item_text: 'Navsari' }];
-  // this.dropdownSettings = {
-  //     singleSelection: false,
-  //     idField: 'item_id',
-  //     textField: 'item_text',
-  //     selectAllText: 'Select All',
-  //     unSelectAllText: 'UnSelect All',
-  //     itemsShowLimit: 3,
-  //     allowSearchFilter: this.ShowFilter
-  // };
-  // this.myForm = this.fb.group({
-  //     answ: [this.selectedItems]
-  // });
-
-  //   onItemSelect(item: any) {
-//     console.log('onItemSelect', item);
-// }
-// onSelectAll(items: any) {
-//     console.log('onSelectAll', items);
-// }
-// toogleShowFilter() {
-//     this.ShowFilter = !this.ShowFilter;
-//     this.dropdownSettings = Object.assign({}, this.dropdownSettings, { allowSearchFilter: this.ShowFilter });
-// }
-// handleLimitSelection() {
-//   if (this.limitSelection) {
-//       this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: 2 });
-//   } else {
-//       this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: null });
-//   }
-// }
-
+   
     this.editQuestionFrm = this.fb.group({
-      questionCategory: [''],
-      questionLevel: [''],
-      questionType: [''],
-      questionTag: [''],
+      questionCategory:  this.fb.group({
+        id: [''],
+        categoryName: [''],
+        userCategory: [''],
+        dateCreated: [Date],
+        status: ['']
+      }),
+      questionLevel:  this.fb.group({
+        id: [''],
+        levelName:  [''],
+        status:  ['']
+      }),
+      questionType: this.fb.group({
+        id: '',
+        typeName:  [''],
+        status:  ['']
+      }),
+      questionTag:  this.fb.group({
+        id: '',
+        tagName: [''],
+        tagDescription: [''],
+        status:  ['']
+      }),
       content: ['', [Validators.required, Validators.minLength(2)]],
       sugguestion: ['', [Validators.required, Validators.minLength(2)]],
       questionAnswer: this.fb.array([this.createAnswer()]),
+      // this.fb.group({
+      //   id: '',
+      //   content:[''],
+      //   isTrue:[''],
+      //   status:['']
+      // }),
       // this.fb.array([this.createAnswer()]),
-      status : [''],
-      dateCreated:"2019-02-15",
+      status: [''],
+      dateCreated: "2019-02-15",
       userQuestion: 1
     });
-    
+
     this.activatedRounte.paramMap.pipe(
       mergeMap(
         params => {
@@ -101,11 +93,14 @@ export class EditQuestionComponent implements OnInit {
         }
       )
     ).subscribe(question => {
+     
       this.editQuestionFrm.patchValue(question)
       this.questionEdit = question
+
     }
     );
-    //this.listAnswerFrm = this.editQuestionFrm.get('questionAnswer') as FormArray;
+
+    
 
     this.service.getAllCategory().subscribe(
       lCategory => {
@@ -117,7 +112,11 @@ export class EditQuestionComponent implements OnInit {
         this.listLvl = lLvl
       }
     );
-
+    this.service.getAllAnswer().subscribe(
+      lAns => {
+        this.listans = lAns
+      }
+    );
     this.service.getAllTag().subscribe(
       lTag => {
         this.listTag = lTag
@@ -129,41 +128,38 @@ export class EditQuestionComponent implements OnInit {
         this.listType = lType
       }
     );
-    
-    this.listans = this.questionEdit.questionAnswer;
+
   }
-
-  // addAnswer() {
-  //   this.listAnswerFrm.push(this.createAnswer());
-  // }
-
-  // removeAnswer(index) {
-  //   this.listAnswerFrm.removeAt(index);
-  // }
-
-  // getAnswerFormGroup(index): FormGroup {
-  //   const formGroup = this.listAnswerFrm.controls[index] as FormGroup;
-  //   return formGroup;
-  // }
-
-
-  // get answerFormGroup() {
-  //   return this.editQuestionFrm.get('questionAnswer') as FormArray;
-  // }
-
   createAnswer(): FormGroup {
     return this.fb.group({
-      id: uuid(),
-      content: ['', Validators.compose([Validators.required])],
-      isTrue: [0],
-      //question_id: this.editQuestionFrm.value.id
+      id : [''],
+      content:[''],
+      isTrue:[''],
+      status:['']
     });
   }
-
-
+   getAnswerFormGroup(index): FormGroup {
+    const formGroup = this.listAnswerFrm.controls[index] as FormGroup;
+    return formGroup;
+  }
   onSubmit() {
-    
-    
+    // if (this.editQuestionFrm.value.status == true) {
+    //   this.questionEdit.status == 1;
+    // } else {
+    //   this.questionEdit.status == 0;
+    // }
+
+    // if (this.editQuestionFrm.value.isTrue == true) {
+    //   this.as.isTrue == 1;
+    // } else {
+    //   this.as.isTrue == 0;
+    // }
+
+    // if (this.questionEdit.questionAnswer[0].status == 1) {
+    //   this.questionEdit.questionAnswer[0].status == true
+    // } else {
+    //   this.editQuestionFrm.value.as.statusOfAnswer == 0;
+    // }
     // if (this.listAnswerFrm.length) {
     //   for (var i = 0; i < this.listAnswerFrm.length; i++) {
     //     if (this.getAnswerFormGroup(i).value.isTrue === true) {
@@ -171,7 +167,6 @@ export class EditQuestionComponent implements OnInit {
     //     }
     //   }
     // }
-
     if (this.editQuestionFrm.value) {
       const value = this.editQuestionFrm.value;
       const question: Question =
@@ -179,11 +174,10 @@ export class EditQuestionComponent implements OnInit {
         id: this.questionEdit.id,
         ...value
       };
-      // this.service.createAnswer(a).subscribe(() => {
-      //   //console.log(question);
-      // });
-      this.service.createQuestion(question).subscribe(() => {
-        //console.log(question);
+    
+
+      this.service.updateMutilQuestion1(question ).subscribe(() => {
+        console.log(question);
       });
     }
   }

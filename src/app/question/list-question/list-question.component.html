@@ -111,78 +111,81 @@
             </nav>
           </div>
         </div>
-        <!-- table -->
-        <table mat-table [dataSource]="dataSource" matSort class="table table-striped table-hover"  >
-          <!-- Checkbox Column -->
-             
-               <ng-container matColumnDef="select" >
-                  <th mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-                      [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary">
-                    </mat-checkbox>
-                  </th>
-                  <td mat-cell *matCellDef="let row" >
-                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" color="primary"
-                      [checked]="selection.isSelected(row)" [value]="row.id">
-                    </mat-checkbox>
-                  </td>
-                </ng-container> 
+        <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource" matSort class="table table-striped table-hover"  >
+                <!-- Checkbox Column -->
+                   
+                     <ng-container matColumnDef="select" >
+                        <th mat-header-cell *matHeaderCellDef>
+                          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary">
+                          </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row" >
+                          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" color="primary"
+                            [checked]="selection.isSelected(row)" [value]="row.id">
+                          </mat-checkbox>
+                        </td>
+                      </ng-container> 
+            
+                <!-- Category Column -->
+                <ng-container matColumnDef="category">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 100px; font-size: 18px; font-weight: bold;">
+                    Category </th>
+                  <td mat-cell *matCellDef="let element"> {{element.questionCategory.categoryName}} </td>
+                </ng-container>
       
-          <!-- Category Column -->
-          <ng-container matColumnDef="category">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 100px; font-size: 18px; font-weight: bold;">
-              Category </th>
-            <td mat-cell *matCellDef="let element"> {{element.questionCategory.categoryName}} </td>
-          </ng-container>
-
-          <!-- Creat_by Column -->
-          <ng-container matColumnDef="create_by">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 130px; font-size: 18px; font-weight: bold;">
-              Create By </th>
-            <td mat-cell *matCellDef="let element"> {{element.userQuestion.fullName}} </td>
-          </ng-container>
-
-          <!-- Date Column -->
-          <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 230px; font-size: 18px; font-weight: bold;">
-              Date </th>
-            <td mat-cell *matCellDef="let element"> {{element.dateCreated | date:'d/M/yyyy'}} </td>
-          </ng-container>
-
-          <!-- Level Column -->
-          <ng-container matColumnDef="level">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 121.8px; font-size: 18px; font-weight: bold;">
-              Level </th>
-            <td mat-cell *matCellDef="let element"> {{element.questionLevel.levelName}} </td>
-          </ng-container>
-          <!-- Content Column -->
-          <ng-container matColumnDef="content">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 240.2px; font-size: 18px; font-weight: bold;">
-              Content </th>
-            <td mat-cell *matCellDef="let element"> {{element.content}} </td> 
-          </ng-container>
-          <!-- Tag Column -->
-          <ng-container matColumnDef="tag">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 121.8px; font-size: 18px; font-weight: bold;">
-              Tag </th>
-            <td mat-cell *matCellDef="let element"> {{element.questionTag.tagName}} </td>
-          </ng-container>
-          <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-              rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 300px; font-size: 18px; font-weight: bold;">
-              Action </th>
-            <td mat-cell *matCellDef="let element">
-              <a class="btn btn-primary" style="margin-right: 5px;"><i class="glyphicon glyphicon-eye-open" title="View Detail"></i></a>
-              <a class="btn btn-warning" data-toggle="modal" style="margin-right: 5px;" [routerLink]="['/question',element.id,'edit']">
-                <i class="glyphicon glyphicon-pencil" title="Edit"></i> 
-              </a>
-              <a class="btn btn-danger" href="#deleteEmployeeModal" data-toggle="modal" style="margin-right: 5px;"><i
-                  class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i></a>
-            </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+                <!-- Creat_by Column -->
+                <ng-container matColumnDef="create_by">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 130px; font-size: 18px; font-weight: bold;">
+                    Create By </th>
+                  <td mat-cell *matCellDef="let element"> {{element.userQuestion.fullName}} </td>
+                </ng-container>
+      
+                <!-- Date Column -->
+                <ng-container matColumnDef="date">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 230px; font-size: 18px; font-weight: bold;">
+                    Date </th>
+                  <td mat-cell *matCellDef="let element"> {{element.dateCreated | date:'d/M/yyyy'}} </td>
+                </ng-container>
+      
+                <!-- Level Column -->
+                <ng-container matColumnDef="level">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 121.8px; font-size: 18px; font-weight: bold;">
+                    Level </th>
+                  <td mat-cell *matCellDef="let element"> {{element.questionLevel.levelName}} </td>
+                </ng-container>
+                <!-- Content Column -->
+                <ng-container matColumnDef="content">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 240.2px; font-size: 18px; font-weight: bold;">
+                    Content </th>
+                  <td mat-cell *matCellDef="let element"> {{element.content}} </td> 
+                </ng-container>
+                <!-- Tag Column -->
+                <ng-container matColumnDef="tag">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 121.8px; font-size: 18px; font-weight: bold;">
+                    Tag </th>
+                  <td mat-cell *matCellDef="let element"> {{element.questionTag.tagName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                    rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 300px; font-size: 18px; font-weight: bold;">
+                    Action </th>
+                  <td mat-cell *matCellDef="let element">
+                    <a class="btn btn-primary" style="margin-right: 5px;"><i class="glyphicon glyphicon-eye-open" title="View Detail"></i></a>
+                    <a class="btn btn-warning" data-toggle="modal" style="margin-right: 5px;" [routerLink]="['/question',element.id,'edit']">
+                      <i class="glyphicon glyphicon-pencil" title="Edit"></i> 
+                    </a>
+                    <a class="btn btn-danger" href="#deleteEmployeeModal" data-toggle="modal" style="margin-right: 5px;"><i
+                        class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i></a>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table> 
+        </div>
+        <!-- table -->
+      
         <div class="clearfix">
           <!-- <div class="hint-text">Showing <b *ngIf='sum < 3'>{{sum}}</b><b *ngIf='sum > 2'>2</b> out of <b>{{sum}}</b>
             entries</div> -->
