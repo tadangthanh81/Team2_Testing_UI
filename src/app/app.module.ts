@@ -11,6 +11,7 @@ import { FooterModule } from './footer/footer.module';
 import { CategoryQuestionModule } from './category-question/category-question.module';
 import { QuestionModule } from './question/question.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ErrorModule } from './error/error.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -25,9 +26,10 @@ import { HttpClientModule } from '@angular/common/http';
     QuestionModule,
     CategoryQuestionModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ErrorModule
   ],
-  providers: [],
+  providers: [  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

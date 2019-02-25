@@ -24,6 +24,9 @@ export class ListCategoryComponent implements OnInit {
   category: Category = new Category();
   bsValue: Date;
   user: User;
+  
+  errorMessage;
+  success: boolean = true;
 
   searchText: string;
   displayedColumns: string[] = ['CategoryName', 'UserCreated', 'DateCreated', 'action'];
@@ -83,6 +86,10 @@ export class ListCategoryComponent implements OnInit {
         lcategorybyContent => {
           this.listCategory = lcategorybyContent;
           this.dataSource.data = this.listCategory;
+        },
+        error => {
+          this.success = false;
+          this.errorMessage = error;
         }
       );
 
@@ -90,6 +97,10 @@ export class ListCategoryComponent implements OnInit {
         count => {
           this.tabAllCategory.entities = +count.headers.get('CountSearchCategory'),
             this.maxPage = Math.ceil(+count.headers.get('CountSearchCategory') / this.tabAllCategory.sizeOfPage)
+        },
+        error => {
+          this.success = false;
+          this.errorMessage = error;
         }
       );
     } else {
@@ -100,6 +111,11 @@ export class ListCategoryComponent implements OnInit {
         lcategory => {
           this.listCategory = lcategory;
           this.dataSource.data = this.listCategory
+        },
+        error => {
+          this.success = false;
+          this.errorMessage = error;
+          console.log(error);
         }
       );
 
@@ -107,6 +123,10 @@ export class ListCategoryComponent implements OnInit {
         sum => {
           this.tabAllCategory.entities = +sum.headers.get('SumCategory');
           this.maxPage = Math.ceil(+sum.headers.get('SumCategory') / this.tabAllCategory.sizeOfPage);
+        },
+        error => {
+          this.success = false;
+          this.errorMessage = error.message;
         }
       );
     }

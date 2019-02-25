@@ -51,7 +51,7 @@ export class EditQuestionComponent implements OnInit {
       mergeMap(
         params => {
           const id = params.get('id');
-          return this.http.get<Question>(`http://localhost:8080/question/${id}`);
+          return this.http.get<Question>(`http://localhost:8081/question/${id}`);
         }
       )
     ).subscribe(question => {

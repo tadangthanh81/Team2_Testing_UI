@@ -11,6 +11,7 @@ import { Tag } from 'src/entity/Tag';
 import { TypeQuestion } from 'src/entity/TypeQuestion';
 import { Answer } from 'src/entity/Answer';
 import { User } from 'src/entity/User';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
   selector: 'app-create-question',
@@ -26,6 +27,7 @@ export class CreateQuestionComponent implements OnInit {
   listType: TypeQuestion[];
   user: User;
   date: Date;
+  public Editor = ClassicEditor;
 
   get answerFormGroup() {
     return this.questionFrm.get('questionAnswer') as FormArray;

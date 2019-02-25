@@ -57,26 +57,26 @@
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <form>
-                  <div class="row">
-                    <div class="col-md-4 col-xs-12">
-                      <div class="form-group">
+                  <div class="row"> 
+                    <div class="col-md-4 col-xs-12"> <!-- 1 cot co 2 dong -->
+                      <div class="form-group"> <!-- dong thu 1 -->
                         <select class="form-control" [(ngModel)]="categorySelected" name="categorySelected">
                           <option value="">--Category--</option>
                           <option *ngFor="let lvl of listCategory" [value]="lvl.id">{{lvl.categoryName | titlecase}}</option>
                         </select>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group"> <!-- dong thu 2 -->
                         <input type="text" class="form-control" placeholder="Create by...">
                       </div>
                     </div>
-                    <div class="col-md-4 col-xs-12">
-                      <div class="form-group">
+                    <div class="col-md-4 col-xs-12"> <!-- 1 cot co 2 dong -->
+                      <div class="form-group"> <!-- dong thu 1 -->
                         <select class="form-control" [(ngModel)]="levelSelected" name="levelSelected">
                           <option value="">--Level--</option>
                           <option *ngFor="let lvl of listLvl" [value]="lvl.id">{{lvl.levelName | titlecase}}</option>
                         </select>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group"> <!-- dong thu 2 -->
                         <div class="input-group date">
                           <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>

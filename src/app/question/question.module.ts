@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { PopupListQuestionComponent } from './list-question/popup-question.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { PopupListQuestionComponent } from './list-question/popup-question.compo
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    CKEditorModule
   ],
   exports: [
     ListQuestionComponent,
