@@ -52,7 +52,7 @@ export class CreateQuestionComponent implements OnInit {
     this.date = new Date();
 
     this.questionFrm = this.fb.group({
-      questionCategory: [''],
+      category: [''],
       questionLevel: [''],
       questionType: [''],
       questionTag: [''],
@@ -91,7 +91,7 @@ export class CreateQuestionComponent implements OnInit {
 
   createAnswer(): FormGroup {
     return this.fb.group({
-      id: uuid(),
+      answerId: uuid(),
       content: ['', Validators.compose([Validators.required])],
       isTrue: [0]
     });
@@ -125,7 +125,7 @@ export class CreateQuestionComponent implements OnInit {
       const value = this.questionFrm.value;
       const question: Question =
       {
-        id: uuid(),
+        questionId: uuid(),
         ...value
       };
       this.service.createQuestion(question).subscribe(() => {
